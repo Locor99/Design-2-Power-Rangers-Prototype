@@ -1,7 +1,7 @@
 #include "unity.h"
 #include "DistanceSensor.h"
 #include "ArduinoFake.h"
-#include "HardwareConfig.h"
+#include "hardware_config.h"
 
 using namespace fakeit;
 const int ANY_PIN = 0;
@@ -14,7 +14,7 @@ void tearDown(void) {
 }
 
 void test_readingZeroVolts_shouldReturnMinDistance(void) {
-    When(Method(ArduinoFake(), analogRead)).AlwaysReturn(HardwareConfig::ANALOG_INPUT_MIN_VALUE);
+    When(Method(ArduinoFake(), analogRead)).AlwaysReturn(ArduinoConfig::ANALOG_INPUT_MIN_VALUE);
     double minDistance = 0;
     double maxDistance = 10;
     DistanceSensor sensor(ANY_PIN, minDistance, maxDistance);
@@ -25,7 +25,7 @@ void test_readingZeroVolts_shouldReturnMinDistance(void) {
 }
 
 void test_readingMaxVolts_shouldReturnMaxDistance(void) {
-    When(Method(ArduinoFake(), analogRead)).AlwaysReturn(HardwareConfig::ANALOG_INPUT_MAX_VALUE);
+    When(Method(ArduinoFake(), analogRead)).AlwaysReturn(ArduinoConfig::ANALOG_INPUT_MAX_VALUE);
     double minDistance = 0;
     double maxDistance = 10;
     DistanceSensor sensor(ANY_PIN, minDistance, maxDistance);
