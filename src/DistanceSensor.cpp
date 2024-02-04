@@ -1,5 +1,4 @@
 #include "DistanceSensor.h"
-#include "HardwareConfig.h"
 
 DistanceSensor::DistanceSensor(int pin, float minReadableDistanceMm, float maxReadableDistanceMm):
         _pin(pin), _minReadableDistanceMm(minReadableDistanceMm), _maxReadableDistanceMm(maxReadableDistanceMm) {
