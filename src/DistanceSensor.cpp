@@ -1,6 +1,6 @@
 #include "DistanceSensor.h"
 
-DistanceSensor::DistanceSensor(int pin, float minReadableDistanceMm, float maxReadableDistanceMm):
+DistanceSensor::DistanceSensor(int pin, double minReadableDistanceMm, double maxReadableDistanceMm):
         _pin(pin), _minReadableDistanceMm(minReadableDistanceMm), _maxReadableDistanceMm(maxReadableDistanceMm) {
     pinMode(_pin, INPUT);
     _signalToDistanceSlope = (_maxReadableDistanceMm - _minReadableDistanceMm)/
@@ -8,7 +8,7 @@ DistanceSensor::DistanceSensor(int pin, float minReadableDistanceMm, float maxRe
 
 }
 
-float DistanceSensor::readDistanceMm() {
+double DistanceSensor::readDistanceMm() {
     int sensorValue = analogRead(_pin);
     double distance = _signalToDistanceSlope * sensorValue + _minReadableDistanceMm;
     return distance;

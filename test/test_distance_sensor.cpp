@@ -15,24 +15,24 @@ void tearDown(void) {
 
 void test_readingZeroVolts_shouldReturnMinDistance(void) {
     When(Method(ArduinoFake(), analogRead)).AlwaysReturn(HardwareConfig::ANALOG_INPUT_MIN_VALUE);
-    float minDistance = 0;
-    float maxDistance = 10;
+    double minDistance = 0;
+    double maxDistance = 10;
     DistanceSensor sensor(ANY_PIN, minDistance, maxDistance);
 
-    float sensedDistance = sensor.readDistanceMm();
+    double sensedDistance = sensor.readDistanceMm();
 
-    TEST_ASSERT_EQUAL(minDistance, sensedDistance);
+    TEST_ASSERT_EQUAL_DOUBLE(minDistance, sensedDistance);
 }
 
 void test_readingMaxVolts_shouldReturnMaxDistance(void) {
     When(Method(ArduinoFake(), analogRead)).AlwaysReturn(HardwareConfig::ANALOG_INPUT_MAX_VALUE);
-    float minDistance = 0;
-    float maxDistance = 10;
+    double minDistance = 0;
+    double maxDistance = 10;
     DistanceSensor sensor(ANY_PIN, minDistance, maxDistance);
 
-    float sensedDistance = sensor.readDistanceMm();
+    double sensedDistance = sensor.readDistanceMm();
 
-    TEST_ASSERT_EQUAL(maxDistance, sensedDistance);
+    TEST_ASSERT_EQUAL_DOUBLE(maxDistance, sensedDistance);
 }
 
 int main(int argc, char **argv) {
