@@ -1,6 +1,6 @@
 // HardwareConfig.cpp
 #include "HardwareConfig.h"
-
+//todo add real configs
 const int HardwareConfig::ACTUATOR_PIN = 3;
 const int HardwareConfig::MODE_BUTTON_PIN = 2;
 const int HardwareConfig::SENSOR_PIN = 1;

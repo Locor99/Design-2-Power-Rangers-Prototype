@@ -4,6 +4,7 @@
 
 class HardwareConfig {
 public:
+//todo add real configs
     static const int ACTUATOR_PIN;
     static const int MODE_BUTTON_PIN;
     static const int SENSOR_PIN;
