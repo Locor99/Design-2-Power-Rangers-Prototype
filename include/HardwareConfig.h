@@ -11,6 +11,8 @@ public:
     static const double OPERATING_VOLTAGE;
     static const int ANALOG_INPUT_MIN_VALUE;
     static const int ANALOG_INPUT_MAX_VALUE;
+    static const int PWM_MIN_VALUE;
+    static const int PWM_MAX_VALUE;
 
 private:
     HardwareConfig() {}
