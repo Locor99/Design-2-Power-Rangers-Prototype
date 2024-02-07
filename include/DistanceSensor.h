@@ -2,7 +2,6 @@
 #define DISTANCESENSOR_H
 
 #include <Arduino.h>
-#include "HardwareConfig.h"
 
 class DistanceSensor {
 public:
