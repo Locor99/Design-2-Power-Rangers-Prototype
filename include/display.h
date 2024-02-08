@@ -8,6 +8,7 @@
 class Display {
 public:
     Display(LiquidCrystal lcd);
+    void displayMass(double mass);
 private:
     LiquidCrystal _lcd;
 };
