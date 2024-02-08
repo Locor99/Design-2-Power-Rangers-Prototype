@@ -1,5 +1,5 @@
 #include "hardware_config.h"
-
+//todo avoir les vraies valeurs
 const double ArduinoConfig::OPERATING_VOLTAGE = 5.0;
 const int ArduinoConfig::SENSOR_PIN = A0;
 const int ArduinoConfig::MODE_BUTTON_PIN = 22;
