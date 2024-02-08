@@ -22,6 +22,23 @@ class ActuatorConfig {
 public:
     static const double MIN_FORCE_N;
     static const double MAX_FORCE_N;
+private:
+    ActuatorConfig();
 };
+
+class LcdScreenConfig{
+public:
+    static const int DB4_ARDUINO_PIN;
+    static const int DB5_ARDUINO_PIN;
+    static const int DB6_ARDUINO_PIN;
+    static const int DB7_ARDUINO_PIN;
+    static const int RS_ARDUINO_PIN;
+    static const int E_ARDUINO_PIN;
+    static const int NBR_COLUMNS;
+    static const int NBR_ROWS;
+private:
+    LcdScreenConfig();
+};
+
 
 #endif // HARDWARECONFIG_H
