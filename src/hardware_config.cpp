@@ -12,3 +12,10 @@ const double DistanceSensorConfig::MAX_READABLE_DISTANCE_MM = 100;
 
 const double ActuatorConfig::MIN_FORCE_N = 0;
 const double ActuatorConfig::MAX_FORCE_N = 2;
+
+const int LcdScreenConfig::DB4_ARDUINO_PIN = 9;
+const int LcdScreenConfig::DB5_ARDUINO_PIN = 10;
+const int LcdScreenConfig::DB6_ARDUINO_PIN = 11;
+const int LcdScreenConfig::DB7_ARDUINO_PIN = 12;
+const int LcdScreenConfig::RS_ARDUINO_PIN = 7;
+const int LcdScreenConfig::E_ARDUINO_PIN = 8;
