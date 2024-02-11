@@ -1,7 +1,3 @@
-//
-// Created by louis on 2024-02-08.
-//
-
 #include "scale.h"
 
 Scale::Scale(Display& display, DistanceSensor& distanceSensor, Actuator& actuator):
@@ -13,13 +9,16 @@ void Scale::executeMainLoop() {
     switch(_mode) {
         //display.announce_mode..? lcd screen tells the mode for 1-2 seconds
         case ScaleModes::NORMAL:
-            _executeNormalMode();
+            executeNormalMode();
             break;
         case ScaleModes::TARE :
-            _tare();
+            tare();
             break;
         case ScaleModes::CALIBRATION :
-            _calibrate();
+            calibrate();
+            break;
+        case ScaleModes::COUNT :
+            execute_count_mode();
             break;
     }
 
@@ -27,6 +26,6 @@ void Scale::executeMainLoop() {
 
 }
 
-void Scale::_executeNormalMode() {
+void Scale::executeNormalMode() {
 
 }

@@ -10,18 +10,21 @@
 enum class ScaleModes {
     NORMAL,
     TARE,
-    CALIBRATION
+    CALIBRATION,
+    COUNT
 };
 
 class Scale {
 public:
     Scale(Display& display, DistanceSensor& distanceSensor, Actuator& actuator);
     void executeMainLoop();
+    void executeNormalMode();
+    void calibrate();
+    void execute_count_mode();
+    void tare();
 
 private:
-    void _executeNormalMode();
-    void _calibrate();
-    void _tare();
+
 
     Display& _display;
     DistanceSensor& _distanceSensor;

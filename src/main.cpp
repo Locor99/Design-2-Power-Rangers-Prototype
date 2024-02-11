@@ -13,8 +13,10 @@ int main(){
     DistanceSensor distanceSensor = DistanceSensor(ArduinoConfig::SENSOR_PIN,
                                    DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_SLOPE,
                                    DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_INTERCEPT);
-    Actuator actuator = Actuator(ArduinoConfig::ACTUATOR_PIN,);
-    Scale scale = Scale(display, distanceSensor, ac);
+    DacMCP4725 dac = DacMCP4725();
+    Actuator actuator = Actuator(dac);
+    Scale scale = Scale(display, distanceSensor, actuator);
+    scale.executeMainLoop();
 
     return 0;
 }
