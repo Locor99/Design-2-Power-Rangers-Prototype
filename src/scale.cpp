@@ -29,6 +29,7 @@ void Scale::executeMainLoop() {
 
 void Scale::executeNormalMode() {
     _regulateScale();
+    analogRead(ArduinoConfig::CURRENT_SENSOR_PIN);
     _display.displayMass();
 }
 

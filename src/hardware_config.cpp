@@ -1,7 +1,8 @@
 #include "hardware_config.h"
 //todo avoir les vraies valeurs
 const double ArduinoConfig::OPERATING_VOLTAGE = 5.0;
-const int ArduinoConfig::SENSOR_PIN = A0;
+const int ArduinoConfig::DISTANCE_SENSOR_PIN = A0;
+static const int CURRENT_SENSOR_PIN = A1;
 const int ArduinoConfig::MODE_BUTTON_PIN = 22;
 const int ArduinoConfig::ANALOG_INPUT_MIN_VALUE = 0;
 const int ArduinoConfig::ANALOG_INPUT_MAX_VALUE = 1023;

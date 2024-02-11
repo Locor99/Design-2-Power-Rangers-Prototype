@@ -2,10 +2,12 @@
 #define HARDWARECONFIG_H
 #include "Arduino.h"
 
+//todo ajouter vraies valeurs
 class ArduinoConfig {
 public:
     static const double OPERATING_VOLTAGE;
-    static const int SENSOR_PIN; //todo mettre dans sensor
+    static const int DISTANCE_SENSOR_PIN;
+    static const int CURRENT_SENSOR_PIN;
     static const int MODE_BUTTON_PIN;
     static const int ANALOG_INPUT_MIN_VALUE;
     static const int ANALOG_INPUT_MAX_VALUE;

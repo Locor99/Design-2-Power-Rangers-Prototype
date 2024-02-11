@@ -15,7 +15,7 @@ int main(){
                                       LcdScreenConfig::D4_ARDUINO_PIN, LcdScreenConfig::D5_ARDUINO_PIN,
                                       LcdScreenConfig::D6_ARDUINO_PIN, LcdScreenConfig:: D7_ARDUINO_PIN);
     Display display = Display(lcd);
-    DistanceSensor distanceSensor = DistanceSensor(ArduinoConfig::SENSOR_PIN,
+    DistanceSensor distanceSensor = DistanceSensor(ArduinoConfig::DISTANCE_SENSOR_PIN,
                                                    DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_SLOPE,
                                                    DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_INTERCEPT);
     DacMCP4725 dac = DacMCP4725();
