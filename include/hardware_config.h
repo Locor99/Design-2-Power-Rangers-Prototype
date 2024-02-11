@@ -7,7 +7,6 @@ public:
     static const double OPERATING_VOLTAGE;
     static const int SENSOR_PIN; //todo mettre dans sensor
     static const int MODE_BUTTON_PIN;
-    static const int ACTUATOR_PIN;//todo mettre dans actuator
     static const int ANALOG_INPUT_MIN_VALUE;
     static const int ANALOG_INPUT_MAX_VALUE;
     static const double ANALOG_INPUT_MIN_VOLTAGE;

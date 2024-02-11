@@ -3,7 +3,6 @@
 const double ArduinoConfig::OPERATING_VOLTAGE = 5.0;
 const int ArduinoConfig::SENSOR_PIN = A0;
 const int ArduinoConfig::MODE_BUTTON_PIN = 22;
-const int ArduinoConfig::ACTUATOR_PIN = 2;
 const int ArduinoConfig::ANALOG_INPUT_MIN_VALUE = 0;
 const int ArduinoConfig::ANALOG_INPUT_MAX_VALUE = 1023;
 const double ArduinoConfig::ANALOG_INPUT_MIN_VOLTAGE = 0.0;
@@ -23,3 +22,5 @@ const int LcdScreenConfig::DB6_ARDUINO_PIN = 11;
 const int LcdScreenConfig::DB7_ARDUINO_PIN = 12;
 const int LcdScreenConfig::RS_ARDUINO_PIN = 7;
 const int LcdScreenConfig::E_ARDUINO_PIN = 8;
+const int LcdScreenConfig::NBR_COLUMNS = 16;
+const int LcdScreenConfig:: NBR_ROWS = 2;
