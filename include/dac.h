@@ -9,11 +9,14 @@ class DacMCP4725 {
 public:
     DacMCP4725();
     virtual void setOutputInPercentage(double setpointInPercentage) const;
+    void setOutputVoltage(double voltage) const;
     virtual void sendValue(int value) const;
 
     static const uint8_t address = 0x60;
-    static const int minSetpoint = 0;
-    static const int maxSetpoint = 4095;
+    static const int minDacValue = 0;
+    static const int maxDacValue = 4095;
+    constexpr static double minVoltage = 0.0;
+    constexpr static double maxVoltage = 5.0;
 private:
 
 };
