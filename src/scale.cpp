@@ -28,5 +28,11 @@ void Scale::executeMainLoop() {
 }
 
 void Scale::executeNormalMode() {
+    // réguler
+}
 
+void Scale::_regulateScale() {
+    _pidController.setInput(_distanceSensor.readDistanceMm());
+    _pidController.computeOutput();
+    _actuator.setVoltage();
 }

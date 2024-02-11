@@ -22,11 +22,10 @@ public:
 
     void setSetpoint(double setpoint);
     void setInput(double input);
-    double getOutput() const;
-    void compute();
+    double computeOutput();
 
     // Méthode pour ajuster dynamiquement les paramètres du PID
-    void updateParameters(const PidParameters& params);
+    void updateParameters(const PidParameters& parameters);
 };
 
 #endif //DESIGN2_PROTOTYPE_PID_CONTROL_H

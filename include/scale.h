@@ -26,7 +26,7 @@ public:
     void tare();
 
 private:
-
+    void _regulateScale();
 
     Display& _display;
     DistanceSensor& _distanceSensor;

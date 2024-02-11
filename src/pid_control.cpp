@@ -16,15 +16,12 @@ void PidController::setInput(double input) {
     _input = input;
 }
 
-double PidController::getOutput() const {
+double PidController::computeOutput() {
+    _pid.Compute();
     return _output;
 }
 
-void PidController::compute() {
-    _pid.Compute();
-}
-
-void PidController::updateParameters(const PidParameters& params) {
-    _pidParameters = params;
+void PidController::updateParameters(const PidParameters& parameters) {
+    _pidParameters = parameters;
     _pid.SetTunings(_pidParameters.Kp, _pidParameters.Ki, _pidParameters.Kd);
 }
