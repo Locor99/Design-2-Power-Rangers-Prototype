@@ -1,10 +1,14 @@
 #include <Arduino.h>
-void setup() {
-// write your initialization code here
-//some push test
-// branch and MR test
-}
+#include "scale.h"
+#include "display.h"
+#include "DistanceSensor.h"
+#include "Actuator.h"
+#include "hardware_config.h"
 
-void loop() {
-// write your code here
+int main(){
+    DistanceSensor distanceSensor = DistanceSensor(ArduinoConfig::SENSOR_PIN,
+                                                   )
+    Scale scale = Scale();
+
+    return 0;
 }
