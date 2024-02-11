@@ -37,10 +37,10 @@ private:
 
 class LcdScreenConfig{
 public:
-    static const int DB4_ARDUINO_PIN;
-    static const int DB5_ARDUINO_PIN;
-    static const int DB6_ARDUINO_PIN;
-    static const int DB7_ARDUINO_PIN;
+    static const int D4_ARDUINO_PIN;
+    static const int D5_ARDUINO_PIN;
+    static const int D6_ARDUINO_PIN;
+    static const int D7_ARDUINO_PIN;
     static const int RS_ARDUINO_PIN;
     static const int E_ARDUINO_PIN;
     static const int NBR_COLUMNS;

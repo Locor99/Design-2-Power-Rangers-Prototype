@@ -16,11 +16,11 @@ const double DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_INTERCEPT = 0;//todo a
 const double ActuatorConfig::MIN_FORCE_N = 0;
 const double ActuatorConfig::MAX_FORCE_N = 2;
 
-const int LcdScreenConfig::DB4_ARDUINO_PIN = 9;
-const int LcdScreenConfig::DB5_ARDUINO_PIN = 10;
-const int LcdScreenConfig::DB6_ARDUINO_PIN = 11;
-const int LcdScreenConfig::DB7_ARDUINO_PIN = 12;
-const int LcdScreenConfig::RS_ARDUINO_PIN = 7;
-const int LcdScreenConfig::E_ARDUINO_PIN = 8;
+const int LcdScreenConfig::D4_ARDUINO_PIN = 26;
+const int LcdScreenConfig::D5_ARDUINO_PIN = 28;
+const int LcdScreenConfig::D6_ARDUINO_PIN = 30;
+const int LcdScreenConfig::D7_ARDUINO_PIN = 32;
+const int LcdScreenConfig::RS_ARDUINO_PIN = 22;
+const int LcdScreenConfig::E_ARDUINO_PIN = 24;
 const int LcdScreenConfig::NBR_COLUMNS = 16;
 const int LcdScreenConfig:: NBR_ROWS = 2;
