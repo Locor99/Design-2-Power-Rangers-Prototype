@@ -1,7 +1,8 @@
 #include "scale.h"
 
-Scale::Scale(Display& display, DistanceSensor& distanceSensor, Actuator& actuator):
-    _display(display), _distanceSensor(distanceSensor), _actuator(actuator){
+Scale::Scale(Display& display, DistanceSensor& distanceSensor,
+             Actuator& actuator,PidController pidController):
+    _display(display), _distanceSensor(distanceSensor), _actuator(actuator), _pidController(pidController){
     _mode = ScaleModes::NORMAL;
 }
 

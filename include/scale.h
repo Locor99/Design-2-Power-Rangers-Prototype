@@ -5,6 +5,7 @@
 #include "DistanceSensor.h"
 #include "hardware_config.h"
 #include "Actuator.h"
+#include "pid_control.h"
 
 
 enum class ScaleModes {
@@ -16,7 +17,8 @@ enum class ScaleModes {
 
 class Scale {
 public:
-    Scale(Display& display, DistanceSensor& distanceSensor, Actuator& actuator);
+    Scale(Display& display, DistanceSensor& distanceSensor,
+          Actuator& actuator,PidController pidController);
     void executeMainLoop();
     void executeNormalMode();
     void calibrate();
@@ -29,6 +31,7 @@ private:
     Display& _display;
     DistanceSensor& _distanceSensor;
     Actuator& _actuator;
+    PidController _pidController;
     ScaleModes _mode;
 };
 
