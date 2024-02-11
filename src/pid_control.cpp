@@ -5,7 +5,7 @@ PidController::PidController(const PidParameters& pidParameters)
           _pid(&_input, &_output, &_setpoint, pidParameters.Kp, pidParameters.Ki, pidParameters.Kd, DIRECT){
 
     _pid.SetMode(AUTOMATIC);
-    _pid.SetOutputLimits(0, 255); //todo add real values
+    _pid.SetOutputLimits(pidParameters.outputLowerBound, pidParameters.outputUpperBound);
 }
 
 void PidController::setSetpoint(double setpoint) {

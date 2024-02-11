@@ -8,6 +8,7 @@ class Actuator {
 public:
     Actuator(DacMCP4725 &dac);
     void setVoltage(double voltage);
+    void setOutputInPercentage(double percentage);
 
     private:
     DacMCP4725& _dac;

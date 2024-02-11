@@ -7,6 +7,8 @@ public:
     double Kp;
     double Ki;
     double Kd;
+    double outputLowerBound;
+    double outputUpperBound;
 
     explicit PidParameters(double kp = 0.0, double ki = 0.0, double kd = 0.0) : Kp(kp), Ki(ki), Kd(kd) {}
 };
@@ -14,7 +16,7 @@ public:
 class PidController {
 private:
     PidParameters _pidParameters;
-    double _setpoint, _input, _output;
+    double _setpoint{}, _input{}, _output{};
     PID _pid;
 
 public:

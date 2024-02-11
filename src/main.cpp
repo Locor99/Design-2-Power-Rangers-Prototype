@@ -4,6 +4,11 @@
 #include "DistanceSensor.h"
 #include "Actuator.h"
 #include "hardware_config.h"
+#include "pid_control.h"
+
+const double KP = 1;
+const double KI = 0;
+const double KD = 0;
 
 int main(){
     LiquidCrystal lcd = LiquidCrystal(LcdScreenConfig::RS_ARDUINO_PIN, LcdScreenConfig::E_ARDUINO_PIN,
@@ -15,7 +20,9 @@ int main(){
                                                    DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_INTERCEPT);
     DacMCP4725 dac = DacMCP4725();
     Actuator actuator = Actuator(dac);
-    Scale scale = Scale(display, distanceSensor, actuator);
+    PidParameters pidParameters = PidParameters(KP, KI, KD);
+    PidController pidController = PidController(pidParameters);
+    Scale scale = Scale(display, distanceSensor, actuator, pidController);
     scale.executeMainLoop();
 
     return 0;
