@@ -10,7 +10,13 @@ int main(){
                                       LcdScreenConfig::D4_ARDUINO_PIN, LcdScreenConfig::D5_ARDUINO_PIN,
                                       LcdScreenConfig::D6_ARDUINO_PIN, LcdScreenConfig:: D7_ARDUINO_PIN);
     Display display = Display(lcd);
-    display.displayMass(100);
+    DistanceSensor distanceSensor = DistanceSensor(ArduinoConfig::SENSOR_PIN,
+                                                   DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_SLOPE,
+                                                   DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_INTERCEPT);
+    DacMCP4725 dac = DacMCP4725();
+    Actuator actuator = Actuator(dac);
+    Scale scale = Scale(display, distanceSensor, actuator);
+    scale.executeMainLoop();
 
     return 0;
 }
