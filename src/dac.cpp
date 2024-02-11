@@ -5,12 +5,17 @@ DacMCP4725::DacMCP4725(){
 }
 
 void DacMCP4725::setOutputInPercentage(double setpointInPercentage) const {
-    int value = lround((setpointInPercentage / 100.0) * maxSetpoint);
+    int value = lround((setpointInPercentage / 100.0) * maxDacValue);
+    sendValue(value);
+}
+
+void DacMCP4725::setOutputVoltage(double voltage) const {
+    int value = lround((voltage / maxVoltage) * maxDacValue);
     sendValue(value);
 }
 
 void DacMCP4725::sendValue(int value) const {
-    value = constrain(value, minSetpoint, maxSetpoint);
+    value = constrain(value, minDacValue, maxDacValue);
     Wire.beginTransmission(address);
     Wire.write(0x40); // Command byte to update the DAC
     Wire.write(value >> 8);     // Send the upper 4 bits of the data

@@ -6,13 +6,10 @@
 
 class Actuator {
 public:
-    Actuator(double minForceN, double maxForceN, DacMCP4725& dac);
-    double getActualForceN();
-    void setForceN(double forceSetpoint);
-private:
-    double _minForceN, _maxForceN;
-    double _actualForceN;
-    double _forceNToDacOutSlope, _forceNToDacIntercept;
+    Actuator(DacMCP4725 &dac);
+    void setVoltage(double voltage);
+
+    private:
     DacMCP4725& _dac;
 };
 
