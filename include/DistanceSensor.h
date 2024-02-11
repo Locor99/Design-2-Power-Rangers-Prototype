@@ -5,14 +5,13 @@
 
 class DistanceSensor {
 public:
-    DistanceSensor(int pin, double minReadableDistanceMm, double maxReadableDistanceMm);
+    DistanceSensor(int pin, double distanceMmVsVoltageSlope, double distanceMmVsVoltageIntercept);
     double readDistanceMm();
 
 private:
     int _pin;
-    double _minReadableDistanceMm;
-    double _maxReadableDistanceMm;
-    double _signalToDistanceSlope;
+    double _distanceMmVsVoltageSlope;
+    double _distanceMmVsVoltageIntercept;
 };
 
 #endif // DISTANCESENSOR_H
