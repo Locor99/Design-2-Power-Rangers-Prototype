@@ -26,6 +26,8 @@ class ActuatorConfig {
 public:
     static const double MIN_FORCE_N;
     static const double MAX_FORCE_N;
+private:
+    ActuatorConfig();
 };
 
 class LcdScreenConfig{
