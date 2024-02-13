@@ -10,6 +10,8 @@ protected:
     double _slope;
     double _intercept;
     virtual double getPhysicalValue();
+    double _slope = 1;
+    double _intercept = 0;
 
 public:
     AnalogSensor(int pin, double slope, double intercept);
