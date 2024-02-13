@@ -7,15 +7,16 @@
 class AnalogSensor {
 protected:
     int _pin;
-    double _slope;
-    double _intercept;
-    virtual double getPhysicalValue();
     double _slope = 1;
     double _intercept = 0;
+    double _lastPhysicalFilteredValue = 0.0;
+    double _filterConstantAlpha = 0.75;
 
 public:
     AnalogSensor(int pin, double slope, double intercept);
-    virtual ~AnalogSensor() = 0;
+    double getPhysicalValue() const;
+    double getPhysicalFilteredValue();
+    void setFilterConstant(double alpha);
 };
 
 #endif // ANALOGSENSOR_H
