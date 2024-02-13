@@ -25,7 +25,7 @@ int main(){
     DacMCP4725 dac = DacMCP4725();
     Actuator actuator = Actuator(dac);
     PidParameters pidParameters = PidParameters(KP, KI, KD,
-                ActuatorConfig::MIN_VOLTAGE_INPUT, ActuatorConfig::MAX_VOLTAGE_INPUT);
+                ActuatorConfig::MIN_VOLTAGE_INPUT, ActuatorConfig::MAX_VOLTAGE_INPUT); //todo mettre kp, ki, kd ailleurs?
     PidController pidController = PidController(pidParameters);
 
     Scale scale = Scale(display, distanceSensor, currentSensor, actuator, pidController);
