@@ -21,3 +21,7 @@ Ensuite, dans la console, il faut faire:
 
 ## Écrire des tests
 Pour mocker le hardware Arduino, se référer à https://registry.platformio.org/libraries/fabiobatsilva/ArduinoFake
+
+Voir cette page pour organiser les tests: https://docs.platformio.org/en/latest/advanced/unit-testing/structure/hierarchy.html
+
+Il y a des points importants à comprendre sur comment les tests sont exécutés pour bien organiser les fichiers (c'est 1 projet par dossier test donc un main par dossier test)

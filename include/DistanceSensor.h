@@ -1,19 +1,12 @@
 #ifndef DISTANCESENSOR_H
 #define DISTANCESENSOR_H
 
-#include <Arduino.h>
-#include "HardwareConfig.h"
+#include "analog_sensor.h"
 
-class DistanceSensor {
+class DistanceSensor : public AnalogSensor {
 public:
-    DistanceSensor(int pin, double minReadableDistanceMm, double maxReadableDistanceMm);
-    double readDistanceMm();
-
-private:
-    int _pin;
-    double _minReadableDistanceMm;
-    double _maxReadableDistanceMm;
-    double _signalToDistanceSlope;
+    DistanceSensor(int pin, double distanceMmToVoltageSlope, double distanceMmToVoltageIntercept);
+    double getDistanceMm();
 };
 
 #endif // DISTANCESENSOR_H
