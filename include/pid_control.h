@@ -10,13 +10,14 @@ public:
     double outputLowerBound;
     double outputUpperBound;
 
-    explicit PidParameters(double kp = 0.0, double ki = 0.0, double kd = 0.0) : Kp(kp), Ki(ki), Kd(kd) {}
+    explicit PidParameters(double kp = 0.0, double ki = 0.0, double kd = 0.0, double outputLowerBound=0,
+                           double outputUpperBound=255) : Kp(kp), Ki(ki), Kd(kd) {}
 };
 
 class PidController {
 private:
     PidParameters _pidParameters;
-    double _setpoint{}, _input{}, _output{};
+    double _setpoint, _input, _output;
     PID _pid;
 
 public:

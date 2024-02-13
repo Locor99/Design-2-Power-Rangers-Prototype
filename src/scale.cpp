@@ -1,9 +1,10 @@
 #include "scale.h"
 
-Scale::Scale(Display& display, DistanceSensor& distanceSensor,
-             Actuator& actuator,PidController pidController):
-    _display(display), _distanceSensor(distanceSensor), _actuator(actuator), _pidController(pidController){
+Scale::Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
+             PidController &pidController) :
+        _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator), _pidController(pidController){
     _mode = ScaleModes::NORMAL;
+    _pidController.setSetpoint(ScaleConfig::DISTANCE_SENSOR_TO_BLADE_MM);
 }
 
 void Scale::executeMainLoop() {
@@ -29,12 +30,10 @@ void Scale::executeMainLoop() {
 
 void Scale::executeNormalMode() {
     _regulateScale();
-    analogRead(ArduinoConfig::CURRENT_SENSOR_PIN);
-    _display.displayMass();
+    _display.displayMass(_actuatorCurrentSensor.getCurrent());//todo calculate mass and inject here
 }
 
 void Scale::_regulateScale() {
-    _pidController.setInput(_distanceSensor.readDistanceMm());
-    double outputInPercentage = _pidController.computeOutput();
-    _actuator.setOutputInPercentage(outputInPercentage);
+    _pidController.setInput(_distanceSensor.getDistanceMm());
+    _actuator.setVoltage(_pidController.computeOutput());
 }

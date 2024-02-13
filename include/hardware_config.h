@@ -9,8 +9,8 @@ public:
     static const int DISTANCE_SENSOR_PIN;
     static const int CURRENT_SENSOR_PIN;
     static const int MODE_BUTTON_PIN;
-    static const int ANALOG_INPUT_MIN_VALUE;
-    static const int ANALOG_INPUT_MAX_VALUE;
+    static const int ANALOG_INPUT_MIN_ADC_VALUE;
+    static const int ANALOG_INPUT_MAX_ADC_VALUE;
     static const double ANALOG_INPUT_MIN_VOLTAGE;
     static const double ANALOG_INPUT_MAX_VOLTAGE;
     static const int PWM_MIN_VALUE;
@@ -29,10 +29,18 @@ private:
     DistanceSensorConfig();
 };
 
+class CurrentSensorConfig {
+public:
+    static const double CURRENT_VS_VOLTAGE_SLOPE;
+    static const double CURRENT_VS_VOLTAGE_INTERCEPT;
+private:
+    CurrentSensorConfig();
+};
+
 class ActuatorConfig {
 public:
-    static const double MIN_FORCE_N;
-    static const double MAX_FORCE_N;
+    static const double MIN_VOLTAGE_INPUT;
+    static const double MAX_VOLTAGE_INPUT;
 private:
     ActuatorConfig();
 };
@@ -50,6 +58,15 @@ public:
 private:
     LcdScreenConfig();
 };
+
+class ScaleConfig{
+public:
+    static const double DISTANCE_SENSOR_TO_BLADE_MM;
+private:
+    ScaleConfig();
+};
+
+
 
 
 #endif // HARDWARECONFIG_H

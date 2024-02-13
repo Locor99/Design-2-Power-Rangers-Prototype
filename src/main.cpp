@@ -5,6 +5,7 @@
 #include "Actuator.h"
 #include "hardware_config.h"
 #include "pid_control.h"
+#include "current_sensor.h"
 
 const double KP = 1;
 const double KI = 0;
@@ -18,11 +19,16 @@ int main(){
     DistanceSensor distanceSensor = DistanceSensor(ArduinoConfig::DISTANCE_SENSOR_PIN,
                                                    DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_SLOPE,
                                                    DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_INTERCEPT);
+    CurrentSensor currentSensor = CurrentSensor(ArduinoConfig::CURRENT_SENSOR_PIN,
+                                                CurrentSensorConfig::CURRENT_VS_VOLTAGE_SLOPE,
+                                                CurrentSensorConfig:: CURRENT_VS_VOLTAGE_INTERCEPT);
     DacMCP4725 dac = DacMCP4725();
     Actuator actuator = Actuator(dac);
-    PidParameters pidParameters = PidParameters(KP, KI, KD);
+    PidParameters pidParameters = PidParameters(KP, KI, KD,
+                ActuatorConfig::MIN_VOLTAGE_INPUT, ActuatorConfig::MAX_VOLTAGE_INPUT);
     PidController pidController = PidController(pidParameters);
-    Scale scale = Scale(display, distanceSensor, actuator, pidController);
+
+    Scale scale = Scale(display, distanceSensor, currentSensor, actuator, pidController);
     scale.executeMainLoop();
 
     return 0;
