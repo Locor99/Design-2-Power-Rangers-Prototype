@@ -24,12 +24,15 @@ int main(){
                                                 CurrentSensorConfig:: CURRENT_VS_VOLTAGE_INTERCEPT);
     DacMCP4725 dac = DacMCP4725();
     Actuator actuator = Actuator(dac);
-    PidParameters pidParameters = PidParameters(KP, KI, KD,
-                ActuatorConfig::MIN_VOLTAGE_INPUT, ActuatorConfig::MAX_VOLTAGE_INPUT); //todo mettre kp, ki, kd ailleurs?
-    PidController pidController = PidController(pidParameters);
 
-    Scale scale = Scale(display, distanceSensor, currentSensor, actuator, pidController);
-    scale.executeMainLoop();
+    display.displayMass(100);
+
+    while (true){
+        actuator.setVoltage(0);
+        delay(1);
+        actuator.setVoltage(0.5);
+        delay(1);
+    }
 
     return 0;
 }
