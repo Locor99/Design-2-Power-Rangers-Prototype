@@ -4,13 +4,14 @@ Scale::Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &cu
              PidController &pidController) :
         _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator), _pidController(pidController){
     _mode = ScaleModes::NORMAL;
-    _pidController.setSetpoint(ScaleConfig::DISTANCE_SENSOR_TO_BLADE_MM);
+    _pidController.setSetpoint(_pidController.);
 }
 
 void Scale::executeMainLoop() {
     switch(_mode) {
         //display.announce_mode..? lcd screen tells the mode for 1-2 seconds
         case ScaleModes::NORMAL:
+            Serial.print("Normal mode");
             executeNormalMode();
             break;
         case ScaleModes::TARE :
@@ -34,6 +35,22 @@ void Scale::executeNormalMode() {
 }
 
 void Scale::_regulateScale() {
-    _pidController.setInput(_distanceSensor.getDistanceMm());
+    double distanceSensorVoltage = _distanceSensor.getPhysicalFilteredValue();
+    Serial.print("distance sensor voltage:");
+    Serial.println(distanceSensorVoltage);
+
+    _pidController.setInput(distanceSensorVoltage);
     _actuator.setVoltage(_pidController.computeOutput());
+}
+
+void Scale::calibrate() {
+
+}
+
+void Scale::execute_count_mode() {
+
+}
+
+void Scale::tare() {
+
 }

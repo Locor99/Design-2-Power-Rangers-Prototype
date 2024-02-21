@@ -27,7 +27,6 @@ public:
     void setInput(double input);
     double computeOutput();
 
-    // Méthode pour ajuster dynamiquement les paramètres du PID
     void updateParameters(const PidParameters& parameters);
 };
 

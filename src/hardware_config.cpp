@@ -11,8 +11,10 @@ const double ArduinoConfig::ANALOG_INPUT_MAX_VOLTAGE = 5.0;
 const int ArduinoConfig::PWM_MIN_VALUE = 0;
 const int ArduinoConfig::PWM_MAX_VALUE = 255;
 
-const double DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_SLOPE = 3; // todo add real value
+const double DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_SLOPE = 1; // todo add real value
 const double DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_INTERCEPT = 0;//todo add real value
+const double DistanceSensorConfig::FILTER_CONSTANT = 0.5;
+
 
 const double CurrentSensorConfig:: CURRENT_VS_VOLTAGE_SLOPE = 1;// todo add real value
 const double CurrentSensorConfig:: CURRENT_VS_VOLTAGE_INTERCEPT = 0;// todo add real value

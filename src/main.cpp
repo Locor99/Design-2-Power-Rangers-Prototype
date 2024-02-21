@@ -23,31 +23,16 @@ CurrentSensor currentSensor = CurrentSensor(ArduinoConfig::CURRENT_SENSOR_PIN,
                                             CurrentSensorConfig:: CURRENT_VS_VOLTAGE_INTERCEPT);
 DacMCP4725 dac = DacMCP4725();
 Actuator actuator = Actuator(dac);
+PidParameters pidParameters = PidParameters(KP, KI, KD,
+                                            ActuatorConfig::MIN_VOLTAGE_INPUT, ActuatorConfig::MAX_VOLTAGE_INPUT); //todo mettre kp, ki, kd ailleurs?
+PidController pidController = PidController(pidParameters);
+Scale scale = Scale(display, distanceSensor, currentSensor, actuator, pidController);
 
 void setup(){
     Serial.begin(115200);
+    distanceSensor.setFilterConstant(DistanceSensorConfig::FILTER_CONSTANT);
 }
 void loop(){
-    Serial.println("tests des équipements");
-
-    actuator.setVoltage(0);
-
-    Serial.print("Courant bobine (adc):");
-    Serial.println(currentSensor.getAdcValue());
-
-    Serial.print("Distance capteur (adc):");
-    Serial.println(analogRead(A0));
-
-    delay(1000);
-
-    //actuator.setVoltage(0.5);
-    Serial.print("Courant bobine (adc):");
-    Serial.println(currentSensor.getAdcValue());
-
-    Serial.print("Distance capteur:");
-    Serial.println(distanceSensor.getAdcValue());
-
-
-    delay(1000);
+    scale.executeMainLoop();
 
 }

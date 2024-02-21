@@ -25,6 +25,7 @@ class DistanceSensorConfig {
 public:
     static const double DISTANCE_MM_VS_VOLTAGE_SLOPE;
     static const double DISTANCE_MM_VS_VOLTAGE_INTERCEPT;
+    static const double FILTER_CONSTANT;
 private:
     DistanceSensorConfig();
 };
