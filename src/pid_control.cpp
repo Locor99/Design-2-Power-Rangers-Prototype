@@ -3,8 +3,8 @@
 PidController::PidController(const PidParameters& pidParameters)
         : _pidParameters(pidParameters),
           _pid(&_input, &_output, &_setpoint, pidParameters.Kp, pidParameters.Ki, pidParameters.Kd, DIRECT){
-
     _pid.SetMode(AUTOMATIC);
+    _pid.SetControllerDirection(REVERSE);//todo clean
     _pid.SetOutputLimits(pidParameters.outputLowerBound, pidParameters.outputUpperBound);
 }
 

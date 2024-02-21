@@ -7,7 +7,7 @@
 #include "pid_control.h"
 #include "current_sensor.h"
 
-const double KP = 1;
+const double KP = 100;
 const double KI = 0;
 const double KD = 0;
 

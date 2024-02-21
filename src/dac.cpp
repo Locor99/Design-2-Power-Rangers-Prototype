@@ -10,11 +10,15 @@ void DacMCP4725::setOutputInPercentage(double setpointInPercentage) const {
 }
 
 void DacMCP4725::setOutputVoltage(double voltage) const {
+    Serial.print("Valeur reçue par setOutputVoltage: ");
+    Serial.println(voltage);//todo clean
     int value = lround((voltage / maxVoltage) * maxDacValue);
     sendValue(value);
 }
 
 void DacMCP4725::sendValue(int value) const {
+    Serial.print("Valeur reçue par sendValue: ");
+    Serial.println(value);//todo clean
     value = constrain(value, minDacValue, maxDacValue);
     byte msb = (byte)((value >> 8) & 0xFF); // Extrait le byte de poids fort
     byte lsb = (byte)(value & 0xFF);

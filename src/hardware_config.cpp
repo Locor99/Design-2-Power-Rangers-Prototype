@@ -20,7 +20,7 @@ const double CurrentSensorConfig:: CURRENT_VS_VOLTAGE_SLOPE = 1;// todo add real
 const double CurrentSensorConfig:: CURRENT_VS_VOLTAGE_INTERCEPT = 0;// todo add real value
 
 const double ActuatorConfig::MIN_VOLTAGE_INPUT = 0; // todo add real value
-const double ActuatorConfig::MAX_VOLTAGE_INPUT = 5; // todo add real value
+const double ActuatorConfig::MAX_VOLTAGE_INPUT = 2.5;
 
 const int LcdScreenConfig::D4_ARDUINO_PIN = 26;
 const int LcdScreenConfig::D5_ARDUINO_PIN = 28;
