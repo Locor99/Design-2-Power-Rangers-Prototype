@@ -41,7 +41,7 @@ void Scale::_regulateScale() {
     _pidController.setInput(distanceSensorVoltage);
 
     double outputVoltage = _pidController.computeOutput();//todo clean
-    Serial.print("Output voltage given to actuator:");
+    Serial.print("output voltage given to actuator:");
     Serial.println(outputVoltage);
     _actuator.setVoltage(outputVoltage);
     delay(100);

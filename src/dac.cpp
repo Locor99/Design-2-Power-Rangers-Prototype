@@ -10,8 +10,6 @@ void DacMCP4725::setOutputInPercentage(double setpointInPercentage) const {
 }
 
 void DacMCP4725::setOutputVoltage(double voltage) const {
-    Serial.print("Valeur reçue par setOutputVoltage: ");
-    Serial.println(voltage);//todo clean
     int value = lround((voltage / maxVoltage) * maxDacValue);
     sendValue(value);
 }
