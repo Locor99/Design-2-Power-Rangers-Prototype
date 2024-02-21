@@ -25,5 +25,4 @@ void DacMCP4725::sendValue(int value) const {
     Wire.endTransmission();
     Serial.print("Valeur envoyée au DAC: ");
     Serial.println(value);
-    Serial.println("test_send_value");
 }

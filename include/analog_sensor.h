@@ -17,6 +17,7 @@ public:
     double getPhysicalValue() const;
     double getPhysicalFilteredValue();
     void setFilterConstant(double alpha);
+    int getAdcValue() const;
 };
 
 #endif // ANALOGSENSOR_H
