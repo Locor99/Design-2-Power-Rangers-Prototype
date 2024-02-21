@@ -11,7 +11,7 @@ void Scale::executeMainLoop() {
     switch(_mode) {
         //display.announce_mode..? lcd screen tells the mode for 1-2 seconds
         case ScaleModes::NORMAL:
-            Serial.print("Normal mode");
+            Serial.println("Normal mode");
             executeNormalMode();
             break;
         case ScaleModes::TARE :
@@ -37,7 +37,7 @@ void Scale::executeNormalMode() {
 void Scale::_regulateScale() {
     double distanceSensorVoltage = _distanceSensor.getPhysicalFilteredValue();
     Serial.print("distance sensor voltage:");
-    Serial.println(distanceSensorVoltage);
+    Serial.println(distanceSensorVoltage);//todo clean
     _pidController.setInput(distanceSensorVoltage);
 
     double outputVoltage = _pidController.computeOutput();//todo clean
