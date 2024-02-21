@@ -4,7 +4,7 @@ Scale::Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &cu
              PidController &pidController) :
         _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator), _pidController(pidController){
     _mode = ScaleModes::NORMAL;
-    _pidController.setSetpoint(_pidController.);
+    _pidController.setSetpoint(1.87);//todo faire qqch de propre pour ça
 }
 
 void Scale::executeMainLoop() {

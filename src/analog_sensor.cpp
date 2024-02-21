@@ -16,7 +16,7 @@ double AnalogSensor::getPhysicalFilteredValue() {
     return _lastPhysicalFilteredValue;
 }
 
-void AnalogSensor::setFilterConstant(double alpha) { _filterConstantAlpha = alpha; }
+void AnalogSensor::setFilterConstant(double alpha) { _filterConstantAlpha = alpha;}
 
 int AnalogSensor::getAdcValue() const {
     return analogRead(_pin);
