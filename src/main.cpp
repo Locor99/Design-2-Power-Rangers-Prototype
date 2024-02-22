@@ -25,9 +25,9 @@ CurrentSensor currentSensor = CurrentSensor(ArduinoConfig::CURRENT_SENSOR_PIN,
 DacMCP4725 dac = DacMCP4725();
 Actuator actuator = Actuator(dac);
 
-double setpoint = 1.88;
+double setpoint = 1.90;
 double input=0, output;
-double Kp=0.5, Ki=0, Kd=0;
+double Kp=0.1, Ki=0.05, Kd=0;
 PID pidController(&input, &output, &setpoint, Kp, Ki, Kd, REVERSE);
 
 void setup(){
@@ -39,13 +39,9 @@ void setup(){
 }
 void loop(){
     double distanceSensorVoltage = distanceSensor.getPhysicalFilteredValue();
-    Serial.print("distance sensor voltage:");
-    Serial.println(distanceSensorVoltage);//todo clean
     input = distanceSensorVoltage;
 
     pidController.Compute();
-    Serial.print("output voltage given to actuator:");
-    Serial.println(output);
     actuator.setVoltage(output);
     delay(100);
 
