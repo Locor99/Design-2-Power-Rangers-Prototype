@@ -27,12 +27,12 @@ Actuator actuator = Actuator(dac);
 
 double setpoint = 1.90;
 double input=0, output;
-double Kp=0.1, Ki=0.05, Kd=0;
+double Kp=0.11, Ki=0.0, Kd=0.04;
 PID pidController(&input, &output, &setpoint, Kp, Ki, Kd, REVERSE);
 
 void setup(){
     Serial.begin(115200);
-    distanceSensor.setFilterConstant(DistanceSensorConfig::FILTER_CONSTANT);
+    distanceSensor.setFilterConstant(0.25);
     pidController.SetMode(AUTOMATIC);
     pidController.SetOutputLimits(0, 2.5);
 
