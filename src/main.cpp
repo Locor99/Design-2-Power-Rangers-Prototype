@@ -25,9 +25,9 @@ CurrentSensor currentSensor = CurrentSensor(ArduinoConfig::CURRENT_SENSOR_PIN,
 DacMCP4725 dac = DacMCP4725();
 Actuator actuator = Actuator(dac);
 
-double setpoint = 0.5;
+double setpoint = 0.75;
 double input=0, output;
-double Kp=0.25, Ki=0.1, Kd=0;
+double Kp=0.2, Ki=0.45, Kd=0.003;
 PID pidController(&input, &output, &setpoint, Kp, Ki, Kd, REVERSE);
 
 void setup(){
