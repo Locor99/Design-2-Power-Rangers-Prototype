@@ -27,7 +27,7 @@ Actuator actuator = Actuator(dac);
 
 double setpoint = 0.75;
 double input=0, output;
-double Kp=0.2, Ki=0.45, Kd=0.003;
+double Kp=0.2, Ki=0.4, Kd=0.003;
 PID pidController(&input, &output, &setpoint, Kp, Ki, Kd, REVERSE);
 
 void setup(){
