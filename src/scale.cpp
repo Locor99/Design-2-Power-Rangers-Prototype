@@ -34,6 +34,7 @@ void Scale::executeNormalMode() {
 }
 
 void Scale::_regulateScale() {
-    _pidController.input = _distanceSensor.getDistanceMm();
-    _actuator.setVoltage(_pidController.computeOutput());
+    _pidController.input = _distanceSensor.getPhysicalFilteredValue();
+    double refreshedOutput = _pidController.computeOutput();
+    _actuator.setVoltage(refreshedOutput);
 }
