@@ -38,3 +38,15 @@ void Scale::_regulateScale() {
     double refreshedOutput = _pidController.computeOutput();
     _actuator.setVoltage(refreshedOutput);
 }
+
+void Scale::calibrate() {
+
+}
+
+void Scale::execute_count_mode() {
+
+}
+
+void Scale::tare() {
+
+}
