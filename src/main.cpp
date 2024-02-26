@@ -29,9 +29,9 @@ void setup() {
     Actuator actuator(dac);
 
     PidController pidController(KP, KI, KD, REVERSE);
-    pidController.setOutputLimits(ActuatorConfig::MIN_VOLTAGE_INPUT, ActuatorConfig::MAX_VOLTAGE_INPUT);
-    pidController.setpoint = 1.9;//todo add real value
-
+    pidController.setOutputLimits(ActuatorConfig::MIN_VOLTAGE_INPUT, 2.5);
+    pidController.setpoint = 1.92;//todo add real value
+    //todo remove print in PID lib
     Scale scale(display, distanceSensor, currentSensor, actuator, pidController);
 
 

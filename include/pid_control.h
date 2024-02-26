@@ -13,7 +13,7 @@ private:
     PID _pid;
 
 public:
-    PidController(double kp, double ki, double kd, bool direction);
+    PidController(double kp, double ki, double kd, int direction);
 
     double computeOutput();
     void setOutputLimits(double min, double max);

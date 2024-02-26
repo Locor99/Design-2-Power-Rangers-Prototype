@@ -4,7 +4,6 @@ Scale::Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &cu
              PidController &pidController) :
         _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator), _pidController(pidController){
     _mode = ScaleModes::NORMAL;
-    _pidController.setSetpoint(ScaleConfig::DISTANCE_SENSOR_TO_BLADE_MM);
 }
 
 void Scale::executeMainLoop() {
@@ -23,7 +22,7 @@ void Scale::executeMainLoop() {
                 execute_count_mode();
                 break;
         }
-
+        delay(10);
         // todo get the mode
     }
 
