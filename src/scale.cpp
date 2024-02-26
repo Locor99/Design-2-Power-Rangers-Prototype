@@ -23,7 +23,7 @@ void Scale::executeMainLoop() {
                 break;
         }
 
-        // get the mode
+        // todo get the mode
     }
 
 }
