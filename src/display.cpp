@@ -9,3 +9,7 @@ void Display::displayMass(double mass) {
     _lcd.print(mass,2);
     _lcd.print(" g");
 }
+
+void Display::print(String &text) {
+    _lcd.print(text);
+}
