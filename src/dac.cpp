@@ -15,8 +15,6 @@ void DacMCP4725::setOutputVoltage(double voltage) const {
 }
 
 void DacMCP4725::sendValue(int value) const {
-    Serial.print("Valeur reçue par sendValue: ");
-    Serial.println(value);//todo clean
     value = constrain(value, minDacValue, maxDacValue);
     byte msb = (byte)((value >> 8) & 0xFF); // Extrait le byte de poids fort
     byte lsb = (byte)(value & 0xFF);
@@ -25,6 +23,4 @@ void DacMCP4725::sendValue(int value) const {
     Wire.write(msb);
     Wire.write(lsb);
     Wire.endTransmission();
-    Serial.print("Valeur envoyée au DAC: ");
-    Serial.println(value);
 }
