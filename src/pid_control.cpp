@@ -1,4 +1,5 @@
 #include "pid_control.h"
+#include "Arduino.h"
 
 PidController::PidController(double kp, double ki, double kd, bool direction)
         : kp(kp), _pid(&input, &output, &setpoint, kp, ki, kd, direction){
@@ -7,6 +8,8 @@ PidController::PidController(double kp, double ki, double kd, bool direction)
 
 double PidController::computeOutput() {
     _pid.Compute();
+    Serial.println("output dac:");
+    Serial.println(output);
     return output;
 }
 

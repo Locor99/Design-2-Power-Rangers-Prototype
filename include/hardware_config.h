@@ -13,7 +13,7 @@ struct ArduinoConfig {
 };
 
 struct DistanceSensorConfig {
-    constexpr static const double DISTANCE_MM_VS_VOLTAGE_SLOPE = 3;  // todo add real value
+    constexpr static const double DISTANCE_MM_VS_VOLTAGE_SLOPE = 1;  // todo add real value
     constexpr static const double DISTANCE_MM_VS_VOLTAGE_INTERCEPT = 0;  //todo add real value
 };
 

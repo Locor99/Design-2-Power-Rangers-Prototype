@@ -6,13 +6,14 @@ class PidController {
 public:
     double kp, ki, kd;
     double setpoint = 0;
-    double input, output;
+    double input = 0;
+    double output = 0;
 
 private:
     PID _pid;
 
 public:
-    PidController(double kp, double ki, double kd, bool direction = false);
+    PidController(double kp, double ki, double kd, bool direction);
 
     double computeOutput();
     void setOutputLimits(double min, double max);
