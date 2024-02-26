@@ -32,6 +32,8 @@ void loop(){
 
     actuator.setVoltage(0);
 
+    display.displayMass(0);
+
     Serial.print("Courant bobine (adc):");
     Serial.println(currentSensor.getAdcValue());
 
@@ -40,7 +42,9 @@ void loop(){
 
     delay(1000);
 
-    //actuator.setVoltage(0.5);
+    actuator.setVoltage(1);
+
+    display.displayMass(50);
     Serial.print("Courant bobine (adc):");
     Serial.println(currentSensor.getAdcValue());
 
