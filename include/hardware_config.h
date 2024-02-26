@@ -18,8 +18,8 @@ struct DistanceSensorConfig {
 };
 
 struct CurrentSensorConfig {
-    constexpr static const double CURRENT_VS_VOLTAGE_SLOPE = 1;  // todo add real value
-    constexpr static const double CURRENT_VS_VOLTAGE_INTERCEPT = 0;  // todo add real value
+    constexpr static const double CURRENT_VS_VOLTAGE_SLOPE = 1.36;  // todo add real value
+    constexpr static const double CURRENT_VS_VOLTAGE_INTERCEPT = 0.11;  // todo add real value
 };
 
 struct ActuatorConfig {
