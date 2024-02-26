@@ -3,8 +3,8 @@
 #include "Arduino.h"
 
 struct ArduinoConfig {
-    static const int DISTANCE_SENSOR_PIN = A0;  // todo add real value
-    static const int CURRENT_SENSOR_PIN = A1;  // todo add real value
+    static const int DISTANCE_SENSOR_PIN = A14;  // todo add real value
+    static const int CURRENT_SENSOR_PIN = A15;  // todo add real value
     static const int MODE_BUTTON_PIN = 22;  // todo add real value
     static const int ANALOG_INPUT_MIN_ADC_VALUE = 0;
     static const int ANALOG_INPUT_MAX_ADC_VALUE = 1023;
@@ -28,12 +28,12 @@ struct ActuatorConfig {
 };
 
 struct LcdScreenConfig{
-    static const int D4_ARDUINO_PIN = 26;
-    static const int D5_ARDUINO_PIN = 28;
-    static const int D6_ARDUINO_PIN = 30;
-    static const int D7_ARDUINO_PIN = 32;
-    static const int RS_ARDUINO_PIN = 22;
-    static const int E_ARDUINO_PIN = 24;
+    static const int D4_ARDUINO_PIN = 4;
+    static const int D5_ARDUINO_PIN = 5;
+    static const int D6_ARDUINO_PIN = 6;
+    static const int D7_ARDUINO_PIN = 7;
+    static const int RS_ARDUINO_PIN = 8;
+    static const int E_ARDUINO_PIN = 9;
     static const int NBR_COLUMNS = 16;
     static const int NBR_ROWS = 2;
 };
