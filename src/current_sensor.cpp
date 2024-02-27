@@ -6,3 +6,7 @@ CurrentSensor::CurrentSensor(int pin, double currentAmpsToVoltageSlope, double c
 double CurrentSensor::getCurrent() {
     return getPhysicalValue();
 }
+
+double CurrentSensor::getFilteredCurrent() {
+    return getPhysicalFilteredValue();
+}

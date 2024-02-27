@@ -14,9 +14,12 @@ protected:
 
 public:
     AnalogSensor(int pin, double slope, double intercept);
+    void setFilterConstant(double alpha);
+    int getAdcValue() const;
+
+protected:
     double getPhysicalValue() const;
     double getPhysicalFilteredValue();
-    void setFilterConstant(double alpha);
 };
 
 #endif // ANALOGSENSOR_H

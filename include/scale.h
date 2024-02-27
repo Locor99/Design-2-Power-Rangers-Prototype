@@ -33,7 +33,7 @@ private:
     DistanceSensor& _distanceSensor;
     CurrentSensor& _actuatorCurrentSensor;
     Actuator& _actuator;
-    PidController _pidController;
+    PidController& _pidController;
     ScaleModes _mode;
 };
 

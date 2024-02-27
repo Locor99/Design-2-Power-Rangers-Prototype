@@ -2,33 +2,21 @@
 #define DESIGN2_PROTOTYPE_PID_CONTROL_H
 #include <PID_v1.h>
 
-class PidParameters {
-public:
-    double Kp;
-    double Ki;
-    double Kd;
-    double outputLowerBound;
-    double outputUpperBound;
-
-    explicit PidParameters(double kp = 0.0, double ki = 0.0, double kd = 0.0, double outputLowerBound=0,
-                           double outputUpperBound=255) : Kp(kp), Ki(ki), Kd(kd) {}
-};
-
 class PidController {
+public:
+    double kp, ki, kd;
+    double setpoint = 0;
+    double input = 0;
+    double output = 0;
+
 private:
-    PidParameters _pidParameters;
-    double _setpoint, _input, _output;
     PID _pid;
 
 public:
-    PidController(const PidParameters& pidParameters);
+    PidController(double kp, double ki, double kd, int direction);
 
-    void setSetpoint(double setpoint);
-    void setInput(double input);
     double computeOutput();
-
-    // Méthode pour ajuster dynamiquement les paramètres du PID
-    void updateParameters(const PidParameters& parameters);
+    void setOutputLimits(double min, double max);
 };
 
 #endif //DESIGN2_PROTOTYPE_PID_CONTROL_H

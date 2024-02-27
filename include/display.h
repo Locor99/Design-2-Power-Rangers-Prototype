@@ -7,8 +7,9 @@
 
 class Display {
 public:
-    Display(LiquidCrystal &lcd);
+    explicit Display(LiquidCrystal &lcd);
     void displayMass(double mass);
+    void print(String &text);
 private:
     LiquidCrystal _lcd;
 };
