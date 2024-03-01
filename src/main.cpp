@@ -28,14 +28,14 @@ void setup() {
     DacMCP4725 dac;
     Actuator actuator(dac);
 
-    PidController pidController(KP, KI, KD, REVERSE);
-    pidController.setOutputLimits(ActuatorConfig::MIN_VOLTAGE_INPUT, 2.5);
-    pidController.setpoint = 1.92;//todo add real value
+    PidController pidController(KP, KI, KD, DIRECT);
+    pidController.setOutputLimits(ActuatorConfig::MIN_VOLTAGE_INPUT, ActuatorConfig::MAX_VOLTAGE_INPUT);
+    pidController.setpoint = ScaleConfig::DISTANCE_OF_BLADE_SETPOINT_MM;
+
     distanceSensor.setFilterConstant(0.2);
     currentSensor.setFilterConstant(0.01);
-    //todo remove print in PID lib
-    Scale scale(display, distanceSensor, currentSensor, actuator, pidController);
 
+    Scale scale(display, distanceSensor, currentSensor, actuator, pidController);
 
     scale.executeMainLoop();
 }
