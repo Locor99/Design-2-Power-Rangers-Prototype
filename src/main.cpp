@@ -35,7 +35,12 @@ void setup() {
     distanceSensor.setFilterConstant(0.75); //remove filter if not necessary
     currentSensor.setFilterConstant(0.01); //remove filter if not necessary
 
-    Scale scale(display, distanceSensor, currentSensor, actuator, pidController);
+    Scale scale(display,
+                distanceSensor,
+                currentSensor,
+                actuator,
+                pidController,
+                ScaleConfig::RATIO_BETWEEN_APPLIED_FORCE_AND_MASS_ON_SCALE);
 
     scale.executeMainLoop();
 }

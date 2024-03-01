@@ -8,6 +8,9 @@
 #include "pid_control.h"
 #include "current_sensor.h"
 
+static const double GRAVITY_ACCELERATION = 9.81;
+static const double DEFAULT_SCALE_CALIB = GRAVITY_ACCELERATION*1000;
+
 enum class ScaleModes {
     NORMAL,
     TARE,

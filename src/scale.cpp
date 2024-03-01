@@ -22,7 +22,7 @@ String scaleModeToString(ScaleModes mode) {
 Scale::Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
              PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept) :
         _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator),
-        _pidController(pidController), _scaleCalibrationSlope(scaleCalibSlope), _scaleCalibrationIntercept(scaleCalibIntercept){
+        _pidController(pidController), _scaleCalibrationConstant(scaleCalibRatio){
     _mode = ScaleModes::NORMAL;
     _display.displayMode("Demarrage");
     _executeTareMode();
