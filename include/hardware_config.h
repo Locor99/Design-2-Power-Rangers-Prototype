@@ -40,6 +40,8 @@ struct LcdScreenConfig{
 
 struct ScaleConfig{
     constexpr static const double DISTANCE_OF_BLADE_SETPOINT_MM = 40;  // todo add real value
+    constexpr static const double RATIO_BETWEEN_APPLIED_FORCE_AND_MASS_ON_SCALE = 9.80;  // todo add real value
+
 };
 
 #endif // HARDWARECONFIG_H

@@ -8,6 +8,9 @@
 #include "pid_control.h"
 #include "current_sensor.h"
 
+static const double GRAVITY_ACCELERATION = 9.81;
+static const double DEFAULT_SCALE_CALIB = GRAVITY_ACCELERATION*1000;
+
 enum class ScaleModes {
     NORMAL,
     TARE,
@@ -18,7 +21,7 @@ enum class ScaleModes {
 class Scale {
 public:
     Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
-          PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept);
+          PidController &pidController, double scaleCalibRatio=DEFAULT_SCALE_CALIB);
     void executeMainLoop();
     void executeNormalMode();
     void calibrate();
@@ -35,8 +38,7 @@ private:
     Actuator& _actuator;
     PidController& _pidController;
     ScaleModes _mode;
-    double _scaleCalibrationSlope; // Ratio between the force applied by actuator (N) and the mass on the scale (g)
-    double _scaleCalibrationIntercept;
+    double _scaleCalibrationConstant; // Ratio between the force applied by actuator (N) and the mass on the scale (g)
 };
 
 
