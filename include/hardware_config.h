@@ -18,8 +18,8 @@ struct DistanceSensorConfig {
 };
 
 struct CurrentSensorConfig {
-    constexpr static const double CURRENT_VS_VOLTAGE_SLOPE = 0.7120;
-    constexpr static const double CURRENT_VS_VOLTAGE_INTERCEPT = -0.0317;
+    constexpr static const double CURRENT_VS_VOLTAGE_SLOPE = 1.36;
+    constexpr static const double CURRENT_VS_VOLTAGE_INTERCEPT = 0.11;
 };
 
 struct ActuatorConfig {
@@ -39,10 +39,7 @@ struct LcdScreenConfig{
 };
 
 struct ScaleConfig{
-    constexpr static const double DISTANCE_OF_BLADE_SETPOINT_MM = 15;
-    constexpr static const double FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_SLOPE = 93.3033;
-    constexpr static const double FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_INTERCEPT = -4.5091;
-
+    constexpr static const double DISTANCE_OF_BLADE_SETPOINT_MM = 40;  // todo add real value
 };
 
 #endif // HARDWARECONFIG_H

@@ -7,10 +7,11 @@
 #include "pid_control.h"
 #include "current_sensor.h"
 #include "LiquidCrystal.h"
+#include "pid_control.h"
 
-const double KP = 0.03;
-const double KI = 0.06;
-const double KD = 0.0005;
+const double KP = 0.2;
+const double KI = 0.4;
+const double KD = 0.003;
 
 void setup() {
     Serial.begin(115200);
@@ -31,17 +32,10 @@ void setup() {
     pidController.setOutputLimits(ActuatorConfig::MIN_VOLTAGE_INPUT, ActuatorConfig::MAX_VOLTAGE_INPUT);
     pidController.setpoint = ScaleConfig::DISTANCE_OF_BLADE_SETPOINT_MM;
 
-    distanceSensor.setFilterConstant(0.75); //remove filter if not necessary
-    currentSensor.setFilterConstant(0.75); //remove filter if not necessary
+    distanceSensor.setFilterConstant(0.2);
+    currentSensor.setFilterConstant(0.01);
 
-
-    Scale scale(display,
-                distanceSensor,
-                currentSensor,
-                actuator,
-                pidController,
-                ScaleConfig::FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_SLOPE,
-                ScaleConfig::FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_INTERCEPT);
+    Scale scale(display, distanceSensor, currentSensor, actuator, pidController);
 
     scale.executeMainLoop();
 }
