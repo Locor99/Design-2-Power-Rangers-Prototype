@@ -24,14 +24,20 @@ void Scale::executeMainLoop() {
         }
         delay(10);
         // todo get the mode
+
+        if (_isPositionStable(_pidController.setpoint)){
+            Serial.println("Position stable");//todo ajouter indicateur réel
+        }
+        else{
+            Serial.println("Position non stable");
+        }
     }
 
 }
 
 void Scale::executeNormalMode() {
     _regulateScale();
-    double mass = getMassInGrams();
-    _display.displayMass(mass);
+    _display.displayMass(getMassInGrams());
 }
 
 void Scale::_regulateScale() {
@@ -49,12 +55,15 @@ void Scale::execute_count_mode() {
 }
 
 void Scale::tare() {
+    Serial.println("Tare en cours");
+    //todo ajouter l'indicateur de stabilisation dans le tare (généraliser ça si possible)
     while (!_isPositionStable(_pidController.setpoint)) {//todo ajouter constantes
         _regulateScale();
         _display.displayMass(getMassInGrams());
     }
     double stableMass = _getAbsoluteMass();
     _tareMassOffset = stableMass;
+    Serial.println("Tare complété");
     _mode = ScaleModes::NORMAL;
 
 }
