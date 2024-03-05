@@ -1,10 +1,10 @@
 #include "scale.h"
-
 Scale::Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
              PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept) :
         _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator),
         _pidController(pidController), _scaleCalibrationSlope(scaleCalibSlope), _scaleCalibrationIntercept(scaleCalibIntercept){
     _mode = ScaleModes::NORMAL;
+    _stabilityBuffer = CircularBuffer<double, 10>();
 }
 
 void Scale::executeMainLoop() {
@@ -63,3 +63,25 @@ double Scale::_calculateMassOnScale() {
     }
     return massGrams;
 }
+
+bool Scale::_isPositionStable(double setpoint,
+                              double tolerancePourcentage,
+                              unsigned long timeRequiredInStabilityZoneMs = DEFAULT_TIME_BEFORE_STABILITY_MS) {
+    double currentValue = _calculateMassOnScale();
+    double lowerBound = setpoint * (1.0 - tolerancePourcentage / 100.0);
+    double upperBound = setpoint * (1.0 + tolerancePourcentage / 100.0);
+
+    if (currentValue >= lowerBound && currentValue <= upperBound) {
+        if (_timestampFirstInsideStabilityZone == 0) {
+            _timestampFirstInsideStabilityZone = millis();
+        }
+        if (millis() - _timestampFirstInsideStabilityZone >= timeRequiredInStabilityZoneMs) {
+            return true;
+        }
+    } else {
+        _timestampFirstInsideStabilityZone = 0;
+    }
+    return false;
+}
+
+
