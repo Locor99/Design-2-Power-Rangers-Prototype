@@ -7,6 +7,7 @@
 #include "Actuator.h"
 #include "pid_control.h"
 #include "current_sensor.h"
+#include "CircularBuffer.h"
 
 enum class ScaleModes {
     NORMAL,
@@ -16,6 +17,7 @@ enum class ScaleModes {
 };
 
 class Scale {
+    constexpr static size_t STABILITY_BUFFER_SIZE = 10;
 public:
     Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
           PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept);
@@ -28,6 +30,8 @@ public:
 private:
     void _regulateScale();
     double _calculateMassOnScale();
+    bool _isStableAroundSetpoint(double setpoint, double tolerancePercentage);
+    bool _isPositionStable(double setpoint, double tolerancePourcentage, unsigned long timeRequiredInStabilityZoneMs);
 
     Display& _display;
     DistanceSensor& _distanceSensor;
@@ -37,6 +41,11 @@ private:
     ScaleModes _mode;
     double _scaleCalibrationSlope; // Ratio between the force applied by actuator (N) and the mass on the scale (g)
     double _scaleCalibrationIntercept;
+    double _scaleCalibrationConstant; // Ratio between the force applied by actuator (N) and the mass on the scale (g)
+
+    unsigned long _timestampFirstInsideStabilityZone = 0;
+    static const unsigned long DEFAULT_TIME_BEFORE_STABILITY_MS = 1;
+
 };
 
 
