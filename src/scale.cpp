@@ -4,7 +4,6 @@ Scale::Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &cu
         _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator),
         _pidController(pidController), _scaleCalibrationSlope(scaleCalibSlope), _scaleCalibrationIntercept(scaleCalibIntercept){
     _mode = ScaleModes::NORMAL;
-    _stabilityBuffer = CircularBuffer<double, 10>();
 }
 
 void Scale::executeMainLoop() {
@@ -31,7 +30,7 @@ void Scale::executeMainLoop() {
 
 void Scale::executeNormalMode() {
     _regulateScale();
-    double mass = _calculateMassOnScale();
+    double mass = getMassInGrams();
     _display.displayMass(mass);
 }
 
@@ -50,10 +49,20 @@ void Scale::execute_count_mode() {
 }
 
 void Scale::tare() {
+    while (!_isPositionStable(_pidController.setpoint)) {//todo ajouter constantes
+        _regulateScale();
+        _display.displayMass(getMassInGrams());
+    }
+    double stableMass = _getAbsoluteMass();
+    _tareMassOffset = stableMass;
+    _mode = ScaleModes::NORMAL;
 
 }
 
-double Scale::_calculateMassOnScale() {
+double Scale::getMassInGrams() {
+    return _getAbsoluteMass() - _tareMassOffset;
+}
+double Scale::_getAbsoluteMass() {
     double actuatorCurrent = _actuatorCurrentSensor.getCurrent(); //todo try with filteredCurrent if necessary
     double forceNAppliedByActuator = _actuator.getAppliedForceNFromCurrentA(actuatorCurrent);
     double massGrams = forceNAppliedByActuator * _scaleCalibrationSlope + _scaleCalibrationIntercept;
@@ -64,12 +73,12 @@ double Scale::_calculateMassOnScale() {
     return massGrams;
 }
 
-bool Scale::_isPositionStable(double setpoint,
+bool Scale::_isPositionStable(double setpointMm,
                               double tolerancePourcentage,
-                              unsigned long timeRequiredInStabilityZoneMs = DEFAULT_TIME_BEFORE_STABILITY_MS) {
-    double currentValue = _calculateMassOnScale();
-    double lowerBound = setpoint * (1.0 - tolerancePourcentage / 100.0);
-    double upperBound = setpoint * (1.0 + tolerancePourcentage / 100.0);
+                              unsigned long timeRequiredInStabilityZoneMs) {
+    double currentValue = _distanceSensor.getDistanceMm();
+    double lowerBound = setpointMm * (1.0 - tolerancePourcentage / 100.0);
+    double upperBound = setpointMm * (1.0 + tolerancePourcentage / 100.0);
 
     if (currentValue >= lowerBound && currentValue <= upperBound) {
         if (_timestampFirstInsideStabilityZone == 0) {
