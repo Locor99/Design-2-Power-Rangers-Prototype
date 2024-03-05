@@ -23,7 +23,7 @@ Scale::Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSens
         _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator),
         _pidController(pidController), _scaleCalibrationSlope(scaleCalibSlope), _scaleCalibrationIntercept(scaleCalibIntercept){
     _mode = ScaleModes::NORMAL;
-    tare();
+    _executeTareMode();
 }
 
 void Scale::executeMainLoop() {
@@ -73,16 +73,6 @@ void Scale::execute_count_mode() {
 }
 
 void Scale::tare() {
-    Serial.println("Tare en cours");
-    //todo ajouter l'indicateur de stabilisation dans le tare (généraliser ça si possible)
-    while (!_isPositionStable(_pidController.setpoint)) {//todo ajouter constantes
-        _regulateScale();
-        _display.displayMass(getMassInGrams());
-    }
-    double stableMass = _getAbsoluteMass();
-    _tareMassOffset = stableMass;
-    Serial.println("Tare complété");
-    _mode = ScaleModes::NORMAL;
 
 }
 
@@ -128,25 +118,3 @@ void Scale::_setModeFromButtonsState(){
     }
 
 }
-
-bool Scale::_isPositionStable(double setpoint,
-                              double tolerancePourcentage,
-                              unsigned long timeRequiredInStabilityZoneMs = DEFAULT_TIME_BEFORE_STABILITY_MS) {
-    double currentValue = _calculateMassOnScale();
-    double lowerBound = setpoint * (1.0 - tolerancePourcentage / 100.0);
-    double upperBound = setpoint * (1.0 + tolerancePourcentage / 100.0);
-
-    if (currentValue >= lowerBound && currentValue <= upperBound) {
-        if (_timestampFirstInsideStabilityZone == 0) {
-            _timestampFirstInsideStabilityZone = millis();
-        }
-        if (millis() - _timestampFirstInsideStabilityZone >= timeRequiredInStabilityZoneMs) {
-            return true;
-        }
-    } else {
-        _timestampFirstInsideStabilityZone = 0;
-    }
-    return false;
-}
-
-

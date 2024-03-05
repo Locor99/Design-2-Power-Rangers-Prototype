@@ -7,7 +7,6 @@
 #include "Actuator.h"
 #include "pid_control.h"
 #include "current_sensor.h"
-#include "CircularBuffer.h"
 
 enum class ScaleModes {
     NORMAL,
