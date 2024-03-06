@@ -26,35 +26,35 @@ Scale::Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSens
     _executeTareMode();
 }
 
-void Scale::executeMainLoop() {
+[[noreturn]] void Scale::executeMainLoop() {
     while (true){
-        switch(_mode) {
-            case ScaleModes::NORMAL:
-                executeNormalMode();
-                break;
-            case ScaleModes::TARE :
-                tare();
-                break;
-            case ScaleModes::CALIBRATION :
-                calibrate();
-                break;
-            case ScaleModes::COUNT :
-                execute_count_mode();
-                break;
-        }
-        _setModeFromButtonsState();
-        _display.displayMode(scaleModeToString(_mode));
-
+        _regulateScale();
         _display.markAsStable(_isPositionStable(_pidController.setpoint,
                                                 TOLERANCE_PERCENTAGE_FOR_STABILITY,
                                                 TIME_REQUIRED_FOR_STABILITY_MS));
-
+        _setModeFromButtonsState();
+        _display.displayMode(scaleModeToString(_mode));
+        _executeActiveMode();
     }
 
 }
-
-void Scale::executeNormalMode() {
-    _regulateScale();
+void Scale::_executeActiveMode(){
+    switch(_mode) {
+        case ScaleModes::NORMAL:
+            _executeNormalMode();
+            break;
+        case ScaleModes::TARE :
+            _executeTareMode();
+            break;
+        case ScaleModes::CALIBRATION :
+            _executeCalibrationMode();
+            break;
+        case ScaleModes::COUNT :
+            _executeCountMode();
+            break;
+    }
+}
+void Scale::_executeNormalMode() {
     _display.displayMass(getMassInGrams());
 }
 
@@ -64,15 +64,25 @@ void Scale::_regulateScale() {
     _actuator.setVoltage(voltageSentToDac);
 }
 
-void Scale::calibrate() {
+void Scale::_executeCalibrationMode() {
 
 }
 
-void Scale::execute_count_mode() {
+void Scale::_executeCountMode() {
 
 }
 
-void Scale::tare() {
+void Scale::_executeTareMode() {
+    Serial.println("Tare en cours");
+    //todo ajouter l'indicateur de stabilisation dans le tare (généraliser ça si possible)
+    while (!_isPositionStable(_pidController.setpoint)) {//todo ajouter constantes
+        _regulateScale();
+        _display.displayMass(getMassInGrams());
+    }
+    double stableMass = _getAbsoluteMass();
+    _tareMassOffset = stableMass;
+    Serial.println("Tare complété");
+    _mode = ScaleModes::NORMAL;
 
 }
 
