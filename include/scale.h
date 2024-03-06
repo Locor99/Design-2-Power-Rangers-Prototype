@@ -23,13 +23,15 @@ public:
     Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
           PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept);
     double getMassInGrams();
-    void executeMainLoop();
-    void executeNormalMode();
-    void calibrate();
-    void execute_count_mode();
-    void tare();
+
+    [[noreturn]] void executeMainLoop();
 
 private:
+    void _executeActiveMode();
+    void _executeNormalMode();
+    void _executeCalibrationMode();
+    void _executeCountMode();
+    void _executeTareMode();
     void _regulateScale();
     bool _isPositionStable(double setpointMm,
                            double tolerancePourcentage=DEFAULT_STABILITY_POURCENTAGE,
