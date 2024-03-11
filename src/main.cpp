@@ -9,9 +9,9 @@
 #include "LiquidCrystal.h"
 #include "pid_control.h"
 
-const double KP = 0.2;
-const double KI = 0.4;
-const double KD = 0.003;
+const double KP = 0.03;
+const double KI = 1;
+const double KD = 0;
 
 void setup() {
     Serial.begin(115200);
@@ -32,8 +32,9 @@ void setup() {
     pidController.setOutputLimits(ActuatorConfig::MIN_VOLTAGE_INPUT, ActuatorConfig::MAX_VOLTAGE_INPUT);
     pidController.setpoint = ScaleConfig::DISTANCE_OF_BLADE_SETPOINT_MM;
 
-    distanceSensor.setFilterConstant(0.2);
-    currentSensor.setFilterConstant(0.01);
+    distanceSensor.setFilterConstant(0.75); //remove filter if necessary
+    currentSensor.setFilterConstant(1); //remove filter if necessary
+
 
     Scale scale(display,
                 distanceSensor,
