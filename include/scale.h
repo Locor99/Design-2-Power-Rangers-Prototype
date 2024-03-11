@@ -7,7 +7,6 @@
 #include "Actuator.h"
 #include "pid_control.h"
 #include "current_sensor.h"
-#include "CircularBuffer.h"
 
 static const double GRAVITY_ACCELERATION = 9.81;
 static const double DEFAULT_SCALE_CALIB = GRAVITY_ACCELERATION*1000;
