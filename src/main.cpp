@@ -10,7 +10,7 @@
 #include "pid_control.h"
 
 const double KP = 0.2;
-const double KI = 0.4;
+const double KI = 0.3;
 const double KD = 0.003;
 
 void setup() {
@@ -30,9 +30,9 @@ void setup() {
 
     PidController pidController(KP, KI, KD, REVERSE);
     pidController.setOutputLimits(ActuatorConfig::MIN_VOLTAGE_INPUT, 2.5);
-    pidController.setpoint = 1.92;//todo add real value
-    distanceSensor.setFilterConstant(0.2);
-    currentSensor.setFilterConstant(0.01);
+    pidController.setpoint = 1;//todo add real value
+    distanceSensor.setFilterConstant(0.5); //remove filter if necessary
+    currentSensor.setFilterConstant(1); //remove filter if necessary
     //todo remove print in PID lib
     Scale scale(display, distanceSensor, currentSensor, actuator, pidController);
 
