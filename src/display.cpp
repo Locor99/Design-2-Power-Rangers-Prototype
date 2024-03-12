@@ -8,7 +8,8 @@ Display::Display(LiquidCrystal &lcd): _lcd(lcd) {
 void Display::displayMass(double massGrams) {
     _lcd.home();
     _lcd.print(massGrams, 1);
-    _lcd.print(" g");
+    _lcd.setCursor(5,0);
+    _lcd.print("g");
 }
 
 void Display::print(String &text) {
