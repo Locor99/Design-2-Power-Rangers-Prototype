@@ -40,7 +40,8 @@ void setup() {
                 currentSensor,
                 actuator,
                 pidController,
-                ScaleConfig::RATIO_BETWEEN_APPLIED_FORCE_AND_MASS_ON_SCALE);
+                ScaleConfig::FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_SLOPE,
+                ScaleConfig::FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_INTERCEPT);
 
     scale.executeMainLoop();
 }
