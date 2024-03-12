@@ -10,7 +10,7 @@ protected:
     double _slope = 1;
     double _intercept = 0;
     double _lastPhysicalFilteredValue = 0.0;
-    double _filterConstantAlpha = 0.75;
+    double _filterConstantAlpha = 1;
 
 public:
     AnalogSensor(int pin, double slope, double intercept);
