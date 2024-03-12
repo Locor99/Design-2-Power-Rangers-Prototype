@@ -37,12 +37,7 @@ void Scale::executeNormalMode() {
 
 void Scale::_regulateScale() {
     _pidController.input = _distanceSensor.getFilteredDistanceMm();
-    Serial.println("Distance(mm): ");//todo remove
-    Serial.println(_pidController.input);//todo remove
-
     double voltageSentToDac = _pidController.computeOutput();
-    Serial.println("Voltage au dac: ");//todo remove
-    Serial.println(voltageSentToDac);//todo remove
     _actuator.setVoltage(voltageSentToDac);
 }
 
