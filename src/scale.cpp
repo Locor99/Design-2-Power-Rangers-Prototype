@@ -54,7 +54,7 @@ void Scale::tare() {
 }
 
 double Scale::_calculateMassOnScale() {
-    double actuatorCurrent = _actuatorCurrentSensor.getCurrent();
+    double actuatorCurrent = _actuatorCurrentSensor.getCurrent(); //todo try with filteredCurrent if necessary
     double forceNAppliedByActuator = _actuator.getAppliedForceNFromCurrentA(actuatorCurrent);
     double massGrams = forceNAppliedByActuator * _scaleCalibrationSlope + _scaleCalibrationIntercept;
 
