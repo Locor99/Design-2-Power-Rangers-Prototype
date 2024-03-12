@@ -1,9 +1,9 @@
 #include "scale.h"
 
 Scale::Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
-             PidController &pidController, double scaleCalibRatio) :
+             PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept) :
         _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator),
-        _pidController(pidController), _scaleCalibrationConstant(scaleCalibRatio){
+        _pidController(pidController), _scaleCalibrationSlope(scaleCalibSlope), _scaleCalibrationIntercept(scaleCalibIntercept){
     _mode = ScaleModes::NORMAL;
 }
 
@@ -56,5 +56,10 @@ void Scale::tare() {
 double Scale::_calculateMassOnScale() {
     double actuatorCurrent = _actuatorCurrentSensor.getCurrent();
     double forceNAppliedByActuator = _actuator.getAppliedForceNFromCurrentA(actuatorCurrent);
-    return forceNAppliedByActuator * _scaleCalibrationConstant;
+    double massGrams = forceNAppliedByActuator * _scaleCalibrationSlope + _scaleCalibrationIntercept;
+
+    if (massGrams<0){
+        return 0;
+    }
+    return massGrams;
 }
