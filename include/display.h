@@ -12,6 +12,9 @@ public:
     void print(String &text);
 private:
     LiquidCrystal _lcd;
+    unsigned long lastRefreshTime;
+
+    bool isRefreshDue();
 };
 
 #endif //DESIGN2_PROTOTYPE_DISPLAY_H
