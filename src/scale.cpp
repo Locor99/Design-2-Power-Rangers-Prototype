@@ -23,6 +23,7 @@ Scale::Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSens
         _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator),
         _pidController(pidController), _scaleCalibrationSlope(scaleCalibSlope), _scaleCalibrationIntercept(scaleCalibIntercept){
     _mode = ScaleModes::NORMAL;
+    tare();
 }
 
 void Scale::executeMainLoop() {
@@ -93,9 +94,6 @@ double Scale::_getAbsoluteMass() {
     double forceNAppliedByActuator = _actuator.getAppliedForceNFromCurrentA(actuatorCurrent);
     double massGrams = forceNAppliedByActuator * _scaleCalibrationSlope + _scaleCalibrationIntercept;
 
-    if (massGrams<0){
-        return 0;
-    }
     return massGrams;
 }
 
