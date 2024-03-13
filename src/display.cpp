@@ -47,3 +47,8 @@ void Display::markAsStable(bool isStable) {
         _lcd.print("xxxxxx");
     }
 }
+
+void Display::displayMode(const String& mode){
+    _lcd.setCursor(_nbrColumns-mode.length(),0);
+    _lcd.print(mode);
+}
