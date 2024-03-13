@@ -29,8 +29,19 @@ void Display::displayMass(double massGrams) {
     }
 }
 
-void Display::print(String &text) {
+void Display::_print(String &text) {
     if (isRefreshDue()){
         _lcd.print(text);
+    }
+}
+
+void Display::markAsStable(bool isStable) {
+    _lcd.setCursor(0,1);
+
+    if (isStable){
+        _lcd.print("======");
+    }
+    else{
+        _lcd.print("xxxxxx");
     }
 }
