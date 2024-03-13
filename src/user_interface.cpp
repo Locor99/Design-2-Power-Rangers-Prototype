@@ -23,7 +23,7 @@ bool UserInterface::isRefreshDue(){
 void UserInterface::displayMass(double massGrams) {
     if (isRefreshDue()){
         _lcd.home();
-        _lcd.print("     ");
+        _lcd.print("     ");//todo use clearRow method
         _lcd.home();
         _lcd.print(massGrams, 1);
         _lcd.setCursor(5,0);
@@ -49,8 +49,16 @@ void UserInterface::markAsStable(bool isStable) {
 }
 
 void UserInterface::displayMode(const String& mode){
+    _clearRow(0,6,_nbrColumns-1);
     _lcd.setCursor(_nbrColumns-mode.length(),0);
     _lcd.print(mode);
+}
+
+void UserInterface::_clearRow(int row, unsigned int startIndex, unsigned int endIndex) {
+    _lcd.setCursor(startIndex, row);
+    for (unsigned int i = startIndex; i < _nbrColumns; i++) {
+        _lcd.print(" ");
+    }
 }
 
 Buttons UserInterface::readButtons() {
