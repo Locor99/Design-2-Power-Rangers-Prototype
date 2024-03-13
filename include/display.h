@@ -7,13 +7,14 @@
 
 class Display {
 public:
-    explicit Display(LiquidCrystal &lcd);
+    Display(LiquidCrystal &lcd, unsigned int nbrRows, unsigned int nbrColumns);
     void displayMass(double massGrams);
     void markAsStable(bool isStable=true);
 
 private:
     LiquidCrystal _lcd;
     unsigned long lastRefreshTime;
+    unsigned int _nbrRows, _nbrColumns;
 
     bool isRefreshDue();
     void _print(String &text);
