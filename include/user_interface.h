@@ -4,6 +4,15 @@
 #include "LiquidCrystal.h"
 #include "hardware_config.h"
 #include "Arduino.h"
+enum class Buttons {
+    select,
+    up,
+    down,
+    left,
+    right,
+    reset,
+    none
+};
 
 class UserInterface {
 public:
@@ -11,6 +20,7 @@ public:
     void displayMass(double massGrams);
     void markAsStable(bool isStable=true);
     void displayMode(const String& mode);
+    Buttons readButtons();
 
 private:
     LiquidCrystal _lcd;
