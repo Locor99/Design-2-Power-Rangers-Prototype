@@ -52,3 +52,14 @@ void UserInterface::displayMode(const String& mode){
     _lcd.setCursor(_nbrColumns-mode.length(),0);
     _lcd.print(mode);
 }
+
+Buttons UserInterface::readButtons() {
+    int adc_key_in = analogRead(0); //todo make const
+    if (adc_key_in > 1000) return Buttons::none;
+    if (adc_key_in < 50) return Buttons::right;
+    if (adc_key_in < 250) return Buttons::up;
+    if (adc_key_in < 450) return Buttons::down;
+    if (adc_key_in < 650) return Buttons::left;
+    if (adc_key_in < 850) return Buttons::select;
+    return Buttons::reset;
+}
