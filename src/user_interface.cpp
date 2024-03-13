@@ -1,4 +1,4 @@
-#include "display.h"
+#include "user_interface.h"
 
 const unsigned long REFRESH_INTERVAL_MS = 250;
 
