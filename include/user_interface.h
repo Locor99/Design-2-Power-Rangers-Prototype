@@ -29,6 +29,8 @@ private:
 
     bool isRefreshDue();
     void _print(String &text);
+
+    void _clearRow(int row, unsigned int startIndex, unsigned int endIndex);
 };
 
 #endif //DESIGN2_PROTOTYPE_DISPLAY_H
