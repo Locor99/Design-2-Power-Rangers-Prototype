@@ -1,7 +1,7 @@
 #ifndef DESIGN2_PROTOTYPE_SCALE_H
 #define DESIGN2_PROTOTYPE_SCALE_H
 
-#include "display.h"
+#include "user_interface.h"
 #include "DistanceSensor.h"
 #include "hardware_config.h"
 #include "Actuator.h"

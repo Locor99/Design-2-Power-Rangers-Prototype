@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "Scale.h"
-#include "display.h"
+#include "user_interface.h"
 #include "DistanceSensor.h"
 #include "Actuator.h"
 #include "hardware_config.h"
