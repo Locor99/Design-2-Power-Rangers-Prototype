@@ -2,8 +2,10 @@
 
 const unsigned long REFRESH_INTERVAL_MS = 250;
 
-Display::Display(LiquidCrystal &lcd): _lcd(lcd) {
-    _lcd.begin(LcdScreenConfig::NBR_COLUMNS, LcdScreenConfig::NBR_ROWS);
+Display::Display(LiquidCrystal &lcd, unsigned int nbrRows, unsigned int nbrColumns):
+        _lcd(lcd),_nbrRows(nbrRows),_nbrColumns(nbrColumns)  {
+
+    _lcd.begin(_nbrColumns, _nbrRows);
     _lcd.clear();
     lastRefreshTime = 0;
 
