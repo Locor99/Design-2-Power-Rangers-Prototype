@@ -17,7 +17,7 @@ void setup() {
     LiquidCrystal lcd(LcdScreenConfig::RS_ARDUINO_PIN, LcdScreenConfig::E_ARDUINO_PIN,
                       LcdScreenConfig::D4_ARDUINO_PIN, LcdScreenConfig::D5_ARDUINO_PIN,
                       LcdScreenConfig::D6_ARDUINO_PIN, LcdScreenConfig::D7_ARDUINO_PIN);
-    Display display(lcd, LcdScreenConfig::NBR_ROWS, LcdScreenConfig::NBR_COLUMNS);
+    UserInterface display(lcd, LcdScreenConfig::NBR_ROWS, LcdScreenConfig::NBR_COLUMNS);
     DistanceSensor distanceSensor(ArduinoConfig::DISTANCE_SENSOR_PIN,
                                   DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_SLOPE,
                                   DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_INTERCEPT);

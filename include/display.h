@@ -5,9 +5,9 @@
 #include "hardware_config.h"
 #include "Arduino.h"
 
-class Display {
+class UserInterface {
 public:
-    Display(LiquidCrystal &lcd, unsigned int nbrRows, unsigned int nbrColumns);
+    UserInterface(LiquidCrystal &lcd, unsigned int nbrRows, unsigned int nbrColumns);
     void displayMass(double massGrams);
     void markAsStable(bool isStable=true);
     void displayMode(const String& mode);

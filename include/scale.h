@@ -20,7 +20,7 @@ String scaleModeToString(ScaleModes mode);
 class Scale {
     constexpr static size_t STABILITY_BUFFER_SIZE = 10;
 public:
-    Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
+    Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
           PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept);
     double getMassInGrams();
     void executeMainLoop();
@@ -36,7 +36,7 @@ private:
                            unsigned long timeRequiredInStabilityZoneMs=DEFAULT_TIME_BEFORE_STABILITY_MS);
     double _getAbsoluteMass();
 
-    Display& _display;
+    UserInterface& _display;
     DistanceSensor& _distanceSensor;
     CurrentSensor& _actuatorCurrentSensor;
     Actuator& _actuator;
