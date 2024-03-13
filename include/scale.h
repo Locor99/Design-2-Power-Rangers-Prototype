@@ -15,6 +15,8 @@ enum class ScaleModes {
     COUNT
 };
 
+String scaleModeToString(ScaleModes mode);
+
 class Scale {
     constexpr static size_t STABILITY_BUFFER_SIZE = 10;
 public:
@@ -42,12 +44,10 @@ private:
     ScaleModes _mode;
     double _scaleCalibrationSlope; // Ratio between the force applied by actuator (N) and the mass on the scale (g)
     double _scaleCalibrationIntercept;
-    double _scaleCalibrationConstant; // Ratio between the force applied by actuator (N) and the mass on the scale (g)
     double _tareMassOffset = 0.0;
     unsigned long _timestampFirstInsideStabilityZone = 0;
     static const unsigned long DEFAULT_TIME_BEFORE_STABILITY_MS = 1;
     constexpr static double DEFAULT_STABILITY_POURCENTAGE = 5.0;
-
 };
 
 

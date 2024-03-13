@@ -3,6 +3,21 @@
 const unsigned int TIME_REQUIRED_FOR_STABILITY_MS = 1000;
 const unsigned int TOLERANCE_PERCENTAGE_FOR_STABILITY = 5;
 
+String scaleModeToString(ScaleModes mode) {
+    switch(mode) {
+        case ScaleModes::NORMAL:
+            return "NORMAL";
+        case ScaleModes::TARE:
+            return "TARE";
+        case ScaleModes::CALIBRATION:
+            return "CALIBRATION";
+        case ScaleModes::COUNT:
+            return "COUNT";
+        default:
+            return "UNKNOWN";
+    }
+}
+
 Scale::Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
              PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept) :
         _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator),
@@ -26,8 +41,7 @@ void Scale::executeMainLoop() {
                 execute_count_mode();
                 break;
         }
-        delay(10);
-        // todo get the mode
+        _display.displayMode(scaleModeToString(_mode));
 
         _display.markAsStable(_isPositionStable(_pidController.setpoint,
                                                 TOLERANCE_PERCENTAGE_FOR_STABILITY,
