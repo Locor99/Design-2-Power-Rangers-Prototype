@@ -41,6 +41,7 @@ void Scale::executeMainLoop() {
                 execute_count_mode();
                 break;
         }
+        _setModeFromButtonsState();
         _display.displayMode(scaleModeToString(_mode));
 
         _display.markAsStable(_isPositionStable(_pidController.setpoint,
@@ -118,4 +119,14 @@ bool Scale::_isPositionStable(double setpointMm,
     return false;
 }
 
+void Scale::_setModeFromButtonsState(){
+    Buttons button = _display.readButtons();
+    switch(button) {
+        case Buttons::select:
+            _mode = ScaleModes::TARE;
+            break;
+        default:
+            break;
+    }
 
+}
