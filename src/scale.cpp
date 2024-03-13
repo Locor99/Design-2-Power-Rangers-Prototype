@@ -1,4 +1,8 @@
 #include "scale.h"
+
+const unsigned int TIME_REQUIRED_FOR_STABILITY_MS = 1000;
+const unsigned int TOLERANCE_PERCENTAGE_FOR_STABILITY = 5;
+
 Scale::Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
              PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept) :
         _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator),
@@ -25,12 +29,10 @@ void Scale::executeMainLoop() {
         delay(10);
         // todo get the mode
 
-        if (_isPositionStable(_pidController.setpoint)){
-            Serial.println("Position stable");//todo ajouter indicateur réel
-        }
-        else{
-            Serial.println("Position non stable");
-        }
+        _display.markAsStable(_isPositionStable(_pidController.setpoint,
+                                                TOLERANCE_PERCENTAGE_FOR_STABILITY,
+                                                TIME_REQUIRED_FOR_STABILITY_MS));
+
     }
 
 }
