@@ -2,7 +2,7 @@
 
 const unsigned long REFRESH_INTERVAL_MS = 250;
 
-Display::Display(LiquidCrystal &lcd, unsigned int nbrRows, unsigned int nbrColumns):
+UserInterface::UserInterface(LiquidCrystal &lcd, unsigned int nbrRows, unsigned int nbrColumns):
         _lcd(lcd),_nbrRows(nbrRows),_nbrColumns(nbrColumns)  {
 
     _lcd.begin(_nbrColumns, _nbrRows);
@@ -10,7 +10,7 @@ Display::Display(LiquidCrystal &lcd, unsigned int nbrRows, unsigned int nbrColum
     lastRefreshTime = 0;
 
 }
-bool Display::isRefreshDue(){
+bool UserInterface::isRefreshDue(){
     unsigned long currentTime = millis();
     if (currentTime - lastRefreshTime >= REFRESH_INTERVAL_MS) {
         lastRefreshTime = currentTime;
@@ -20,7 +20,7 @@ bool Display::isRefreshDue(){
 
 }
 
-void Display::displayMass(double massGrams) {
+void UserInterface::displayMass(double massGrams) {
     if (isRefreshDue()){
         _lcd.home();
         _lcd.print("     ");
@@ -31,13 +31,13 @@ void Display::displayMass(double massGrams) {
     }
 }
 
-void Display::_print(String &text) {
+void UserInterface::_print(String &text) {
     if (isRefreshDue()){
         _lcd.print(text);
     }
 }
 
-void Display::markAsStable(bool isStable) {
+void UserInterface::markAsStable(bool isStable) {
     _lcd.setCursor(0,1);
 
     if (isStable){
@@ -48,7 +48,7 @@ void Display::markAsStable(bool isStable) {
     }
 }
 
-void Display::displayMode(const String& mode){
+void UserInterface::displayMode(const String& mode){
     _lcd.setCursor(_nbrColumns-mode.length(),0);
     _lcd.print(mode);
 }
