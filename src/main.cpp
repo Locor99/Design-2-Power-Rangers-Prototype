@@ -33,7 +33,6 @@ void setup() {
     pidController.setpoint = ScaleConfig::DISTANCE_OF_BLADE_SETPOINT_MM;
 
     distanceSensor.setFilterConstant(0.75); //remove filter if not necessary
-    currentSensor.setFilterConstant(0.75); //remove filter if not necessary
 
     Scale scale(display,
                 distanceSensor,
