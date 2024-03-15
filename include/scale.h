@@ -33,9 +33,7 @@ private:
     void _executeCountMode();
     void _executeTareMode();
     void _regulateScale();
-    bool _isPositionStable(double setpointMm,
-                           double tolerancePourcentage=DEFAULT_STABILITY_POURCENTAGE,
-                           unsigned long timeRequiredInStabilityZoneMs=DEFAULT_TIME_BEFORE_STABILITY_MS);
+    bool _isPositionStable();
     double _getAbsoluteMass();
 
     UserInterface& _display;

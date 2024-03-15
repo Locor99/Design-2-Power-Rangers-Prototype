@@ -29,9 +29,7 @@ Scale::Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSens
 [[noreturn]] void Scale::executeMainLoop() {
     while (true){
         _regulateScale();
-        _display.displayStability(_isPositionStable(_pidController.setpoint,
-                                                    TOLERANCE_PERCENTAGE_FOR_STABILITY,
-                                                    TIME_REQUIRED_FOR_STABILITY_MS));
+        _display.displayStability(_isPositionStable());
         _setModeFromButtonsState();
         _display.displayMode(scaleModeToString(_mode));
         _executeActiveMode();
@@ -84,7 +82,7 @@ void Scale::_executeCountMode() {
 void Scale::_executeTareMode() {
     Serial.println("Tare en cours");
     //todo ajouter l'indicateur de stabilisation dans le tare (généraliser ça si possible)
-    while (!_isPositionStable(_pidController.setpoint)) {//todo ajouter constantes
+    while (!_isPositionStable()) {//todo ajouter constantes
         _regulateScale();
         _display.displayMass(getMassInGrams());
     }
@@ -106,18 +104,16 @@ double Scale::_getAbsoluteMass() {
     return massGrams;
 }
 
-bool Scale::_isPositionStable(double setpointMm,
-                              double tolerancePourcentage,
-                              unsigned long timeRequiredInStabilityZoneMs) {
+bool Scale::_isPositionStable() {
     double currentValue = _distanceSensor.getDistanceMm();
-    double lowerBound = setpointMm * (1.0 - tolerancePourcentage / 100.0);
-    double upperBound = setpointMm * (1.0 + tolerancePourcentage / 100.0);
+    double lowerBound = _pidController.setpoint * (1.0 - TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
+    double upperBound = _pidController.setpoint * (1.0 + TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
 
     if (currentValue >= lowerBound && currentValue <= upperBound) {
         if (_timestampFirstInsideStabilityZone == 0) {
             _timestampFirstInsideStabilityZone = millis();
         }
-        if (millis() - _timestampFirstInsideStabilityZone >= timeRequiredInStabilityZoneMs) {
+        if (millis() - _timestampFirstInsideStabilityZone >= TIME_REQUIRED_FOR_STABILITY_MS) {
             return true;
         }
     } else {
