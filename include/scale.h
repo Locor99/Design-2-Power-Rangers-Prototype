@@ -55,6 +55,8 @@ private:
     void _waitForButtonPressAndStabilization(Buttons button);
 
     bool _isRefreshDue(unsigned long &lastRefreshTime);
+
+    void _waitForStabilization();
 };
 
 

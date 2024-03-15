@@ -58,7 +58,11 @@ void UserInterface::displayMenuInstructions(String message){
 }
 
 void UserInterface:: clearMenuInstructionsZone(){
-    _clearRow(_nbrRows-1, _nbrColumns-MENU_INSTRUCTIONS_DIGITS_QUANTITY, _nbrColumns-1);
+    _clearRow(_nbrRows-1, _nbrColumns-MENU_INSTRUCTIONS_DIGITS_QUANTITY, _nbrColumns);
+}
+
+void UserInterface:: clearMassZone(){
+    _clearRow(0, 0, MASS_DISPLAY_DIGITS_QUANTITY);
 }
 
 void UserInterface::displayMode(const String& mode){

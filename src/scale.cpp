@@ -69,6 +69,7 @@ void Scale::_regulateScale() { //todo add a max frequency with Millis()
 }
 
 void Scale::_executeCalibrationMode() {
+    _display.clearMassZone();
     _display.displayMass(0);
     const double calibrationMass1 = 0;
     const double calibrationMass2 = 50;
@@ -94,6 +95,7 @@ void Scale::_executeCalibrationMode() {
         _display.clearMenuInstructionsZone();
         calibrationDone = true;
     }
+    _executeTareMode();
     _mode = ScaleModes::NORMAL;
 }
 
@@ -102,9 +104,11 @@ void Scale::_executeCountMode() {
 }
 
 void Scale::_executeTareMode() {
-    //todo ajouter l'indicateur de stabilisation dans le tare (généraliser ça si possible)
-    while (!_isPositionStable()) {//todo ajouter constantes
+    _display.clearMassZone();
+    _regulateScale();
+    while (!_isPositionStable()) {
         _regulateScale();
+        _display.displayStability(_isPositionStable());
     }
     double stableMass = _getAbsoluteMass();
     _tareMassOffset = stableMass;
@@ -154,7 +158,7 @@ void Scale::_setModeFromButtonsState(){
 }
 
 void Scale::_waitForButtonPressAndStabilization(Buttons button){
-    bool isScaleStable;
+    bool isScaleStable = false;
     while(_display.readButtons() != button or not isScaleStable) {
         _regulateScale();
         _display.displayStability(_isPositionStable());

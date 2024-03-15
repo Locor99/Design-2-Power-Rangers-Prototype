@@ -22,6 +22,7 @@ public:
     Buttons readButtons();
     void displayMenuInstructions(String message);
     void clearMenuInstructionsZone();
+    void clearMassZone();
 
 private:
     LiquidCrystal _lcd;
@@ -33,6 +34,7 @@ private:
     void print(String &text);
 
     void _clearRow(int row, unsigned int startIndex, unsigned int endIndex);
+
 };
 
 #endif //DESIGN2_PROTOTYPE_DISPLAY_H
