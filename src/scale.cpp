@@ -79,15 +79,15 @@ void Scale::_executeCalibrationMode() {
             _regulateScale();
             _display.displayStability(_isPositionStable());
         }
-        _display.displayMenuInstructions("Vider plateau");
-        _waitForButtonPressAndStabilization(Buttons::select);
-        double massVsForceX1 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getCurrent());
-
-        while(_display.readButtons() == Buttons::select){}
-
         _display.displayMenuInstructions("Ajouter 50g");
         _waitForButtonPressAndStabilization(Buttons::select);
         double massVsForceX2 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getCurrent());
+
+        while(_display.readButtons() == Buttons::select){}
+
+        _display.displayMenuInstructions("Vider plateau");
+        _waitForButtonPressAndStabilization(Buttons::select);
+        double massVsForceX1 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getCurrent());
 
         while (_display.readButtons() == Buttons::select) {}
 
