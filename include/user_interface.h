@@ -18,7 +18,7 @@ class UserInterface {
 public:
     UserInterface(LiquidCrystal &lcd, unsigned int nbrRows, unsigned int nbrColumns);
     void displayMass(double massGrams);
-    void markAsStable(bool isStable=true);
+    void displayStability(bool isStable=true);
     void displayMode(const String& mode);
     Buttons readButtons();
 

@@ -37,7 +37,7 @@ void UserInterface::_print(String &text) {
     }
 }
 
-void UserInterface::markAsStable(bool isStable) {
+void UserInterface::displayStability(bool isStable) {
     _lcd.setCursor(0,1);
 
     if (isStable){
