@@ -20,6 +20,7 @@ public:
     void displayStability(bool isStable);
     void displayMode(const String& mode);
     Buttons readButtons();
+    void displayMenuInstructions(String message);
 
 private:
     LiquidCrystal _lcd;
@@ -27,7 +28,7 @@ private:
     unsigned int _nbrRows, _nbrColumns;
 
     bool isRefreshDue();
-    void _print(String &text);
+    void print(String &text);
 
     void _clearRow(int row, unsigned int startIndex, unsigned int endIndex);
 };

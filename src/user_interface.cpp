@@ -2,6 +2,7 @@
 
 const unsigned long REFRESH_INTERVAL_MS = 250;
 const unsigned int MASS_DISPLAY_DIGITS_QUANTITY = 6;
+const unsigned int MENU_INSTRUCTIONS_DIGITS_QUANTITY = 14;
 
 UserInterface::UserInterface(LiquidCrystal &lcd, unsigned int nbrRows, unsigned int nbrColumns):
         _lcd(lcd),_nbrRows(nbrRows),_nbrColumns(nbrColumns)  {
@@ -32,7 +33,7 @@ void UserInterface::displayMass(double massGrams) {
 }
 
 
-void UserInterface::_print(String &text) {
+void UserInterface::print(String &text) {
     if (isRefreshDue()){
         _lcd.print(text);
     }
@@ -42,11 +43,17 @@ void UserInterface::displayStability(bool isStable) {
     _lcd.setCursor(0,1);
 
     if (isStable){
-        _lcd.print("======");
+        _lcd.print("==");
     }
     else{
-        _lcd.print("xxxxxx");
+        _lcd.print("xx");
     }
+}
+
+void UserInterface::displayMenuInstructions(String message){
+    _clearRow(_nbrRows-1, _nbrColumns-MENU_INSTRUCTIONS_DIGITS_QUANTITY, _nbrColumns-1);
+    _lcd.setCursor(_nbrColumns-message.length(),_nbrRows-1);
+    _lcd.print(message);
 }
 
 void UserInterface::displayMode(const String& mode){
