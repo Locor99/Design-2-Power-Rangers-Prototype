@@ -24,13 +24,12 @@ Scale::Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSens
         _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator),
         _pidController(pidController), _scaleCalibrationSlope(scaleCalibSlope), _scaleCalibrationIntercept(scaleCalibIntercept){
     _mode = ScaleModes::NORMAL;
+    _display.displayMode(scaleModeToString(_mode));
     _executeTareMode();
 }
 
 [[noreturn]] void Scale::executeMainLoop() {
     while (true){
-        _regulateScale();
-        _display.displayStability(_isPositionStable());
         _setModeFromButtonsState();
         _display.displayMode(scaleModeToString(_mode));
         _executeActiveMode();
@@ -56,6 +55,8 @@ void Scale::_executeActiveMode(){
     }
 }
 void Scale::_executeNormalMode() {
+    _regulateScale();
+    _display.displayStability(_isPositionStable());
     _display.displayMass(getMassInGrams());
 }
 
