@@ -114,7 +114,7 @@ double Scale::getMassInGrams() {
     return _getAbsoluteMass() - _tareMassOffset;
 }
 double Scale::_getAbsoluteMass() {
-    double actuatorCurrent = _actuatorCurrentSensor.getCurrent(); //todo try with filteredCurrent if necessary
+    double actuatorCurrent = _actuatorCurrentSensor.getFilteredCurrent(); //todo try with filteredCurrent if necessary
     double forceNAppliedByActuator = _actuator.getAppliedForceNFromCurrentA(actuatorCurrent);
     double massGrams = forceNAppliedByActuator * _scaleCalibrationSlope + _scaleCalibrationIntercept;
 
