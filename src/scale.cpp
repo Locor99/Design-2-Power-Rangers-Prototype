@@ -70,8 +70,8 @@ void Scale::_regulateScale() { //todo add a max frequency with Millis()
 
 void Scale::_executeCalibrationMode() {
     _display.displayMass(0);
-    const double calibationMass1 = 0;
-    const double calibationMass2 = 50;
+    const double calibrationMass1 = 0;
+    const double calibrationMass2 = 50;
     bool calibrationDone = false;
 
     while (not calibrationDone) {
@@ -89,10 +89,8 @@ void Scale::_executeCalibrationMode() {
         _waitForButtonPressAndStabilization(Buttons::select);
         double massVsForceX1 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getCurrent());
 
-        while (_display.readButtons() == Buttons::select) {}
-
-        _scaleCalibrationSlope = (calibationMass2 - calibationMass1) / (massVsForceX2 - massVsForceX1);
-        _scaleCalibrationIntercept = calibationMass1 - _scaleCalibrationSlope * massVsForceX1;
+        _scaleCalibrationSlope = (calibrationMass2 - calibrationMass1) / (massVsForceX2 - massVsForceX1);
+        _scaleCalibrationIntercept = calibrationMass1 - _scaleCalibrationSlope * massVsForceX1;
         _display.clearMenuInstructionsZone();
         calibrationDone = true;
     }
