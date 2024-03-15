@@ -44,9 +44,9 @@ void UserInterface::displayStability(bool isStable) {
         _lcd.setCursor(0, 1);
 
         if (isStable) {
-            _lcd.print("==");
+            _lcd.print(":)");
         } else {
-            _lcd.print("xx");
+            _lcd.print(":S");
         }
     }
 }
