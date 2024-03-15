@@ -50,6 +50,8 @@ private:
     constexpr static double DEFAULT_STABILITY_POURCENTAGE = 5.0;
 
     void _setModeFromButtonsState();
+
+    void _waitForButtonPressAndStabilization(Buttons button);
 };
 
 

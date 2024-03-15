@@ -159,3 +159,12 @@ void Scale::_setModeFromButtonsState(){
     }
 
 }
+
+void Scale::_waitForButtonPressAndStabilization(Buttons button){
+    bool isScaleStable;
+    while(_display.readButtons() != button or not isScaleStable) {
+        _regulateScale();
+        _display.displayStability(_isPositionStable());
+        isScaleStable = _isPositionStable();
+    }
+}
