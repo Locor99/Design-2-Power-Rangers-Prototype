@@ -29,7 +29,7 @@ private:
     unsigned int _nbrRows, _nbrColumns;
     String _lastDisplayedMode = "";
 
-    bool isRefreshDue();
+    bool isRefreshDue(unsigned long &lastRefreshTime, unsigned long interval);
     void print(String &text);
 
     void _clearRow(int row, unsigned int startIndex, unsigned int endIndex);
