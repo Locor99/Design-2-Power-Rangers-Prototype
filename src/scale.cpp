@@ -92,6 +92,7 @@ void Scale::_executeCalibrationMode() {
 
         _scaleCalibrationSlope = (calibationMass2 - calibationMass1) / (massVsForceX2 - massVsForceX1);
         _scaleCalibrationIntercept = calibationMass1 - _scaleCalibrationSlope * massVsForceX1;
+        _display.clearMenuInstructionsZone();
         calibrationDone = true;
     }
     _mode = ScaleModes::NORMAL;
@@ -106,6 +107,7 @@ void Scale::_executeTareMode() {
     while (!_isPositionStable()) {//todo ajouter constantes
         _regulateScale();
         _display.displayMass(getMassInGrams());
+        _display.displayStability(_isPositionStable());
     }
     double stableMass = _getAbsoluteMass();
     _tareMassOffset = stableMass;

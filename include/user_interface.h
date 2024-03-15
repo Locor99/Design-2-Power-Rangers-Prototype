@@ -21,10 +21,11 @@ public:
     void displayMode(const String& mode);
     Buttons readButtons();
     void displayMenuInstructions(String message);
+    void clearMenuInstructionsZone();
 
 private:
     LiquidCrystal _lcd;
-    unsigned long lastRefreshTime;
+    unsigned long _massLastRefreshTime, _modeLastRefreshTime, _stabilityLastRefreshTime;
     unsigned int _nbrRows, _nbrColumns;
 
     bool isRefreshDue();

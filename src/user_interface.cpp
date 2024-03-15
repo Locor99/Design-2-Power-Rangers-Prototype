@@ -1,8 +1,10 @@
 #include "user_interface.h"
 
-const unsigned long REFRESH_INTERVAL_MS = 250;
+const unsigned long COMMON_REFRESH_INTERVAL_MS = 250;
+const unsigned long MODE_REFRESH_INTERVAL_MS = 5;
 const unsigned int MASS_DISPLAY_DIGITS_QUANTITY = 6;
 const unsigned int MENU_INSTRUCTIONS_DIGITS_QUANTITY = 14;
+const unsigned int MODE_DIGITS_QUANTITY = 10;
 
 UserInterface::UserInterface(LiquidCrystal &lcd, unsigned int nbrRows, unsigned int nbrColumns):
         _lcd(lcd),_nbrRows(nbrRows),_nbrColumns(nbrColumns)  {
@@ -12,9 +14,9 @@ UserInterface::UserInterface(LiquidCrystal &lcd, unsigned int nbrRows, unsigned 
     _massLastRefreshTime = 0;
 
 }
-bool UserInterface::isRefreshDue(unsigned long &lastRefreshTime) {
+bool UserInterface::isRefreshDue(unsigned long &lastRefreshTime, unsigned long interval) {
     unsigned long currentTime = millis();
-    if (currentTime - lastRefreshTime >= REFRESH_INTERVAL_MS) {
+    if (currentTime - lastRefreshTime >= interval) {
         lastRefreshTime = currentTime;
         return true;
     }
@@ -23,7 +25,7 @@ bool UserInterface::isRefreshDue(unsigned long &lastRefreshTime) {
 }
 
 void UserInterface::displayMass(double massGrams) {
-    if (isRefreshDue(_massLastRefreshTime)) {
+    if (isRefreshDue(_massLastRefreshTime, COMMON_REFRESH_INTERVAL_MS)) {
         _clearRow(0, 0, MASS_DISPLAY_DIGITS_QUANTITY);
         _lcd.home();
         _lcd.print(massGrams, 1);
@@ -38,7 +40,7 @@ void UserInterface::print(String &text) {
 }
 
 void UserInterface::displayStability(bool isStable) {
-    if (isRefreshDue(_stabilityLastRefreshTime)){
+    if (isRefreshDue(_stabilityLastRefreshTime, COMMON_REFRESH_INTERVAL_MS)){
         _lcd.setCursor(0, 1);
 
         if (isStable) {
@@ -50,15 +52,21 @@ void UserInterface::displayStability(bool isStable) {
 }
 
 void UserInterface::displayMenuInstructions(String message){
-    _clearRow(_nbrRows-1, _nbrColumns-MENU_INSTRUCTIONS_DIGITS_QUANTITY, _nbrColumns-1);
+    clearMenuInstructionsZone();
     _lcd.setCursor(_nbrColumns-message.length(),_nbrRows-1);
     _lcd.print(message);
 }
 
+void UserInterface:: clearMenuInstructionsZone(){
+    _clearRow(_nbrRows-1, _nbrColumns-MENU_INSTRUCTIONS_DIGITS_QUANTITY, _nbrColumns-1);
+}
+
 void UserInterface::displayMode(const String& mode){
-    _clearRow(0,6,_nbrColumns-1);
-    _lcd.setCursor(_nbrColumns-mode.length(),0);
+    const int row = 0;
+    _clearRow(row, _nbrColumns-MODE_DIGITS_QUANTITY, _nbrColumns - 1);
+    _lcd.setCursor(_nbrColumns - mode.length(), row);
     _lcd.print(mode);
+    _lastDisplayedMode = mode;
 }
 
 void UserInterface::_clearRow(int row, unsigned int startIndex, unsigned int endIndex) {
