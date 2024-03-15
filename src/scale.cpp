@@ -2,6 +2,7 @@
 
 const unsigned int TIME_REQUIRED_FOR_STABILITY_MS = 1000;
 const unsigned int TOLERANCE_PERCENTAGE_FOR_STABILITY = 5;
+const unsigned int REGULATION_REFRESH_INTERVAL_MS = 50;
 
 String scaleModeToString(ScaleModes mode) {
     switch(mode) {
@@ -59,9 +60,11 @@ void Scale::_executeNormalMode() {
 }
 
 void Scale::_regulateScale() { //todo add a max frequency with Millis()
-    _pidController.input = _distanceSensor.getFilteredDistanceMm();
-    double voltageSentToDac = _pidController.computeOutput();
-    _actuator.setVoltage(voltageSentToDac);
+    if (_isRefreshDue(_lastRegulatedTime)) {
+        _pidController.input = _distanceSensor.getFilteredDistanceMm();
+        double voltageSentToDac = _pidController.computeOutput();
+        _actuator.setVoltage(voltageSentToDac);
+    }
 }
 
 void Scale::_executeCalibrationMode() {
@@ -158,4 +161,14 @@ void Scale::_waitForButtonPressAndStabilization(Buttons button){
         _display.displayStability(_isPositionStable());
         isScaleStable = _isPositionStable();
     }
+}
+
+bool Scale::_isRefreshDue(unsigned long &lastRefreshTime) {
+    unsigned long currentTime = millis();
+    if (currentTime - lastRefreshTime >= REGULATION_REFRESH_INTERVAL_MS) {
+        lastRefreshTime = currentTime;
+        return true;
+    }
+    return false;
+
 }

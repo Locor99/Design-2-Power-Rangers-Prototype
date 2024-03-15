@@ -48,10 +48,13 @@ private:
     unsigned long _timestampFirstInsideStabilityZone = 0;
     static const unsigned long DEFAULT_TIME_BEFORE_STABILITY_MS = 1;
     constexpr static double DEFAULT_STABILITY_POURCENTAGE = 5.0;
+    unsigned long _lastRegulatedTime = 0;
 
     void _setModeFromButtonsState();
 
     void _waitForButtonPressAndStabilization(Buttons button);
+
+    bool _isRefreshDue(unsigned long &lastRefreshTime);
 };
 
 
