@@ -64,50 +64,43 @@ void Scale::_regulateScale() { //todo add a max frequency with Millis()
     _actuator.setVoltage(voltageSentToDac);
 }
 
-void Scale::_executeCalibrationMode() { //todo clean
+void Scale::_executeCalibrationMode() {
     _display.displayMass(0);
+    const double calibationMass1 = 0;
+    const double calibationMass2 = 50;
     bool calibrationDone = false;
-    while (not calibrationDone){
-        Serial.println("calib 1");
-        while(_display.readButtons() == Buttons::left){
-            Serial.println("calib 2");
+
+    while (not calibrationDone) {
+        while (_display.readButtons() == Buttons::left) {
             _regulateScale();
             _display.displayStability(_isPositionStable());
-        };
+        }
 
         bool isScaleStable = false;
-        while(_display.readButtons() != Buttons::select or not isScaleStable){ // avec un 0g
-            Serial.println("calib 3");
+        while(_display.readButtons() != Buttons::select or not isScaleStable) {
             _regulateScale();
             _display.displayStability(_isPositionStable());
             isScaleStable = _isPositionStable();
         }
         double massVsForceX1 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getCurrent());
 
-        while(_display.readButtons() == Buttons::select){
-            Serial.println("calib 4");
-        };
+        while(_display.readButtons() == Buttons::select){}
 
         isScaleStable = false;
-        while(_display.readButtons() != Buttons::select or not isScaleStable){ // avec un 50g
-            Serial.println("calib 5");
+        while(_display.readButtons() != Buttons::select or not isScaleStable) {
             _regulateScale();
             _display.displayStability(_isPositionStable());
             isScaleStable = _isPositionStable();
         }
-        while(_display.readButtons() == Buttons::select){
-            Serial.println("calib 6");
-        };
-
         double massVsForceX2 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getCurrent());
 
-        _scaleCalibrationSlope = (50-0)/(massVsForceX2-massVsForceX1);//todo clean
-        _scaleCalibrationIntercept = 0 - _scaleCalibrationSlope * massVsForceX1;
+        while (_display.readButtons() == Buttons::select) {}
+
+        _scaleCalibrationSlope = (calibationMass2 - calibationMass1) / (massVsForceX2 - massVsForceX1);
+        _scaleCalibrationIntercept = calibationMass1 - _scaleCalibrationSlope * massVsForceX1;
         calibrationDone = true;
     }
-    Serial.println("calib 7");
     _mode = ScaleModes::NORMAL;
-
 }
 
 void Scale::_executeCountMode() {
