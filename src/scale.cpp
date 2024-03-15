@@ -44,6 +44,7 @@ void Scale::_executeActiveMode(){
             break;
         case ScaleModes::TARE :
             _executeTareMode();
+            _mode = ScaleModes::NORMAL;
             break;
         case ScaleModes::CALIBRATION :
             _executeCalibrationMode();
@@ -57,13 +58,13 @@ void Scale::_executeNormalMode() {
     _display.displayMass(getMassInGrams());
 }
 
-void Scale::_regulateScale() {
+void Scale::_regulateScale() { //todo add a max frequency with Millis()
     _pidController.input = _distanceSensor.getFilteredDistanceMm();
     double voltageSentToDac = _pidController.computeOutput();
     _actuator.setVoltage(voltageSentToDac);
 }
 
-void Scale::_executeCalibrationMode() {
+void Scale::_executeCalibrationMode() { //todo clean
     _display.displayMass(0);
     bool calibrationDone = false;
     while (not calibrationDone){
@@ -71,6 +72,7 @@ void Scale::_executeCalibrationMode() {
 
         calibrationDone = true;
     }
+    Serial.println("calib 7");
     _mode = ScaleModes::NORMAL;
 
 }
@@ -80,7 +82,6 @@ void Scale::_executeCountMode() {
 }
 
 void Scale::_executeTareMode() {
-    Serial.println("Tare en cours");
     //todo ajouter l'indicateur de stabilisation dans le tare (généraliser ça si possible)
     while (!_isPositionStable()) {//todo ajouter constantes
         _regulateScale();
@@ -88,9 +89,6 @@ void Scale::_executeTareMode() {
     }
     double stableMass = _getAbsoluteMass();
     _tareMassOffset = stableMass;
-    Serial.println("Tare complété");
-    _mode = ScaleModes::NORMAL;
-
 }
 
 double Scale::getMassInGrams() {
