@@ -10,7 +10,6 @@ enum class Buttons {
     down,
     left,
     right,
-    reset,
     none
 };
 

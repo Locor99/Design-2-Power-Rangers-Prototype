@@ -70,5 +70,5 @@ Buttons UserInterface::readButtons() {
     if (adc_key_in < 450) return Buttons::down;
     if (adc_key_in < 650) return Buttons::left;
     if (adc_key_in < 850) return Buttons::select;
-    return Buttons::reset;
+    return Buttons::none;
 }
