@@ -29,9 +29,9 @@ Scale::Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSens
 [[noreturn]] void Scale::executeMainLoop() {
     while (true){
         _regulateScale();
-        _display.markAsStable(_isPositionStable(_pidController.setpoint,
-                                                TOLERANCE_PERCENTAGE_FOR_STABILITY,
-                                                TIME_REQUIRED_FOR_STABILITY_MS));
+        _display.displayStability(_isPositionStable(_pidController.setpoint,
+                                                    TOLERANCE_PERCENTAGE_FOR_STABILITY,
+                                                    TIME_REQUIRED_FOR_STABILITY_MS));
         _setModeFromButtonsState();
         _display.displayMode(scaleModeToString(_mode));
         _executeActiveMode();
