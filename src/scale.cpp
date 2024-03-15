@@ -76,22 +76,12 @@ void Scale::_executeCalibrationMode() {
             _display.displayStability(_isPositionStable());
         }
 
-        bool isScaleStable = false;
-        while(_display.readButtons() != Buttons::select or not isScaleStable) {
-            _regulateScale();
-            _display.displayStability(_isPositionStable());
-            isScaleStable = _isPositionStable();
-        }
+        _waitForButtonPressAndStabilization(Buttons::select);
         double massVsForceX1 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getCurrent());
 
         while(_display.readButtons() == Buttons::select){}
 
-        isScaleStable = false;
-        while(_display.readButtons() != Buttons::select or not isScaleStable) {
-            _regulateScale();
-            _display.displayStability(_isPositionStable());
-            isScaleStable = _isPositionStable();
-        }
+        _waitForButtonPressAndStabilization(Buttons::select);
         double massVsForceX2 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getCurrent());
 
         while (_display.readButtons() == Buttons::select) {}
