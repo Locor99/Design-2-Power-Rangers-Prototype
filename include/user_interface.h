@@ -27,6 +27,7 @@ private:
     LiquidCrystal _lcd;
     unsigned long _massLastRefreshTime, _modeLastRefreshTime, _stabilityLastRefreshTime;
     unsigned int _nbrRows, _nbrColumns;
+    String _lastDisplayedMode = "";
 
     bool isRefreshDue();
     void print(String &text);

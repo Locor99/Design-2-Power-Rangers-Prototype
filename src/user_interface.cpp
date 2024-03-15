@@ -62,11 +62,13 @@ void UserInterface:: clearMenuInstructionsZone(){
 }
 
 void UserInterface::displayMode(const String& mode){
-    const int row = 0;
-    _clearRow(row, _nbrColumns-MODE_DIGITS_QUANTITY, _nbrColumns - 1);
-    _lcd.setCursor(_nbrColumns - mode.length(), row);
-    _lcd.print(mode);
-    _lastDisplayedMode = mode;
+    if (_lastDisplayedMode != mode){
+        const int row = 0;
+        _clearRow(row, _nbrColumns-MODE_DIGITS_QUANTITY, _nbrColumns - 1);
+        _lcd.setCursor(_nbrColumns - mode.length(), row);
+        _lcd.print(mode);
+        _lastDisplayedMode = mode;
+    }
 }
 
 void UserInterface::_clearRow(int row, unsigned int startIndex, unsigned int endIndex) {
