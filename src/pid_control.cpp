@@ -8,8 +8,6 @@ PidController::PidController(double kp, double ki, double kd, int direction)
 
 double PidController::computeOutput() {
     _pid.Compute();
-    Serial.println("output dac:");
-    Serial.println(output);
     return output;
 }
 

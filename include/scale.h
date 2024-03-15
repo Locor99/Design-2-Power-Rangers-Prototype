@@ -8,7 +8,6 @@
 #include "pid_control.h"
 #include "current_sensor.h"
 
-
 enum class ScaleModes {
     NORMAL,
     TARE,
@@ -19,7 +18,7 @@ enum class ScaleModes {
 class Scale {
 public:
     Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
-          PidController &pidController);
+          PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept);
     void executeMainLoop();
     void executeNormalMode();
     void calibrate();
@@ -28,6 +27,7 @@ public:
 
 private:
     void _regulateScale();
+    double _calculateMassOnScale();
 
     Display& _display;
     DistanceSensor& _distanceSensor;
@@ -35,6 +35,8 @@ private:
     Actuator& _actuator;
     PidController& _pidController;
     ScaleModes _mode;
+    double _scaleCalibrationSlope; // Ratio between the force applied by actuator (N) and the mass on the scale (g)
+    double _scaleCalibrationIntercept;
 };
 
 

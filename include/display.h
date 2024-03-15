@@ -8,10 +8,13 @@
 class Display {
 public:
     explicit Display(LiquidCrystal &lcd);
-    void displayMass(double mass);
+    void displayMass(double massGrams);
     void print(String &text);
 private:
     LiquidCrystal _lcd;
+    unsigned long lastRefreshTime;
+
+    bool isRefreshDue();
 };
 
 #endif //DESIGN2_PROTOTYPE_DISPLAY_H

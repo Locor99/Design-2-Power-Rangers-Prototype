@@ -7,11 +7,10 @@
 #include "pid_control.h"
 #include "current_sensor.h"
 #include "LiquidCrystal.h"
-#include "pid_control.h"
 
-const double KP = 0.2;
-const double KI = 0.4;
-const double KD = 0.003;
+const double KP = 0.03;
+const double KI = 0.06;
+const double KD = 0.0005;
 
 void setup() {
     Serial.begin(115200);
@@ -28,14 +27,21 @@ void setup() {
     DacMCP4725 dac;
     Actuator actuator(dac);
 
-    PidController pidController(KP, KI, KD, REVERSE);
-    pidController.setOutputLimits(ActuatorConfig::MIN_VOLTAGE_INPUT, 2.5);
-    pidController.setpoint = 1.92;//todo add real value
-    distanceSensor.setFilterConstant(0.2);
-    currentSensor.setFilterConstant(0.01);
-    //todo remove print in PID lib
-    Scale scale(display, distanceSensor, currentSensor, actuator, pidController);
+    PidController pidController(KP, KI, KD, DIRECT);
+    pidController.setOutputLimits(ActuatorConfig::MIN_VOLTAGE_INPUT, ActuatorConfig::MAX_VOLTAGE_INPUT);
+    pidController.setpoint = ScaleConfig::DISTANCE_OF_BLADE_SETPOINT_MM;
 
+    distanceSensor.setFilterConstant(0.75); //remove filter if not necessary
+    currentSensor.setFilterConstant(0.75); //remove filter if not necessary
+
+
+    Scale scale(display,
+                distanceSensor,
+                currentSensor,
+                actuator,
+                pidController,
+                ScaleConfig::FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_SLOPE,
+                ScaleConfig::FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_INTERCEPT);
 
     scale.executeMainLoop();
 }

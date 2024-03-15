@@ -13,18 +13,18 @@ struct ArduinoConfig {
 };
 
 struct DistanceSensorConfig {
-    constexpr static const double DISTANCE_MM_VS_VOLTAGE_SLOPE = 1;  // todo add real value
-    constexpr static const double DISTANCE_MM_VS_VOLTAGE_INTERCEPT = 0;  //todo add real value
+    constexpr static const double DISTANCE_MM_VS_VOLTAGE_SLOPE = -4.05;
+    constexpr static const double DISTANCE_MM_VS_VOLTAGE_INTERCEPT = 19.84;
 };
 
 struct CurrentSensorConfig {
-    constexpr static const double CURRENT_VS_VOLTAGE_SLOPE = 1.36;  // todo add real value
-    constexpr static const double CURRENT_VS_VOLTAGE_INTERCEPT = 0.11;  // todo add real value
+    constexpr static const double CURRENT_VS_VOLTAGE_SLOPE = 0.7120;
+    constexpr static const double CURRENT_VS_VOLTAGE_INTERCEPT = -0.0317;
 };
 
 struct ActuatorConfig {
-    constexpr static const double MIN_VOLTAGE_INPUT = 0;  // todo add real value
-    constexpr static const double MAX_VOLTAGE_INPUT = 2.5;  // todo add real value
+    constexpr static const double MIN_VOLTAGE_INPUT = 0;
+    constexpr static const double MAX_VOLTAGE_INPUT = 2.45;
 };
 
 struct LcdScreenConfig{
@@ -39,7 +39,10 @@ struct LcdScreenConfig{
 };
 
 struct ScaleConfig{
-    constexpr static const double DISTANCE_SENSOR_TO_BLADE_MM = 50;  // todo add real value
+    constexpr static const double DISTANCE_OF_BLADE_SETPOINT_MM = 15;
+    constexpr static const double FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_SLOPE = 93.3033;
+    constexpr static const double FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_INTERCEPT = -4.5091;
+
 };
 
 #endif // HARDWARECONFIG_H
