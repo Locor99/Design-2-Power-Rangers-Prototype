@@ -9,10 +9,10 @@ UserInterface::UserInterface(LiquidCrystal &lcd, unsigned int nbrRows, unsigned 
 
     _lcd.begin(_nbrColumns, _nbrRows);
     _lcd.clear();
-    lastRefreshTime = 0;
+    _massLastRefreshTime = 0;
 
 }
-bool UserInterface::isRefreshDue(){
+bool UserInterface::isRefreshDue(unsigned long &lastRefreshTime) {
     unsigned long currentTime = millis();
     if (currentTime - lastRefreshTime >= REFRESH_INTERVAL_MS) {
         lastRefreshTime = currentTime;
@@ -23,30 +23,29 @@ bool UserInterface::isRefreshDue(){
 }
 
 void UserInterface::displayMass(double massGrams) {
-    if (isRefreshDue()){
-        _clearRow(0,0,MASS_DISPLAY_DIGITS_QUANTITY);
+    if (isRefreshDue(_massLastRefreshTime)) {
+        _clearRow(0, 0, MASS_DISPLAY_DIGITS_QUANTITY);
         _lcd.home();
         _lcd.print(massGrams, 1);
-        _lcd.setCursor(MASS_DISPLAY_DIGITS_QUANTITY-1,0);
+        _lcd.setCursor(MASS_DISPLAY_DIGITS_QUANTITY - 1, 0);
         _lcd.print("g");
     }
 }
 
 
 void UserInterface::print(String &text) {
-    if (isRefreshDue()){
-        _lcd.print(text);
-    }
+    _lcd.print(text);
 }
 
 void UserInterface::displayStability(bool isStable) {
-    _lcd.setCursor(0,1);
+    if (isRefreshDue(_stabilityLastRefreshTime)){
+        _lcd.setCursor(0, 1);
 
-    if (isStable){
-        _lcd.print("==");
-    }
-    else{
-        _lcd.print("xx");
+        if (isStable) {
+            _lcd.print("==");
+        } else {
+            _lcd.print("xx");
+        }
     }
 }
 
