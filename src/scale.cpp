@@ -10,7 +10,7 @@ String scaleModeToString(ScaleModes mode) {
         case ScaleModes::TARE:
             return "TARE";
         case ScaleModes::CALIBRATION:
-            return "CALIBRATION";
+            return "CALIB";
         case ScaleModes::COUNT:
             return "COUNT";
         default:
@@ -38,6 +38,7 @@ Scale::Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSens
     }
 
 }
+
 void Scale::_executeActiveMode(){
     switch(_mode) {
         case ScaleModes::NORMAL:
@@ -65,6 +66,14 @@ void Scale::_regulateScale() {
 }
 
 void Scale::_executeCalibrationMode() {
+    _display.displayMass(0);
+    bool calibrationDone = false;
+    while (not calibrationDone){
+        _regulateScale();
+
+        calibrationDone = true;
+    }
+    _mode = ScaleModes::NORMAL;
 
 }
 
@@ -123,6 +132,8 @@ void Scale::_setModeFromButtonsState(){
         case Buttons::select:
             _mode = ScaleModes::TARE;
             break;
+        case Buttons::left:
+            _mode = ScaleModes::CALIBRATION;
         default:
             break;
     }

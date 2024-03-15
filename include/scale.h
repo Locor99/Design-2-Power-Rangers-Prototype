@@ -44,7 +44,7 @@ private:
     Actuator& _actuator;
     PidController& _pidController;
     ScaleModes _mode;
-    double _scaleCalibrationSlope; // Ratio between the force applied by actuator (N) and the mass on the scale (g)
+    double _scaleCalibrationSlope; // Ratio between the mass on the scale (g) and the force applied by actuator (N)
     double _scaleCalibrationIntercept;
     double _tareMassOffset = 0.0;
     unsigned long _timestampFirstInsideStabilityZone = 0;
