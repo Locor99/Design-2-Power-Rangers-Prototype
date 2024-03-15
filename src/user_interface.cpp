@@ -1,6 +1,7 @@
 #include "user_interface.h"
 
 const unsigned long REFRESH_INTERVAL_MS = 250;
+const unsigned int MASS_DISPLAY_DIGITS_QUANTITY = 6;
 
 UserInterface::UserInterface(LiquidCrystal &lcd, unsigned int nbrRows, unsigned int nbrColumns):
         _lcd(lcd),_nbrRows(nbrRows),_nbrColumns(nbrColumns)  {
@@ -22,14 +23,14 @@ bool UserInterface::isRefreshDue(){
 
 void UserInterface::displayMass(double massGrams) {
     if (isRefreshDue()){
-        _lcd.home();
-        _lcd.print("     ");//todo use clearRow method
+        _clearRow(0,0,MASS_DISPLAY_DIGITS_QUANTITY);
         _lcd.home();
         _lcd.print(massGrams, 1);
-        _lcd.setCursor(5,0);
+        _lcd.setCursor(MASS_DISPLAY_DIGITS_QUANTITY-1,0);
         _lcd.print("g");
     }
 }
+
 
 void UserInterface::_print(String &text) {
     if (isRefreshDue()){
@@ -56,7 +57,7 @@ void UserInterface::displayMode(const String& mode){
 
 void UserInterface::_clearRow(int row, unsigned int startIndex, unsigned int endIndex) {
     _lcd.setCursor(startIndex, row);
-    for (unsigned int i = startIndex; i < _nbrColumns; i++) {
+    for (unsigned int i = startIndex; i < endIndex; i++) {
         _lcd.print(" ");
     }
 }
