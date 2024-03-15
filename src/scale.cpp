@@ -24,7 +24,7 @@ Scale::Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSens
         _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator),
         _pidController(pidController), _scaleCalibrationSlope(scaleCalibSlope), _scaleCalibrationIntercept(scaleCalibIntercept){
     _mode = ScaleModes::NORMAL;
-    _display.displayMode(scaleModeToString(_mode));
+    _display.displayMode("Demarrage");
     _executeTareMode();
 }
 
@@ -107,8 +107,6 @@ void Scale::_executeTareMode() {
     //todo ajouter l'indicateur de stabilisation dans le tare (généraliser ça si possible)
     while (!_isPositionStable()) {//todo ajouter constantes
         _regulateScale();
-        _display.displayMass(getMassInGrams());
-        _display.displayStability(_isPositionStable());
     }
     double stableMass = _getAbsoluteMass();
     _tareMassOffset = stableMass;
