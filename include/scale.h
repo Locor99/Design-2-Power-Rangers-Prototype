@@ -20,8 +20,9 @@ String scaleModeToString(ScaleModes mode);
 class Scale {
     constexpr static size_t STABILITY_BUFFER_SIZE = 10;
 public:
-    Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
-          PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept);
+    Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor,
+          Actuator &actuator, PidController &positionRegulator, PidController &currentRegulator,
+          double scaleCalibSlope, double scaleCalibIntercept);
     double getMassInGrams();
 
     [[noreturn]] void executeMainLoop();
@@ -40,7 +41,8 @@ private:
     DistanceSensor& _distanceSensor;
     CurrentSensor& _actuatorCurrentSensor;
     Actuator& _actuator;
-    PidController& _pidController;
+    PidController& _positionRegulator;
+    PidController& _currentRegulator;
     ScaleModes _mode;
     double _scaleCalibrationSlope; // Ratio between the mass on the scale (g) and the force applied by actuator (N)
     double _scaleCalibrationIntercept;
