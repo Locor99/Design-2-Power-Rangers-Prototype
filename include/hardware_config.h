@@ -24,7 +24,7 @@ struct CurrentSensorConfig {
 
 struct ActuatorConfig {
     constexpr static const double MIN_VOLTAGE_INPUT_ON_AMPLI = 0;
-    constexpr static const double MAX_VOLTAGE_INPUT_ON_AMPLI = 2.45;
+    constexpr static const double MAX_VOLTAGE_INPUT_ON_AMPLI = 4.08;
     constexpr static const double MIN_CURRENT_INPUT_ON_AMPLI = 0;
     constexpr static const double MAX_CURRENT_INPUT_ON_AMPLI = 3;
 };
