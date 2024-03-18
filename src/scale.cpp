@@ -118,6 +118,8 @@ void Scale::_executeCalibrationMode() {
 void Scale::_executeCountMode() {
     int numberOfParts = 0;
 
+    _executeTareMode();
+
     while (_display.readButtons() == Buttons::up) {
         _regulateScale();
         _display.displayStability(_isPositionStable());
