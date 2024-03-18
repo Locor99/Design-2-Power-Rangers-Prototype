@@ -9,9 +9,13 @@
 #include "LiquidCrystal.h"
 #include "pid_control.h"
 
-const double KP = 0.2;
-const double KI = 0.4;
-const double KD = 0.003;
+const double POSITION_PID_KP = 0.03;
+const double POSITION_PID_KI = 0.06;
+const double POSITION_PID_KD = 0.0005;
+
+const double CURRENT_PID_KP = 0.1;
+const double CURRENT_PID_KI = 0;
+const double CURRENT_PID_KD= 0;
 
 void setup() {
     Serial.begin(115200);
@@ -28,9 +32,12 @@ void setup() {
     DacMCP4725 dac;
     Actuator actuator(dac);
 
-    PidController pidController(KP, KI, KD, DIRECT);
-    pidController.setOutputLimits(ActuatorConfig::MIN_VOLTAGE_INPUT, ActuatorConfig::MAX_VOLTAGE_INPUT);
-    pidController.setpoint = ScaleConfig::DISTANCE_OF_BLADE_SETPOINT_MM;
+    PidController positionRegulator(POSITION_PID_KP, POSITION_PID_KI, POSITION_PID_KD, DIRECT);
+    positionRegulator.setOutputLimits(ActuatorConfig::MIN_CURRENT_INPUT_ON_AMPLI, ActuatorConfig::MAX_CURRENT_INPUT_ON_AMPLI);
+    positionRegulator.setpoint = ScaleConfig::DISTANCE_OF_BLADE_SETPOINT_MM;
+
+    PidController currentRegulator(CURRENT_PID_KP, CURRENT_PID_KI, CURRENT_PID_KD, DIRECT);
+    currentRegulator.setOutputLimits(ActuatorConfig::MIN_VOLTAGE_INPUT_ON_AMPLI, ActuatorConfig::MAX_VOLTAGE_INPUT_ON_AMPLI);
 
     distanceSensor.setFilterConstant(0.75); //remove filter if not necessary
     currentSensor.setFilterConstant(1); //remove filter if not necessary
@@ -39,7 +46,7 @@ void setup() {
                 distanceSensor,
                 currentSensor,
                 actuator,
-                pidController,
+                positionRegulator,
                 ScaleConfig::FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_SLOPE,
                 ScaleConfig::FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_INTERCEPT);
 
