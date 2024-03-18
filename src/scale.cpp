@@ -7,13 +7,13 @@ const unsigned int REGULATION_REFRESH_INTERVAL_MS = 10;
 String scaleModeToString(ScaleModes mode) {
     switch(mode) {
         case ScaleModes::NORMAL:
-            return "NORMAL";
+            return "Pesee";
         case ScaleModes::TARE:
-            return "TARE";
+            return "Zero";
         case ScaleModes::CALIBRATION:
-            return "CALIB";
+            return "Etalon.";
         case ScaleModes::COUNT:
-            return "COUNT";
+            return "Comptage";
         default:
             return "UNKNOWN";
     }
@@ -123,7 +123,7 @@ void Scale::_executeCountMode() {
         _display.displayStability(_isPositionStable());
         _display.displayMass(getMassInGrams());
     }
-    _display.displayMenuInstructions("Inserer modele");
+    _display.displayMenuInstructions("Placer modele");
     while(_display.readButtons() != Buttons::select){
         _regulateScale();
         _display.displayMass(getMassInGrams());
@@ -150,6 +150,7 @@ void Scale::_executeCountMode() {
         _display.displayMass(mass);
     }
     _display.clearMenuInstructionsZone();
+    _mode = ScaleModes::NORMAL;
 }
 
 void Scale::_executeTareMode() {
