@@ -76,8 +76,11 @@ void Scale::_executeNormalMode() {
 void Scale::_regulateScale() { //todo add a max frequency with Millis()
     if (_isRefreshDue(_lastRegulatedTime)) {
         _positionRegulator.input = _distanceSensor.getFilteredDistanceMm();
-        double voltageSentToDac = _positionRegulator.computeOutput();
-        _actuator.setVoltage(voltageSentToDac);
+
+        _currentRegulator.setpoint = _positionRegulator.computeOutput();
+        _currentRegulator.input = _actuatorCurrentSensor.getCurrent(); //todo filter this or nah..?
+
+        _actuator.setVoltage(_currentRegulator.computeOutput());
     }
 }
 
