@@ -12,8 +12,8 @@ const double POSITION_PID_KP = 0.5;
 const double POSITION_PID_KI = 0;
 const double POSITION_PID_KD = 0;
 
-const double CURRENT_PID_KP = 0.1;
-const double CURRENT_PID_KI = 0;
+const double CURRENT_PID_KP = 0.75;
+const double CURRENT_PID_KI = 1;
 const double CURRENT_PID_KD= 0;
 
 void regulate(CurrentSensor& currentSensor,
@@ -42,19 +42,10 @@ void setup() {
     const unsigned long periodTime = 3000;
     unsigned long lastTime;
 
+    currentRegulator.setpoint = 1;
+
     while(true){
-
-        currentRegulator.setpoint = 1;
-        lastTime = millis();
-        while(millis() < lastTime + periodTime){
-            regulate(currentSensor, currentRegulator, dac);
-        }
-
-        currentRegulator.setpoint = 2;
-        lastTime = millis();
-        while(millis() > lastTime + periodTime){
-            regulate(currentSensor, currentRegulator, dac);
-        }
+        regulate(currentSensor, currentRegulator, dac);
     }
 }
 
