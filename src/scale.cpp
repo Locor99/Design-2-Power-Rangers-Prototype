@@ -19,10 +19,23 @@ String scaleModeToString(ScaleModes mode) {
     }
 }
 
-Scale::Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
-             PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept) :
-        _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator),
-        _pidController(pidController), _scaleCalibrationConstant(scaleCalibRatio){
+Scale::Scale(UserInterface &display,
+             DistanceSensor &distanceSensor,
+             CurrentSensor &currentSensor,
+             Actuator &actuator,
+             PidController &positionRegulator,
+             PidController &currentRegulator,
+             double scaleCalibSlope,
+             double scaleCalibIntercept) :
+        _display(display),
+        _distanceSensor(distanceSensor),
+        _actuatorCurrentSensor(currentSensor),
+        _actuator(actuator),
+        _positionRegulator(positionRegulator),
+        _currentRegulator(currentRegulator),
+        _scaleCalibrationSlope(scaleCalibSlope),
+        _scaleCalibrationIntercept(scaleCalibIntercept){
+
     _mode = ScaleModes::NORMAL;
     _display.displayMode("Demarrage");
     _executeTareMode();
@@ -62,8 +75,8 @@ void Scale::_executeNormalMode() {
 
 void Scale::_regulateScale() { //todo add a max frequency with Millis()
     if (_isRefreshDue(_lastRegulatedTime)) {
-        _pidController.input = _distanceSensor.getFilteredDistanceMm();
-        double voltageSentToDac = _pidController.computeOutput();
+        _positionRegulator.input = _distanceSensor.getFilteredDistanceMm();
+        double voltageSentToDac = _positionRegulator.computeOutput();
         _actuator.setVoltage(voltageSentToDac);
     }
 }
@@ -127,8 +140,8 @@ double Scale::_getAbsoluteMass() {
 
 bool Scale::_isPositionStable() {
     double currentValue = _distanceSensor.getDistanceMm();
-    double lowerBound = _pidController.setpoint * (1.0 - TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
-    double upperBound = _pidController.setpoint * (1.0 + TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
+    double lowerBound = _positionRegulator.setpoint * (1.0 - TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
+    double upperBound = _positionRegulator.setpoint * (1.0 + TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
 
     if (currentValue >= lowerBound && currentValue <= upperBound) {
         if (_timestampFirstInsideStabilityZone == 0) {
