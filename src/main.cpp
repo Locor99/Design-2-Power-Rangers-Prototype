@@ -10,11 +10,11 @@
 #include "pid_control.h"
 
 const double POSITION_PID_KP = 0.03;
-const double POSITION_PID_KI = 0.06;
-const double POSITION_PID_KD = 0.0005;
+const double POSITION_PID_KI = 0.05;
+const double POSITION_PID_KD = 0;
 
 const double CURRENT_PID_KP = 0.2;
-const double CURRENT_PID_KI = 3;
+const double CURRENT_PID_KI = 2.5;
 const double CURRENT_PID_KD= 0.008;
 
 void setup() {
