@@ -45,7 +45,18 @@ void setup() {
     currentRegulator.setpoint = 1;
 
     while(true){
-        regulate(currentSensor, currentRegulator, dac);
+
+        currentRegulator.setpoint = 1;
+        lastTime = millis();
+        while(millis() < lastTime + periodTime){
+            regulate(currentSensor, currentRegulator, dac);
+        }
+
+        currentRegulator.setpoint = 2;
+        lastTime = millis();
+        while(millis() < lastTime + periodTime){
+            regulate(currentSensor, currentRegulator, dac);
+        }
     }
 }
 
