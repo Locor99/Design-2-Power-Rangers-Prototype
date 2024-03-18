@@ -1,6 +1,6 @@
 #include "scale.h"
 
-const unsigned int TIME_REQUIRED_FOR_STABILITY_MS = 1000;
+const unsigned int TIME_REQUIRED_FOR_STABILITY_MS = 1500;
 const unsigned int TOLERANCE_PERCENTAGE_FOR_STABILITY = 5;
 const unsigned int REGULATION_REFRESH_INTERVAL_MS = 10;
 
@@ -113,6 +113,9 @@ void Scale::_executeCalibrationMode() {
     }
     _executeTareMode();
     _mode = ScaleModes::NORMAL;
+    Serial.println("calibration:");
+    Serial.println(_scaleCalibrationSlope);
+    Serial.println(_scaleCalibrationIntercept);
 }
 
 void Scale::_executeCountMode() {
