@@ -2,7 +2,7 @@
 
 const unsigned int TIME_REQUIRED_FOR_STABILITY_MS = 1000;
 const unsigned int TOLERANCE_PERCENTAGE_FOR_STABILITY = 5;
-const unsigned int REGULATION_REFRESH_INTERVAL_MS = 50;
+const unsigned int REGULATION_REFRESH_INTERVAL_MS = 10;
 
 String scaleModeToString(ScaleModes mode) {
     switch(mode) {
