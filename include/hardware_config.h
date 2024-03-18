@@ -42,8 +42,8 @@ struct LcdScreenConfig{
 
 struct ScaleConfig{
     constexpr static const double DISTANCE_OF_BLADE_SETPOINT_MM = 15;
-    constexpr static const double FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_SLOPE = 95.16;
-    constexpr static const double FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_INTERCEPT = -17.26;
+    constexpr static const double FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_SLOPE = 92.83;
+    constexpr static const double FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_INTERCEPT = -19.60;
 
 };
 
