@@ -21,13 +21,13 @@ void regulate(CurrentSensor& currentSensor,
               DacMCP4725 &dac){
     double current = currentSensor.getCurrent();
     currentRegulator.input = current;
-    Serial.println("courant:");
-    Serial.println(current);
+    //Serial.println("courant:");
+    //Serial.println(current);
 
     double voltageToDac = currentRegulator.computeOutput();
     dac.setOutputVoltage(voltageToDac);
-    Serial.println("Tension dac:");
-    Serial.println(voltageToDac);
+    //Serial.println("Tension dac:");
+    //Serial.println(voltageToDac);
 }
 
 void setup() {
