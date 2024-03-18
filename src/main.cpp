@@ -40,7 +40,7 @@ void setup() {
     currentRegulator.setOutputLimits(ActuatorConfig::MIN_VOLTAGE_INPUT_ON_AMPLI, ActuatorConfig::MAX_VOLTAGE_INPUT_ON_AMPLI);
 
     distanceSensor.setFilterConstant(0.75); //remove filter if not necessary
-    currentSensor.setFilterConstant(0.75); //remove filter if not necessary
+    currentSensor.setFilterConstant(0.001); //remove filter if not necessary
 
     Scale scale(display,
                 distanceSensor,
