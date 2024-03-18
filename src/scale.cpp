@@ -129,7 +129,7 @@ void Scale::_executeCountMode() {
         _display.displayMass(getMassInGrams());
         _display.displayStability(_isPositionStable());
 
-        if(_display.readButtons() == Buttons::down){
+        if(_display.readButtons() == Buttons::left){
             _executeTareMode();
         }
     }
@@ -196,10 +196,10 @@ bool Scale::_isPositionStable() {
 void Scale::_setModeFromButtonsState(){
     Buttons button = _display.readButtons();
     switch(button) {
-        case Buttons::select:
+        case Buttons::left:
             _mode = ScaleModes::TARE;
             break;
-        case Buttons::left:
+        case Buttons::down:
             _mode = ScaleModes::CALIBRATION;
             break;
         case Buttons::up:
