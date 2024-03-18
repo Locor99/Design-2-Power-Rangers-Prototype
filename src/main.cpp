@@ -12,9 +12,9 @@ const double POSITION_PID_KP = 0.5;
 const double POSITION_PID_KI = 0;
 const double POSITION_PID_KD = 0;
 
-const double CURRENT_PID_KP = 0.75;
-const double CURRENT_PID_KI = 1;
-const double CURRENT_PID_KD= 0;
+const double CURRENT_PID_KP = 0.2;
+const double CURRENT_PID_KI = 3;
+const double CURRENT_PID_KD= 0.008;
 
 void regulate(CurrentSensor& currentSensor,
               PidController& currentRegulator,
@@ -39,7 +39,7 @@ void setup() {
                                 CurrentSensorConfig::CURRENT_VS_VOLTAGE_SLOPE,
                                 CurrentSensorConfig::CURRENT_VS_VOLTAGE_INTERCEPT);
 
-    const unsigned long periodTime = 3000;
+    const unsigned long periodTime = 5000;
     unsigned long lastTime;
 
     currentRegulator.setpoint = 1;
