@@ -116,7 +116,40 @@ void Scale::_executeCalibrationMode() {
 }
 
 void Scale::_executeCountMode() {
+    int numberOfParts = 0;
 
+    while (_display.readButtons() == Buttons::up) {
+        _regulateScale();
+        _display.displayStability(_isPositionStable());
+        _display.displayMass(getMassInGrams());
+    }
+    _display.displayMenuInstructions("Inserer modele");
+    while(_display.readButtons() != Buttons::select){
+        _regulateScale();
+        _display.displayMass(getMassInGrams());
+        _display.displayStability(_isPositionStable());
+
+        if(_display.readButtons() == Buttons::down){
+            _executeTareMode();
+        }
+    }
+    double modelUnitMass = getMassInGrams();
+
+    while(_display.readButtons() == Buttons::select){}
+    _display.clearMenuInstructionsZone();
+
+    while(_display.readButtons() != Buttons::select){
+        _regulateScale();
+
+        double mass = getMassInGrams();
+        numberOfParts = lround(mass/modelUnitMass);
+        if (numberOfParts<0){
+            numberOfParts=0;
+        }
+        _display.displayMenuInstructions(String(numberOfParts));
+        _display.displayMass(mass);
+    }
+    _display.clearMenuInstructionsZone();
 }
 
 void Scale::_executeTareMode() {
@@ -167,6 +200,10 @@ void Scale::_setModeFromButtonsState(){
             break;
         case Buttons::left:
             _mode = ScaleModes::CALIBRATION;
+            break;
+        case Buttons::up:
+            _mode = ScaleModes::COUNT;
+            break;
         default:
             break;
     }
