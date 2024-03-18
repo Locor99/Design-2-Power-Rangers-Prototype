@@ -8,11 +8,11 @@
 #include "current_sensor.h"
 #include "LiquidCrystal.h"
 
-const double POSITION_PID_KP = 0.03;
-const double POSITION_PID_KI = 0.06;
-const double POSITION_PID_KD = 0.0005;
+const double POSITION_PID_KP = 0.5;
+const double POSITION_PID_KI = 0;
+const double POSITION_PID_KD = 0;
 
-const double CURRENT_PID_KP = 0.01;
+const double CURRENT_PID_KP = 0.1;
 const double CURRENT_PID_KI = 0;
 const double CURRENT_PID_KD= 0;
 
