@@ -1,65 +1,177 @@
 #include "scale.h"
 
-Scale::Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
+const unsigned int TIME_REQUIRED_FOR_STABILITY_MS = 1000;
+const unsigned int TOLERANCE_PERCENTAGE_FOR_STABILITY = 5;
+const unsigned int REGULATION_REFRESH_INTERVAL_MS = 50;
+
+String scaleModeToString(ScaleModes mode) {
+    switch(mode) {
+        case ScaleModes::NORMAL:
+            return "NORMAL";
+        case ScaleModes::TARE:
+            return "TARE";
+        case ScaleModes::CALIBRATION:
+            return "CALIB";
+        case ScaleModes::COUNT:
+            return "COUNT";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+Scale::Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
              PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept) :
         _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator),
         _pidController(pidController), _scaleCalibrationSlope(scaleCalibSlope), _scaleCalibrationIntercept(scaleCalibIntercept){
     _mode = ScaleModes::NORMAL;
+    _display.displayMode("Demarrage");
+    _executeTareMode();
 }
 
-void Scale::executeMainLoop() {
+[[noreturn]] void Scale::executeMainLoop() {
     while (true){
-        switch(_mode) {
-            case ScaleModes::NORMAL:
-                executeNormalMode();
-                break;
-            case ScaleModes::TARE :
-                tare();
-                break;
-            case ScaleModes::CALIBRATION :
-                calibrate();
-                break;
-            case ScaleModes::COUNT :
-                execute_count_mode();
-                break;
-        }
-        delay(10);
-        // todo get the mode
+        _setModeFromButtonsState();
+        _display.displayMode(scaleModeToString(_mode));
+        _executeActiveMode();
     }
 
 }
 
-void Scale::executeNormalMode() {
+void Scale::_executeActiveMode(){
+    switch(_mode) {
+        case ScaleModes::NORMAL:
+            _executeNormalMode();
+            break;
+        case ScaleModes::TARE :
+            _executeTareMode();
+            _mode = ScaleModes::NORMAL;
+            break;
+        case ScaleModes::CALIBRATION :
+            _executeCalibrationMode();
+            break;
+        case ScaleModes::COUNT :
+            _executeCountMode();
+            break;
+    }
+}
+void Scale::_executeNormalMode() {
     _regulateScale();
-    double mass = _calculateMassOnScale();
-    _display.displayMass(mass);
+    _display.displayStability(_isPositionStable());
+    _display.displayMass(getMassInGrams());
 }
 
-void Scale::_regulateScale() {
-    _pidController.input = _distanceSensor.getFilteredDistanceMm();
-    double voltageSentToDac = _pidController.computeOutput();
-    _actuator.setVoltage(voltageSentToDac);
+void Scale::_regulateScale() { //todo add a max frequency with Millis()
+    if (_isRefreshDue(_lastRegulatedTime)) {
+        _pidController.input = _distanceSensor.getFilteredDistanceMm();
+        double voltageSentToDac = _pidController.computeOutput();
+        _actuator.setVoltage(voltageSentToDac);
+    }
 }
 
-void Scale::calibrate() {
+void Scale::_executeCalibrationMode() {
+    _display.clearMassZone();
+    _display.displayMass(0);
+    const double calibrationMass1 = 0;
+    const double calibrationMass2 = 50;
+    bool calibrationDone = false;
+
+    while (not calibrationDone) {
+        while (_display.readButtons() == Buttons::left) {
+            _regulateScale();
+            _display.displayStability(_isPositionStable());
+        }
+        _display.displayMenuInstructions("Ajouter 50g");
+        _waitForButtonPressAndStabilization(Buttons::select);
+        double massVsForceX2 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getCurrent());
+
+        while(_display.readButtons() == Buttons::select){}
+
+        _display.displayMenuInstructions("Vider plateau");
+        _waitForButtonPressAndStabilization(Buttons::select);
+        double massVsForceX1 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getCurrent());
+
+        _scaleCalibrationSlope = (calibrationMass2 - calibrationMass1) / (massVsForceX2 - massVsForceX1);
+        _scaleCalibrationIntercept = calibrationMass1 - _scaleCalibrationSlope * massVsForceX1;
+        _display.clearMenuInstructionsZone();
+        calibrationDone = true;
+    }
+    _executeTareMode();
+    _mode = ScaleModes::NORMAL;
+}
+
+void Scale::_executeCountMode() {
 
 }
 
-void Scale::execute_count_mode() {
-
+void Scale::_executeTareMode() {
+    _display.clearMassZone();
+    _regulateScale();
+    while (!_isPositionStable()) {
+        _regulateScale();
+        _display.displayStability(_isPositionStable());
+    }
+    double stableMass = _getAbsoluteMass();
+    _tareMassOffset = stableMass;
 }
 
-void Scale::tare() {
-
+double Scale::getMassInGrams() {
+    return _getAbsoluteMass() - _tareMassOffset;
 }
-
-double Scale::_calculateMassOnScale() {
-    double actuatorCurrent = _actuatorCurrentSensor.getCurrent(); //todo try with filteredCurrent if necessary
+double Scale::_getAbsoluteMass() {
+    double actuatorCurrent = _actuatorCurrentSensor.getFilteredCurrent(); //todo try with filteredCurrent if necessary
     double forceNAppliedByActuator = _actuator.getAppliedForceNFromCurrentA(actuatorCurrent);
     double massGrams = forceNAppliedByActuator * _scaleCalibrationSlope + _scaleCalibrationIntercept;
 
-    if (massGrams<0){
-        return 0;
-    }
     return massGrams;
+}
+
+bool Scale::_isPositionStable() {
+    double currentValue = _distanceSensor.getDistanceMm();
+    double lowerBound = _pidController.setpoint * (1.0 - TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
+    double upperBound = _pidController.setpoint * (1.0 + TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
+
+    if (currentValue >= lowerBound && currentValue <= upperBound) {
+        if (_timestampFirstInsideStabilityZone == 0) {
+            _timestampFirstInsideStabilityZone = millis();
+        }
+        if (millis() - _timestampFirstInsideStabilityZone >= TIME_REQUIRED_FOR_STABILITY_MS) {
+            return true;
+        }
+    } else {
+        _timestampFirstInsideStabilityZone = 0;
+    }
+    return false;
+}
+
+void Scale::_setModeFromButtonsState(){
+    Buttons button = _display.readButtons();
+    switch(button) {
+        case Buttons::select:
+            _mode = ScaleModes::TARE;
+            break;
+        case Buttons::left:
+            _mode = ScaleModes::CALIBRATION;
+        default:
+            break;
+    }
+
+}
+
+void Scale::_waitForButtonPressAndStabilization(Buttons button){
+    bool isScaleStable = false;
+    while(_display.readButtons() != button or not isScaleStable) {
+        _regulateScale();
+        _display.displayStability(_isPositionStable());
+        isScaleStable = _isPositionStable();
+    }
+}
+
+bool Scale::_isRefreshDue(unsigned long &lastRefreshTime) {
+    unsigned long currentTime = millis();
+    if (currentTime - lastRefreshTime >= REGULATION_REFRESH_INTERVAL_MS) {
+        lastRefreshTime = currentTime;
+        return true;
+    }
+    return false;
+
 }

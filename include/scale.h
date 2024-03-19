@@ -1,7 +1,7 @@
 #ifndef DESIGN2_PROTOTYPE_SCALE_H
 #define DESIGN2_PROTOTYPE_SCALE_H
 
-#include "display.h"
+#include "user_interface.h"
 #include "DistanceSensor.h"
 #include "hardware_config.h"
 #include "Actuator.h"
@@ -15,28 +15,48 @@ enum class ScaleModes {
     COUNT
 };
 
+String scaleModeToString(ScaleModes mode);
+
 class Scale {
+    constexpr static size_t STABILITY_BUFFER_SIZE = 10;
 public:
-    Scale(Display &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
+    Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
           PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept);
-    void executeMainLoop();
-    void executeNormalMode();
-    void calibrate();
-    void execute_count_mode();
-    void tare();
+    double getMassInGrams();
+
+    [[noreturn]] void executeMainLoop();
 
 private:
+    void _executeActiveMode();
+    void _executeNormalMode();
+    void _executeCalibrationMode();
+    void _executeCountMode();
+    void _executeTareMode();
     void _regulateScale();
-    double _calculateMassOnScale();
+    bool _isPositionStable();
+    double _getAbsoluteMass();
 
-    Display& _display;
+    UserInterface& _display;
     DistanceSensor& _distanceSensor;
     CurrentSensor& _actuatorCurrentSensor;
     Actuator& _actuator;
     PidController& _pidController;
     ScaleModes _mode;
-    double _scaleCalibrationSlope; // Ratio between the force applied by actuator (N) and the mass on the scale (g)
+    double _scaleCalibrationSlope; // Ratio between the mass on the scale (g) and the force applied by actuator (N)
     double _scaleCalibrationIntercept;
+    double _tareMassOffset = 0.0;
+    unsigned long _timestampFirstInsideStabilityZone = 0;
+    static const unsigned long DEFAULT_TIME_BEFORE_STABILITY_MS = 1;
+    constexpr static double DEFAULT_STABILITY_POURCENTAGE = 5.0;
+    unsigned long _lastRegulatedTime = 0;
+
+    void _setModeFromButtonsState();
+
+    void _waitForButtonPressAndStabilization(Buttons button);
+
+    bool _isRefreshDue(unsigned long &lastRefreshTime);
+
+    void _waitForStabilization();
 };
 
 

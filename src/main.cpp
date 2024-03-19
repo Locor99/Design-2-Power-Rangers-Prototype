@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "Scale.h"
-#include "display.h"
+#include "user_interface.h"
 #include "DistanceSensor.h"
 #include "Actuator.h"
 #include "hardware_config.h"
@@ -17,7 +17,7 @@ void setup() {
     LiquidCrystal lcd(LcdScreenConfig::RS_ARDUINO_PIN, LcdScreenConfig::E_ARDUINO_PIN,
                       LcdScreenConfig::D4_ARDUINO_PIN, LcdScreenConfig::D5_ARDUINO_PIN,
                       LcdScreenConfig::D6_ARDUINO_PIN, LcdScreenConfig::D7_ARDUINO_PIN);
-    Display display(lcd);
+    UserInterface display(lcd, LcdScreenConfig::NBR_ROWS, LcdScreenConfig::NBR_COLUMNS);
     DistanceSensor distanceSensor(ArduinoConfig::DISTANCE_SENSOR_PIN,
                                   DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_SLOPE,
                                   DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_INTERCEPT);
@@ -32,7 +32,7 @@ void setup() {
     pidController.setpoint = ScaleConfig::DISTANCE_OF_BLADE_SETPOINT_MM;
 
     distanceSensor.setFilterConstant(0.75); //remove filter if not necessary
-    currentSensor.setFilterConstant(0.75); //remove filter if not necessary
+    currentSensor.setFilterConstant(1); //remove filter if not necessary
 
 
     Scale scale(display,
