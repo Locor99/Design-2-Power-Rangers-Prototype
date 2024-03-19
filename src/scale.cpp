@@ -7,13 +7,13 @@ const unsigned int REGULATION_REFRESH_INTERVAL_MS = 10;
 String scaleModeToString(ScaleModes mode) {
     switch(mode) {
         case ScaleModes::NORMAL:
-            return "NORMAL";
+            return "Pesee";
         case ScaleModes::TARE:
-            return "TARE";
+            return "Zero";
         case ScaleModes::CALIBRATION:
-            return "CALIB";
+            return "Etalon.";
         case ScaleModes::COUNT:
-            return "COUNT";
+            return "Comptage";
         default:
             return "UNKNOWN";
     }
@@ -116,7 +116,43 @@ void Scale::_executeCalibrationMode() {
 }
 
 void Scale::_executeCountMode() {
+    int numberOfParts = 0;
 
+    _executeTareMode();
+
+    while (_display.readButtons() == Buttons::up) {
+        _regulateScale();
+        _display.displayStability(_isPositionStable());
+        _display.displayMass(getMassInGrams());
+    }
+    _display.displayMenuInstructions("Placer modele");
+    while(_display.readButtons() != Buttons::select){
+        _regulateScale();
+        _display.displayMass(getMassInGrams());
+        _display.displayStability(_isPositionStable());
+
+        if(_display.readButtons() == Buttons::left){
+            _executeTareMode();
+        }
+    }
+    double modelUnitMass = getMassInGrams();
+
+    while(_display.readButtons() == Buttons::select){}
+    _display.clearMenuInstructionsZone();
+
+    while(_display.readButtons() != Buttons::select){
+        _regulateScale();
+
+        double mass = getMassInGrams();
+        numberOfParts = lround(mass/modelUnitMass);
+        if (numberOfParts<0){
+            numberOfParts=0;
+        }
+        _display.displayMenuInstructions(String(numberOfParts));
+        _display.displayMass(mass);
+    }
+    _display.clearMenuInstructionsZone();
+    _mode = ScaleModes::NORMAL;
 }
 
 void Scale::_executeTareMode() {
@@ -162,11 +198,15 @@ bool Scale::_isPositionStable() {
 void Scale::_setModeFromButtonsState(){
     Buttons button = _display.readButtons();
     switch(button) {
-        case Buttons::select:
+        case Buttons::left:
             _mode = ScaleModes::TARE;
             break;
-        case Buttons::left:
+        case Buttons::down:
             _mode = ScaleModes::CALIBRATION;
+            break;
+        case Buttons::up:
+            _mode = ScaleModes::COUNT;
+            break;
         default:
             break;
     }

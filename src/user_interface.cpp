@@ -52,9 +52,11 @@ void UserInterface::displayStability(bool isStable) {
 }
 
 void UserInterface::displayMenuInstructions(String message){
-    clearMenuInstructionsZone();
-    _lcd.setCursor(_nbrColumns-message.length(),_nbrRows-1);
-    _lcd.print(message);
+    if (isRefreshDue(_menuInstructionLastRefreshTime, COMMON_REFRESH_INTERVAL_MS)) {
+        clearMenuInstructionsZone();
+        _lcd.setCursor(_nbrColumns - message.length(), _nbrRows - 1);
+        _lcd.print(message);
+    }
 }
 
 void UserInterface:: clearMenuInstructionsZone(){
