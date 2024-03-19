@@ -3,8 +3,7 @@ import time
 import tkinter as tk
 from tkinter import scrolledtext
 
-from pc_arduino_serial_interface import \
-    PcArduinoSerialInterface  # Assurez-vous que cette classe est bien définie ou intégrez son code ici
+from pc_arduino_serial_interface import PcArduinoSerialInterface
 
 
 class ArduinoDataGUI:
@@ -21,7 +20,7 @@ class ArduinoDataGUI:
 
         # Démarrer un thread pour lire les données en arrière-plan
         self.running = True
-        self.thread = threading.Thread(target=self.read_serial_data)
+        self.thread = threading.Thread(target=self.read_serial_data, daemon=True)
         self.thread.start()
 
         # Assurer que le thread s'arrête lorsque l'interface est fermée
@@ -31,9 +30,19 @@ class ArduinoDataGUI:
         while self.running:
             data = self.serial_interface.read_data()
             if data:
-                self.display_data(data)
-            time.sleep(0.1)
+                # Appeler display_data dans le thread principal
+                self.text_area.after(0, self.display_data, data)
+            time.sleep(0.001)
 
     def display_data(self, data):
-        pass
-        # Utiliser la méthode after pour effectuer
+        # Afficher les données dans le widget text_area
+        self.text_area.insert(tk.END, data + "\n")
+        # Auto-scroll
+        self.text_area.see(tk.END)
+
+    def on_closing(self):
+        """Arrêter proprement le thread et fermer la connexion série avant de fermer la fenêtre."""
+        self.running = False
+        self.thread.join()
+        self.serial_interface.close()
+        self.master.destroy()
