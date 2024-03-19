@@ -8,7 +8,9 @@ void setup() {
 
     while (true){
         bool state = digitalRead(2);
-        pcArduinoSerial.sendBool(state);
-        delay(10);
+        double analogInputState = analogRead(A0);
+        //pcArduinoSerial.sendBool(state);
+        Serial.println("{\"Mass\":"+String(analogInputState)+"}");
+        delay(100);
     }
 }

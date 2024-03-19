@@ -1,7 +1,6 @@
 import threading
 import time
 import tkinter as tk
-from tkinter import scrolledtext
 
 from pc_arduino_serial_interface import PcArduinoSerialInterface
 
@@ -13,10 +12,11 @@ class ArduinoDataGUI:
         self.serial_interface = PcArduinoSerialInterface(self.port)
         self.master.title("Arduino Data Viewer")
 
-        # Création d'un widget Text pour afficher les données
-        self.text_area = scrolledtext.ScrolledText(master, wrap=tk.WORD, width=40, height=10)
-        self.text_area.pack(padx=10, pady=10)
-        self.text_area.insert(tk.INSERT, "Waiting for data...\n")
+        self.mass_string = tk.StringVar()
+        self.isStable = tk.BooleanVar()
+
+        self.mass_label = tk.Label(master, textvariable=self.mass_string)
+        self.mass_label.pack(padx=10, pady=10)
 
         # Démarrer un thread pour lire les données en arrière-plan
         self.running = True
@@ -31,14 +31,11 @@ class ArduinoDataGUI:
             data = self.serial_interface.read_data()
             if data:
                 # Appeler display_data dans le thread principal
-                self.text_area.after(0, self.display_data, data)
+                self.mass_label.after(0, self.display_mass, data)
             time.sleep(0.001)
 
-    def display_data(self, data):
-        # Afficher les données dans le widget text_area
-        self.text_area.insert(tk.END, data + "\n")
-        # Auto-scroll
-        self.text_area.see(tk.END)
+    def display_mass(self, mass):
+        self.mass_string.set(f"{str(mass)} g")
 
     def on_closing(self):
         """Arrêter proprement le thread et fermer la connexion série avant de fermer la fenêtre."""
