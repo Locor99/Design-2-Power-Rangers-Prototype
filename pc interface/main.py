@@ -1,36 +1,22 @@
-import time
+import tkinter as tk
 
-import serial
-
-
-class PcArduinoSerialInterface:
-    def __init__(self, port, baudrate=9600):
-        self.ser = serial.Serial(port, baudrate)
-        time.sleep(2)  # Attendre que la connexion soit établie
-
-    def send_command(self, command):
-        self.ser.write((command + "\n").encode())
-
-    def read_data(self):
-        if self.ser.in_waiting > 0:
-            return self.ser.readline().decode().strip()
-        return None
-
-    def close(self):
-        self.ser.close()
+from pc_interface_gui import ArduinoDataGUI
 
 
-# Exemple d'utilisation
+def main():
+    # Créer la fenêtre principale de Tkinter
+    root = tk.Tk()
+
+    # Ajustez le port COM selon votre configuration
+    port = "COM3"  # Sur Windows
+    # port = "/dev/ttyUSB0"  # Sur Linux
+    # port = "/dev/tty.SLAB_USBtoUART"  # Sur MacOS
+
+    app = ArduinoDataGUI(root, port)
+
+    # Lancer la boucle principale de Tkinter
+    root.mainloop()
+
+
 if __name__ == "__main__":
-    interface = PcArduinoSerialInterface('COM3')  # Ajustez le port COM
-    try:
-        while True:
-            data = interface.read_data()
-            if data:
-                print("Received from Arduino:", data)
-            # Pour envoyer des commandes, utilisez :
-            # interface.send_command("votre_commande")
-            time.sleep(0.001)
-    except KeyboardInterrupt:
-        interface.close()
-        print("Programme terminé.")
+    main()
