@@ -35,6 +35,7 @@ private:
 
     void _clearRow(int row, unsigned int startIndex, unsigned int endIndex);
 
+    void _sendDataToPC(const String &data);
 };
 
 #endif //DESIGN2_PROTOTYPE_DISPLAY_H

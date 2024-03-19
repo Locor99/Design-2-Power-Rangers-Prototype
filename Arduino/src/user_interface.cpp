@@ -32,6 +32,8 @@ void UserInterface::displayMass(double massGrams) {
         _lcd.setCursor(MASS_DISPLAY_DIGITS_QUANTITY - 1, 0);
         _lcd.print("g");
     }
+
+    _sendDataToPC("Mass:" + String(massGrams));
 }
 
 
@@ -91,4 +93,8 @@ Buttons UserInterface::readButtons() {
     if (adc_key_in < 650) return Buttons::left;
     if (adc_key_in < 850) return Buttons::select;
     return Buttons::none;
+}
+
+void UserInterface::_sendDataToPC(const String& data) {
+    Serial.println(data);
 }
