@@ -7,7 +7,6 @@
 #include "pid_control.h"
 #include "current_sensor.h"
 #include "LiquidCrystal.h"
-#include "pid_control.h"
 
 const double POSITION_PID_KP = 0.03;
 const double POSITION_PID_KI = 0.05;

@@ -8,9 +8,6 @@
 #include "pid_control.h"
 #include "current_sensor.h"
 
-static const double GRAVITY_ACCELERATION = 9.81;
-static const double DEFAULT_SCALE_CALIB = GRAVITY_ACCELERATION*1000;
-
 enum class ScaleModes {
     NORMAL,
     TARE,
@@ -21,7 +18,6 @@ enum class ScaleModes {
 String scaleModeToString(ScaleModes mode);
 
 class Scale {
-    constexpr static size_t STABILITY_BUFFER_SIZE = 10;
 public:
     Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor,
           Actuator &actuator, PidController &positionRegulator, PidController &currentRegulator,

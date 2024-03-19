@@ -73,7 +73,7 @@ void Scale::_executeNormalMode() {
     _display.displayMass(getMassInGrams());
 }
 
-void Scale::_regulateScale() { //todo add a max frequency with Millis()
+void Scale::_regulateScale() {
     if (_isRefreshDue(_lastRegulatedTime)) {
         _positionRegulator.input = _distanceSensor.getFilteredDistanceMm();
 
@@ -113,9 +113,6 @@ void Scale::_executeCalibrationMode() {
     }
     _executeTareMode();
     _mode = ScaleModes::NORMAL;
-    Serial.println("calibration:");
-    Serial.println(_scaleCalibrationSlope);
-    Serial.println(_scaleCalibrationIntercept);
 }
 
 void Scale::_executeCountMode() {
