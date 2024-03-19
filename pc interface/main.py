@@ -1,16 +1,36 @@
-# This is a sample Python script.
+import time
 
-# Press Maj+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import serial
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+class PcArduinoSerialInterface:
+    def __init__(self, port, baudrate=9600):
+        self.ser = serial.Serial(port, baudrate)
+        time.sleep(2)  # Attendre que la connexion soit établie
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    def send_command(self, command):
+        self.ser.write((command + "\n").encode())
+
+    def read_data(self):
+        if self.ser.in_waiting > 0:
+            return self.ser.readline().decode().strip()
+        return None
+
+    def close(self):
+        self.ser.close()
+
+
+# Exemple d'utilisation
+if __name__ == "__main__":
+    interface = PcArduinoSerialInterface('COM3')  # Ajustez le port COM
+    try:
+        while True:
+            data = interface.read_data()
+            if data:
+                print("Received from Arduino:", data)
+            # Pour envoyer des commandes, utilisez :
+            # interface.send_command("votre_commande")
+            time.sleep(0.001)
+    except KeyboardInterrupt:
+        interface.close()
+        print("Programme terminé.")
