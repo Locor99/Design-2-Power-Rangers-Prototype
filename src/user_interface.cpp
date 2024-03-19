@@ -1,6 +1,6 @@
 #include "user_interface.h"
 
-const unsigned long COMMON_REFRESH_INTERVAL_MS = 250;
+const unsigned long COMMON_REFRESH_INTERVAL_MS = 400;
 const unsigned long MODE_REFRESH_INTERVAL_MS = 5;
 const unsigned int MASS_DISPLAY_DIGITS_QUANTITY = 6;
 const unsigned int MENU_INSTRUCTIONS_DIGITS_QUANTITY = 14;

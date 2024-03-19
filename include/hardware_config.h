@@ -23,8 +23,10 @@ struct CurrentSensorConfig {
 };
 
 struct ActuatorConfig {
-    constexpr static const double MIN_VOLTAGE_INPUT = 0;
-    constexpr static const double MAX_VOLTAGE_INPUT = 4.08;
+    constexpr static const double MIN_VOLTAGE_INPUT_ON_AMPLI = 0;
+    constexpr static const double MAX_VOLTAGE_INPUT_ON_AMPLI = 4.08;
+    constexpr static const double MIN_CURRENT_INPUT_ON_AMPLI = 0;
+    constexpr static const double MAX_CURRENT_INPUT_ON_AMPLI = 3;
 };
 
 struct LcdScreenConfig{
@@ -40,8 +42,8 @@ struct LcdScreenConfig{
 
 struct ScaleConfig{
     constexpr static const double DISTANCE_OF_BLADE_SETPOINT_MM = 15;
-    constexpr static const double FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_SLOPE = 95.16;
-    constexpr static const double FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_INTERCEPT = -17.26;
+    constexpr static const double FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_SLOPE = 92.83;
+    constexpr static const double FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_INTERCEPT = -19.60;
 
 };
 

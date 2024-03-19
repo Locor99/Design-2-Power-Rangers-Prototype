@@ -1,8 +1,8 @@
 #include "scale.h"
 
-const unsigned int TIME_REQUIRED_FOR_STABILITY_MS = 1000;
+const unsigned int TIME_REQUIRED_FOR_STABILITY_MS = 1500;
 const unsigned int TOLERANCE_PERCENTAGE_FOR_STABILITY = 5;
-const unsigned int REGULATION_REFRESH_INTERVAL_MS = 50;
+const unsigned int REGULATION_REFRESH_INTERVAL_MS = 10;
 
 String scaleModeToString(ScaleModes mode) {
     switch(mode) {
@@ -19,10 +19,23 @@ String scaleModeToString(ScaleModes mode) {
     }
 }
 
-Scale::Scale(UserInterface &display, DistanceSensor &distanceSensor, CurrentSensor &currentSensor, Actuator &actuator,
-             PidController &pidController, double scaleCalibSlope, double scaleCalibIntercept) :
-        _display(display), _distanceSensor(distanceSensor), _actuatorCurrentSensor(currentSensor), _actuator(actuator),
-        _pidController(pidController), _scaleCalibrationSlope(scaleCalibSlope), _scaleCalibrationIntercept(scaleCalibIntercept){
+Scale::Scale(UserInterface &display,
+             DistanceSensor &distanceSensor,
+             CurrentSensor &currentSensor,
+             Actuator &actuator,
+             PidController &positionRegulator,
+             PidController &currentRegulator,
+             double scaleCalibSlope,
+             double scaleCalibIntercept) :
+        _display(display),
+        _distanceSensor(distanceSensor),
+        _actuatorCurrentSensor(currentSensor),
+        _actuator(actuator),
+        _positionRegulator(positionRegulator),
+        _currentRegulator(currentRegulator),
+        _scaleCalibrationSlope(scaleCalibSlope),
+        _scaleCalibrationIntercept(scaleCalibIntercept){
+
     _mode = ScaleModes::NORMAL;
     _display.displayMode("Demarrage");
     _executeTareMode();
@@ -60,11 +73,14 @@ void Scale::_executeNormalMode() {
     _display.displayMass(getMassInGrams());
 }
 
-void Scale::_regulateScale() { //todo add a max frequency with Millis()
+void Scale::_regulateScale() {
     if (_isRefreshDue(_lastRegulatedTime)) {
-        _pidController.input = _distanceSensor.getFilteredDistanceMm();
-        double voltageSentToDac = _pidController.computeOutput();
-        _actuator.setVoltage(voltageSentToDac);
+        _positionRegulator.input = _distanceSensor.getFilteredDistanceMm();
+
+        _currentRegulator.setpoint = _positionRegulator.computeOutput();
+        _currentRegulator.input = _actuatorCurrentSensor.getCurrent(); //todo filter this or nah..?
+
+        _actuator.setVoltage(_currentRegulator.computeOutput());
     }
 }
 
@@ -118,7 +134,7 @@ double Scale::getMassInGrams() {
     return _getAbsoluteMass() - _tareMassOffset;
 }
 double Scale::_getAbsoluteMass() {
-    double actuatorCurrent = _actuatorCurrentSensor.getFilteredCurrent(); //todo try with filteredCurrent if necessary
+    double actuatorCurrent = _actuatorCurrentSensor.getCurrent(); //todo try with filteredCurrent if necessary
     double forceNAppliedByActuator = _actuator.getAppliedForceNFromCurrentA(actuatorCurrent);
     double massGrams = forceNAppliedByActuator * _scaleCalibrationSlope + _scaleCalibrationIntercept;
 
@@ -127,8 +143,8 @@ double Scale::_getAbsoluteMass() {
 
 bool Scale::_isPositionStable() {
     double currentValue = _distanceSensor.getDistanceMm();
-    double lowerBound = _pidController.setpoint * (1.0 - TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
-    double upperBound = _pidController.setpoint * (1.0 + TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
+    double lowerBound = _positionRegulator.setpoint * (1.0 - TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
+    double upperBound = _positionRegulator.setpoint * (1.0 + TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
 
     if (currentValue >= lowerBound && currentValue <= upperBound) {
         if (_timestampFirstInsideStabilityZone == 0) {
