@@ -37,7 +37,7 @@ private:
     bool _isPositionStable();
     double _getAbsoluteMass();
 
-    UserInterface& _display;
+    UserInterface& _userInterface;
     DistanceSensor& _distanceSensor;
     CurrentSensor& _actuatorCurrentSensor;
     Actuator& _actuator;

@@ -27,7 +27,7 @@ Scale::Scale(UserInterface &display,
              PidController &currentRegulator,
              double scaleCalibSlope,
              double scaleCalibIntercept) :
-        _display(display),
+        _userInterface(display),
         _distanceSensor(distanceSensor),
         _actuatorCurrentSensor(currentSensor),
         _actuator(actuator),
@@ -38,14 +38,14 @@ Scale::Scale(UserInterface &display,
 
     _mode = ScaleModes::NORMAL;
     _unit = Units::GRAMS;
-    _display.displayMode("Demarrage");
+    _userInterface.displayMode("Demarrage");
     _executeTareMode();
 }
 
 [[noreturn]] void Scale::executeMainLoop() {
     while (true){
         _setModeFromButtonsState();
-        _display.displayMode(scaleModeToString(_mode));
+        _userInterface.displayMode(scaleModeToString(_mode));
         _executeActiveMode();
     }
 
@@ -70,8 +70,8 @@ void Scale::_executeActiveMode(){
 }
 void Scale::_executeNormalMode() {
     _regulateScale();
-    _display.displayStability(_isPositionStable());
-    _display.displayMass(getMassInGrams());
+    _userInterface.displayStability(_isPositionStable());
+    _userInterface.displayMass(getMassInGrams());
 }
 
 void Scale::_regulateScale() {
@@ -86,30 +86,30 @@ void Scale::_regulateScale() {
 }
 
 void Scale::_executeCalibrationMode() {
-    _display.clearMassZone();
-    _display.displayMass(0);
+    _userInterface.clearMassZone();
+    _userInterface.displayMass(0);
     const double calibrationMass1 = 0;
     const double calibrationMass2 = 50;
     bool calibrationDone = false;
 
     while (not calibrationDone) {
-        while (_display.readButtons() == Buttons::left) {
+        while (_userInterface.readButtons() == Buttons::left) {
             _regulateScale();
-            _display.displayStability(_isPositionStable());
+            _userInterface.displayStability(_isPositionStable());
         }
-        _display.displayMenuInstructions("Ajouter 50g");
+        _userInterface.displayMenuInstructions("Ajouter 50g");
         _waitForButtonPressAndStabilization(Buttons::select);
         double massVsForceX2 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getCurrent());
 
-        while(_display.readButtons() == Buttons::select){}
+        while(_userInterface.readButtons() == Buttons::select){}
 
-        _display.displayMenuInstructions("Vider plateau");
+        _userInterface.displayMenuInstructions("Vider plateau");
         _waitForButtonPressAndStabilization(Buttons::select);
         double massVsForceX1 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getCurrent());
 
         _scaleCalibrationSlope = (calibrationMass2 - calibrationMass1) / (massVsForceX2 - massVsForceX1);
         _scaleCalibrationIntercept = calibrationMass1 - _scaleCalibrationSlope * massVsForceX1;
-        _display.clearMenuInstructionsZone();
+        _userInterface.clearMenuInstructionsZone();
         calibrationDone = true;
     }
     _executeTareMode();
@@ -121,27 +121,27 @@ void Scale::_executeCountMode() {
 
     _executeTareMode();
 
-    while (_display.readButtons() == Buttons::up) {
+    while (_userInterface.readButtons() == Buttons::up) {
         _regulateScale();
-        _display.displayStability(_isPositionStable());
-        _display.displayMass(getMassInGrams());
+        _userInterface.displayStability(_isPositionStable());
+        _userInterface.displayMass(getMassInGrams());
     }
-    _display.displayMenuInstructions("Placer modele");
-    while(_display.readButtons() != Buttons::select){
+    _userInterface.displayMenuInstructions("Placer modele");
+    while(_userInterface.readButtons() != Buttons::select){
         _regulateScale();
-        _display.displayMass(getMassInGrams());
-        _display.displayStability(_isPositionStable());
+        _userInterface.displayMass(getMassInGrams());
+        _userInterface.displayStability(_isPositionStable());
 
-        if(_display.readButtons() == Buttons::left){
+        if(_userInterface.readButtons() == Buttons::left){
             _executeTareMode();
         }
     }
     double modelUnitMass = getMassInGrams();
 
-    while(_display.readButtons() == Buttons::select){}
-    _display.clearMenuInstructionsZone();
+    while(_userInterface.readButtons() == Buttons::select){}
+    _userInterface.clearMenuInstructionsZone();
 
-    while(_display.readButtons() != Buttons::select){
+    while(_userInterface.readButtons() != Buttons::select){
         _regulateScale();
 
         double mass = getMassInGrams();
@@ -149,19 +149,19 @@ void Scale::_executeCountMode() {
         if (numberOfParts<0){
             numberOfParts=0;
         }
-        _display.displayMenuInstructions(String(numberOfParts));
-        _display.displayMass(mass);
+        _userInterface.displayMenuInstructions(String(numberOfParts));
+        _userInterface.displayMass(mass);
     }
-    _display.clearMenuInstructionsZone();
+    _userInterface.clearMenuInstructionsZone();
     _mode = ScaleModes::NORMAL;
 }
 
 void Scale::_executeTareMode() {
-    _display.clearMassZone();
+    _userInterface.clearMassZone();
     _regulateScale();
     while (!_isPositionStable()) {
         _regulateScale();
-        _display.displayStability(_isPositionStable());
+        _userInterface.displayStability(_isPositionStable());
     }
     double stableMass = _getAbsoluteMass();
     _tareMassOffset = stableMass;
@@ -197,7 +197,7 @@ bool Scale::_isPositionStable() {
 }
 
 void Scale::_setModeFromButtonsState(){
-    Buttons button = _display.readButtons();
+    Buttons button = _userInterface.readButtons();
     switch(button) {
         case Buttons::left:
             _mode = ScaleModes::TARE;
@@ -216,9 +216,9 @@ void Scale::_setModeFromButtonsState(){
 
 void Scale::_waitForButtonPressAndStabilization(Buttons button){
     bool isScaleStable = false;
-    while(_display.readButtons() != button or not isScaleStable) {
+    while(_userInterface.readButtons() != button or not isScaleStable) {
         _regulateScale();
-        _display.displayStability(_isPositionStable());
+        _userInterface.displayStability(_isPositionStable());
         isScaleStable = _isPositionStable();
     }
 }
@@ -234,7 +234,7 @@ bool Scale::_isRefreshDue(unsigned long &lastRefreshTime) {
 }
 
 void Scale:: _setUnitsFromButtonState(){
-    if(_display.readButtons() == Buttons::right){
+    if(_userInterface.readButtons() == Buttons::right){
         if (_unit == Units::GRAMS){
             _unit = Units::OUNCES;
         } else{
