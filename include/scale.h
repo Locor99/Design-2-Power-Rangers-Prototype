@@ -51,6 +51,7 @@ private:
     static const unsigned long DEFAULT_TIME_BEFORE_STABILITY_MS = 1;
     constexpr static double DEFAULT_STABILITY_POURCENTAGE = 5.0;
     unsigned long _lastRegulatedTime = 0;
+    unsigned long _lastTimeUnitWasChanged = 0;
     Units _unit;
 
     void _setModeFromButtonsState();

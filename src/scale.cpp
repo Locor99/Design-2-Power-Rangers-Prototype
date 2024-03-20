@@ -3,6 +3,7 @@
 const unsigned int TIME_REQUIRED_FOR_STABILITY_MS = 1500;
 const unsigned int TOLERANCE_PERCENTAGE_FOR_STABILITY = 5;
 const unsigned int REGULATION_REFRESH_INTERVAL_MS = 10;
+const unsigned long MIN_TIME_BETWEEN_UNIT_SWAP_MS = 1000;
 
 String scaleModeToString(ScaleModes mode) {
     switch(mode) {
@@ -45,6 +46,7 @@ Scale::Scale(UserInterface &display,
 [[noreturn]] void Scale::executeMainLoop() {
     while (true){
         _setModeFromButtonsState();
+        _setUnitsFromButtonState();
         _userInterface.displayMode(scaleModeToString(_mode));
         _executeActiveMode();
     }
@@ -71,7 +73,7 @@ void Scale::_executeActiveMode(){
 void Scale::_executeNormalMode() {
     _regulateScale();
     _userInterface.displayStability(_isPositionStable());
-    _userInterface.displayMass(getMassInGrams());
+    _userInterface.displayMass(getMassInGrams(), _unit);
 }
 
 void Scale::_regulateScale() {
@@ -87,7 +89,7 @@ void Scale::_regulateScale() {
 
 void Scale::_executeCalibrationMode() {
     _userInterface.clearMassZone();
-    _userInterface.displayMass(0);
+    _userInterface.displayMass(0, _unit);//todo remove?
     const double calibrationMass1 = 0;
     const double calibrationMass2 = 50;
     bool calibrationDone = false;
@@ -124,12 +126,12 @@ void Scale::_executeCountMode() {
     while (_userInterface.readButtons() == Buttons::up) {
         _regulateScale();
         _userInterface.displayStability(_isPositionStable());
-        _userInterface.displayMass(getMassInGrams());
+        _userInterface.displayMass(getMassInGrams(), _unit);
     }
     _userInterface.displayMenuInstructions("Placer modele");
     while(_userInterface.readButtons() != Buttons::select){
         _regulateScale();
-        _userInterface.displayMass(getMassInGrams());
+        _userInterface.displayMass(getMassInGrams(), _unit);
         _userInterface.displayStability(_isPositionStable());
 
         if(_userInterface.readButtons() == Buttons::left){
@@ -150,7 +152,7 @@ void Scale::_executeCountMode() {
             numberOfParts=0;
         }
         _userInterface.displayMenuInstructions(String(numberOfParts));
-        _userInterface.displayMass(mass);
+        _userInterface.displayMass(mass, _unit);
     }
     _userInterface.clearMenuInstructionsZone();
     _mode = ScaleModes::NORMAL;
@@ -234,11 +236,13 @@ bool Scale::_isRefreshDue(unsigned long &lastRefreshTime) {
 }
 
 void Scale:: _setUnitsFromButtonState(){
-    if(_userInterface.readButtons() == Buttons::right){
+    if(_userInterface.readButtons() == Buttons::right
+        and millis() > _lastTimeUnitWasChanged + MIN_TIME_BETWEEN_UNIT_SWAP_MS){
         if (_unit == Units::GRAMS){
             _unit = Units::OUNCES;
         } else{
             _unit = Units::GRAMS;
         }
+        _lastTimeUnitWasChanged = millis();
     }
 }
