@@ -27,7 +27,7 @@ bool UserInterface::isRefreshDue(unsigned long &lastRefreshTime, unsigned long i
 
 void UserInterface::displayMass(double massGrams, Units unit) {
     if (isRefreshDue(_massLastRefreshTime, COMMON_REFRESH_INTERVAL_MS)) {
-        _clearRow(0, 0, MASS_DISPLAY_DIGITS_QUANTITY);
+        _clearRow(0, 0, MASS_DISPLAY_DIGITS_QUANTITY+1);
         _lcd.home();
 
         double massToDisplay = massGrams;
