@@ -37,6 +37,7 @@ Scale::Scale(UserInterface &display,
         _scaleCalibrationIntercept(scaleCalibIntercept){
 
     _mode = ScaleModes::NORMAL;
+    _unit = Units::GRAMS;
     _display.displayMode("Demarrage");
     _executeTareMode();
 }
@@ -230,4 +231,14 @@ bool Scale::_isRefreshDue(unsigned long &lastRefreshTime) {
     }
     return false;
 
+}
+
+void Scale:: _setUnitsFromButtonState(){
+    if(_display.readButtons() == Buttons::right){
+        if (_unit == Units::GRAMS){
+            _unit = Units::OUNCES;
+        } else{
+            _unit = Units::GRAMS;
+        }
+    }
 }

@@ -7,6 +7,7 @@
 #include "Actuator.h"
 #include "pid_control.h"
 #include "current_sensor.h"
+#include "units.h"
 
 enum class ScaleModes {
     NORMAL,
@@ -50,6 +51,7 @@ private:
     static const unsigned long DEFAULT_TIME_BEFORE_STABILITY_MS = 1;
     constexpr static double DEFAULT_STABILITY_POURCENTAGE = 5.0;
     unsigned long _lastRegulatedTime = 0;
+    Units _unit;
 
     void _setModeFromButtonsState();
 
@@ -58,6 +60,8 @@ private:
     bool _isRefreshDue(unsigned long &lastRefreshTime);
 
     void _waitForStabilization();
+
+    void _setUnitsFromButtonState();
 };
 
 
