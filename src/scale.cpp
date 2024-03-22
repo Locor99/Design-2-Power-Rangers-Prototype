@@ -81,7 +81,7 @@ void Scale::_regulateScale() {
         _positionRegulator.input = _distanceSensor.getFilteredDistanceMm();
 
         _currentRegulator.setpoint = _positionRegulator.computeOutput();
-        _currentRegulator.input = _actuatorCurrentSensor.getCurrent(); //todo filter this or nah..?
+        _currentRegulator.input = _actuatorCurrentSensor.getFilteredCurrent(); //todo filter this or nah..?
 
         _actuator.setVoltage(_currentRegulator.computeOutput());
     }
@@ -101,13 +101,13 @@ void Scale::_executeCalibrationMode() {
         }
         _userInterface.displayMenuInstructions("Ajouter 50g");
         _waitForButtonPressAndStabilization(Buttons::select);
-        double massVsForceX2 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getCurrent());
+        double massVsForceX2 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getFilteredCurrent());
 
         while(_userInterface.readButtons() == Buttons::select){}
 
         _userInterface.displayMenuInstructions("Vider plateau");
         _waitForButtonPressAndStabilization(Buttons::select);
-        double massVsForceX1 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getCurrent());
+        double massVsForceX1 = _actuator.getAppliedForceNFromCurrentA(_actuatorCurrentSensor.getFilteredCurrent());
 
         _scaleCalibrationSlope = (calibrationMass2 - calibrationMass1) / (massVsForceX2 - massVsForceX1);
         _scaleCalibrationIntercept = calibrationMass1 - _scaleCalibrationSlope * massVsForceX1;
@@ -173,7 +173,7 @@ double Scale::getMassInGrams() {
     return _getAbsoluteMass() - _tareMassOffset;
 }
 double Scale::_getAbsoluteMass() {
-    double actuatorCurrent = _actuatorCurrentSensor.getCurrent(); //todo try with filteredCurrent if necessary
+    double actuatorCurrent = _actuatorCurrentSensor.getFilteredCurrent(); //todo try with filteredCurrent if necessary
     double forceNAppliedByActuator = _actuator.getAppliedForceNFromCurrentA(actuatorCurrent);
     double massGrams = forceNAppliedByActuator * _scaleCalibrationSlope + _scaleCalibrationIntercept;
 
@@ -181,7 +181,7 @@ double Scale::_getAbsoluteMass() {
 }
 
 bool Scale::_isPositionStable() {
-    double currentValue = _distanceSensor.getDistanceMm();
+    double currentValue = _distanceSensor.getFilteredDistanceMm();
     double lowerBound = _positionRegulator.setpoint * (1.0 - TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
     double upperBound = _positionRegulator.setpoint * (1.0 + TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
 
