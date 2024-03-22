@@ -1,10 +1,11 @@
 #include "user_interface.h"
+#include "units.h"
 
 const unsigned long COMMON_REFRESH_INTERVAL_MS = 400;
 const unsigned long MODE_REFRESH_INTERVAL_MS = 5;
-const unsigned int MASS_DISPLAY_DIGITS_QUANTITY = 6;
+const unsigned int MASS_DISPLAY_DIGITS_QUANTITY = 7;
 const unsigned int MENU_INSTRUCTIONS_DIGITS_QUANTITY = 14;
-const unsigned int MODE_DIGITS_QUANTITY = 10;
+const unsigned int MODE_DIGITS_QUANTITY = 9;
 
 UserInterface::UserInterface(LiquidCrystal &lcd, unsigned int nbrRows, unsigned int nbrColumns):
         _lcd(lcd),_nbrRows(nbrRows),_nbrColumns(nbrColumns)  {
@@ -24,13 +25,19 @@ bool UserInterface::isRefreshDue(unsigned long &lastRefreshTime, unsigned long i
 
 }
 
-void UserInterface::displayMass(double massGrams) {
+void UserInterface::displayMass(double massGrams, Units unit) {
     if (isRefreshDue(_massLastRefreshTime, COMMON_REFRESH_INTERVAL_MS)) {
-        _clearRow(0, 0, MASS_DISPLAY_DIGITS_QUANTITY);
+        _clearRow(0, 0, MASS_DISPLAY_DIGITS_QUANTITY+1);
         _lcd.home();
-        _lcd.print(massGrams, 1);
+
+        double massToDisplay = massGrams;
+        if(unit == Units::OUNCES){
+            massToDisplay = gramsToOunces(massGrams);
+            }
+
+        _lcd.print(massToDisplay, 1);
         _lcd.setCursor(MASS_DISPLAY_DIGITS_QUANTITY - 1, 0);
-        _lcd.print("g");
+        _lcd.print(unitToString(unit));
     }
 }
 

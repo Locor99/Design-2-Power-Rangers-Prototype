@@ -4,6 +4,8 @@
 #include "LiquidCrystal.h"
 #include "hardware_config.h"
 #include "Arduino.h"
+#include "units.h"
+
 enum class Buttons {
     select,
     up,
@@ -16,7 +18,7 @@ enum class Buttons {
 class UserInterface {
 public:
     UserInterface(LiquidCrystal &lcd, unsigned int nbrRows, unsigned int nbrColumns);
-    void displayMass(double massGrams);
+    void displayMass(double massGrams, Units unit);
     void displayStability(bool isStable);
     void displayMode(const String& mode);
     Buttons readButtons();
