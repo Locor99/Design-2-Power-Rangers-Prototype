@@ -116,6 +116,10 @@ void Scale::_executeCalibrationMode() {
     }
     _executeTareMode();
     _mode = ScaleModes::NORMAL;
+    Serial.println("Calibration slope:");
+    Serial.println(_scaleCalibrationSlope);
+    Serial.println("Calibration intercept:");
+    Serial.println(_scaleCalibrationIntercept);
 }
 
 void Scale::_executeCountMode() {
