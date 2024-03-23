@@ -78,7 +78,7 @@ void Scale::_executeNormalMode() {
 
 void Scale::_regulateScale() {
     if (_isRefreshDue(_lastRegulatedTime)) {
-        _positionRegulator.input = _distanceSensor.getFilteredDistanceMm();
+        _positionRegulator.input = _distanceSensor.getAverageDistanceMm();
 
         _currentRegulator.setpoint = _positionRegulator.computeOutput();
         _currentRegulator.input = _actuatorCurrentSensor.getAverageCurrent(); //todo filter this or nah..?
@@ -185,7 +185,7 @@ double Scale::_getAbsoluteMass() {
 }
 
 bool Scale::_isPositionStable() {
-    double currentValue = _distanceSensor.getFilteredDistanceMm();
+    double currentValue = _distanceSensor.getAverageDistanceMm();
     double lowerBound = _positionRegulator.setpoint * (1.0 - TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
     double upperBound = _positionRegulator.setpoint * (1.0 + TOLERANCE_PERCENTAGE_FOR_STABILITY / 100.0);
 

@@ -11,7 +11,7 @@ public:
                    unsigned int sampleSize,
                    unsigned long minSampleIntervalMs);
     double getDistanceMm();
-    double getFilteredDistanceMm();
+    double getAverageDistanceMm();
 };
 
 #endif // DISTANCESENSOR_H

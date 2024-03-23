@@ -11,6 +11,6 @@ double DistanceSensor::getDistanceMm() {
     return getPhysicalValue();
 }
 
-double DistanceSensor::getFilteredDistanceMm() {
+double DistanceSensor::getAverageDistanceMm() {
     return getPhysicalAverageValue();
 }
