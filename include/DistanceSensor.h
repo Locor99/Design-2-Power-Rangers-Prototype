@@ -5,11 +5,7 @@
 
 class DistanceSensor : public AnalogSensor {
 public:
-    DistanceSensor(int pin,
-                   double distanceMmToVoltageSlope,
-                   double distanceMmToVoltageIntercept,
-                   unsigned int sampleSize,
-                   unsigned long minSampleIntervalMs);
+    DistanceSensor(int pin, double distanceMmToVoltageSlope, double distanceMmToVoltageIntercept);
     double getDistanceMm();
     double getAverageDistanceMm();
 };

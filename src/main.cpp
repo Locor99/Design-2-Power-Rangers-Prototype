@@ -24,8 +24,7 @@ void setup() {
     UserInterface display(lcd, LcdScreenConfig::NBR_ROWS, LcdScreenConfig::NBR_COLUMNS);
     DistanceSensor distanceSensor(ArduinoConfig::DISTANCE_SENSOR_PIN,
                                   DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_SLOPE,
-                                  DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_INTERCEPT,
-                                  SENSORS_SAMPLE_SIZE, SENSORS_MIN_SAMPLING_INTERVAL_MS);
+                                  DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_INTERCEPT);
     CurrentSensor currentSensor(ArduinoConfig::CURRENT_SENSOR_PIN,
                                 CurrentSensorConfig::CURRENT_VS_VOLTAGE_SLOPE,
                                 CurrentSensorConfig::CURRENT_VS_VOLTAGE_INTERCEPT);
