@@ -8,6 +8,10 @@
 #include "current_sensor.h"
 #include "LiquidCrystal.h"
 
+const unsigned long  SENSORS_MIN_SAMPLING_INTERVAL_MS = 10;
+const unsigned int DEFAULT_SENSORS_AVERAGING_INTERVAL_MS = 1000;
+const unsigned int SENSORS_SAMPLE_SIZE = DEFAULT_SENSORS_AVERAGING_INTERVAL_MS / SENSORS_MIN_SAMPLING_INTERVAL_MS;
+
 const double POSITION_PID_KP = 0.03;
 const double POSITION_PID_KI = 0.05;
 const double POSITION_PID_KD = 0;
@@ -24,7 +28,8 @@ void setup() {
     UserInterface display(lcd, LcdScreenConfig::NBR_ROWS, LcdScreenConfig::NBR_COLUMNS);
     DistanceSensor distanceSensor(ArduinoConfig::DISTANCE_SENSOR_PIN,
                                   DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_SLOPE,
-                                  DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_INTERCEPT);
+                                  DistanceSensorConfig::DISTANCE_MM_VS_VOLTAGE_INTERCEPT,
+                                  SENSORS_SAMPLE_SIZE, SENSORS_MIN_SAMPLING_INTERVAL_MS);
     CurrentSensor currentSensor(ArduinoConfig::CURRENT_SENSOR_PIN,
                                 CurrentSensorConfig::CURRENT_VS_VOLTAGE_SLOPE,
                                 CurrentSensorConfig::CURRENT_VS_VOLTAGE_INTERCEPT);
