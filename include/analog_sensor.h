@@ -3,23 +3,28 @@
 
 #include <Arduino.h>
 #include "hardware_config.h"
+#include <ArxContainer.h>
 
 class AnalogSensor {
 protected:
     int _pin;
     double _slope = 1;
     double _intercept = 0;
-    double _lastPhysicalFilteredValue = 0.0;
-    double _filterConstantAlpha = 1;
+    std::vector<double> _samples;
+    unsigned int _sampleSize;
+    unsigned long _minSampleIntervalMs;
+    unsigned long _lastSampleTimeMs;
 
 public:
-    AnalogSensor(int pin, double slope, double intercept);
-    void setFilterConstant(double alpha);
+    AnalogSensor(int pin, double slope, double intercept, unsigned int sampleSize, unsigned long minSampleInterval);
+    double getPhysicalFilteredValue();
     int getAdcValue() const;
 
 protected:
     double getPhysicalValue() const;
-    double getPhysicalFilteredValue();
+
+private:
+    double _getSamplesAverage() const;
 };
 
 #endif // ANALOGSENSOR_H

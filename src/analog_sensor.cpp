@@ -1,7 +1,10 @@
 #include "analog_sensor.h"
 
-AnalogSensor::AnalogSensor(int pin, double slope, double intercept)
-        : _pin(pin), _slope(slope), _intercept(intercept) {}
+AnalogSensor::AnalogSensor(int pin, double slope, double intercept, unsigned int sampleSize, unsigned long minSampleInterval)
+        : _pin(pin), _slope(slope), _intercept(intercept), _sampleSize(sampleSize), _minSampleIntervalMs(minSampleInterval) {
+    _lastSampleTimeMs = 0;
+    _samples.reserve(sampleSize);
+}
 
 double AnalogSensor::getPhysicalValue() const {
     int analogInputValue = getAdcValue();
@@ -11,13 +14,29 @@ double AnalogSensor::getPhysicalValue() const {
 }
 
 double AnalogSensor::getPhysicalFilteredValue() {
-    double currentValue = getPhysicalValue();
-    _lastPhysicalFilteredValue += _filterConstantAlpha * (currentValue - _lastPhysicalFilteredValue);
-    return _lastPhysicalFilteredValue;
+    unsigned long currentTime = millis();
+    if ((currentTime - _lastSampleTimeMs) >= _minSampleIntervalMs) {
+        if (_samples.size() >= _sampleSize) {
+            _samples.erase(_samples.begin());
+        }
+        _samples.push_back(getPhysicalValue());
+        _lastSampleTimeMs = currentTime;
+    }
+
+    return _getSamplesAverage();
 }
 
-void AnalogSensor::setFilterConstant(double alpha) { _filterConstantAlpha = alpha;}
 
 int AnalogSensor::getAdcValue() const {
     return analogRead(_pin);
+}
+
+double AnalogSensor::_getSamplesAverage() const {
+    if (_samples.empty()) return 0.0;
+
+    double sum = 0.0;
+    for (double value : _samples) {
+        sum += value;
+    }
+    return sum / _samples.size();
 }
