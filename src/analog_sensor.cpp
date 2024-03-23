@@ -40,3 +40,8 @@ double AnalogSensor::_getSamplesAverage() const {
     }
     return sum / _samples.size();
 }
+
+void AnalogSensor::setSampleSize(unsigned long timeToAverageMs) {
+    _sampleSize = timeToAverageMs / _minSampleIntervalMs;
+    _samples.reserve(timeToAverageMs);
+}
