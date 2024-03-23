@@ -11,6 +11,6 @@ double CurrentSensor::getCurrent() {
     return getPhysicalValue();
 }
 
-double CurrentSensor::getFilteredCurrent() {
+double CurrentSensor::getAverageCurrent() {
     return getPhysicalAverageValue();
 }
