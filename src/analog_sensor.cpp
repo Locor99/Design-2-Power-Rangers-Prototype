@@ -13,7 +13,7 @@ double AnalogSensor::getPhysicalValue() const {
     return _slope * sensorVoltage + _intercept;
 }
 
-double AnalogSensor::getPhysicalFilteredValue() {
+double AnalogSensor::getPhysicalAverageValue() {
     unsigned long currentTime = millis();
     if ((currentTime - _lastSampleTimeMs) >= _minSampleIntervalMs) {
         if (_samples.size() >= _sampleSize) {
