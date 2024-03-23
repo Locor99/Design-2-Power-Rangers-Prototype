@@ -5,7 +5,12 @@
 
 class CurrentSensor : public AnalogSensor {
 public:
-    CurrentSensor(int pin, double currentAmpsToVoltageSlope, double currentAmpsToVoltageIntercept);
+    CurrentSensor(int pin,
+                  double currentAmpsToVoltageSlope,
+                  double currentAmpsToVoltageIntercept,
+                  unsigned int sampleSize,
+                  unsigned long minSampleIntervalMs);
+
     double getCurrent();
     double getFilteredCurrent();
 };
