@@ -36,6 +36,10 @@ private:
     void _regulateScale();
     bool _isPositionStable();
     double _getAbsoluteMass();
+    void _setModeFromButtonsState();
+    void _waitForButtonPressAndStabilization(Buttons button);
+    bool _isRefreshDue(unsigned long &lastRefreshTime);
+    void _setUnitsFromButtonState();
 
     UserInterface& _userInterface;
     DistanceSensor& _distanceSensor;
@@ -54,15 +58,7 @@ private:
     unsigned long _lastTimeUnitWasChanged = 0;
     Units _unit;
 
-    void _setModeFromButtonsState();
 
-    void _waitForButtonPressAndStabilization(Buttons button);
-
-    bool _isRefreshDue(unsigned long &lastRefreshTime);
-
-    void _waitForStabilization();
-
-    void _setUnitsFromButtonState();
 };
 
 
