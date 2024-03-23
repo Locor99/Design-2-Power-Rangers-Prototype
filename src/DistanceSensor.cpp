@@ -12,5 +12,5 @@ double DistanceSensor::getDistanceMm() {
 }
 
 double DistanceSensor::getFilteredDistanceMm() {
-    return getPhysicalFilteredValue();
+    return getPhysicalAverageValue();
 }

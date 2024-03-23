@@ -17,7 +17,7 @@ protected:
 
 public:
     AnalogSensor(int pin, double slope, double intercept, unsigned int sampleSize, unsigned long minSampleInterval);
-    double getPhysicalFilteredValue();
+    double getPhysicalAverageValue();
     int getAdcValue() const;
 
 protected:
