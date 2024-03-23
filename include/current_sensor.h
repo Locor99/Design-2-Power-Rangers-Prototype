@@ -12,7 +12,7 @@ public:
                   unsigned long minSampleIntervalMs);
 
     double getCurrent();
-    double getFilteredCurrent();
+    double getAverageCurrent();
 };
 
 #endif //DESIGN2_PROTOTYPE_CURRENT_SENSOR_H
