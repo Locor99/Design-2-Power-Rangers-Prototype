@@ -5,7 +5,7 @@ DistanceSensor::DistanceSensor(int pin,
                                double distanceMmToVoltageIntercept,
                                unsigned int sampleSize,
                                unsigned long minSampleIntervalMs)
-        : AnalogSensor(pin, distanceMmToVoltageSlope, distanceMmToVoltageIntercept, sampleSize, minSampleIntervalMs) {}
+        : AnalogSensor(pin, distanceMmToVoltageSlope, distanceMmToVoltageIntercept) {}
 
 double DistanceSensor::getDistanceMm() {
     return getPhysicalValue();

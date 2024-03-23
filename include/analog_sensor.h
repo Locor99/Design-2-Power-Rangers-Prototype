@@ -16,7 +16,7 @@ protected:
     unsigned long _lastSampleTimeMs;
 
 public:
-    AnalogSensor(int pin, double slope, double intercept, unsigned int sampleSize, unsigned long minSampleInterval);
+    AnalogSensor(int pin, double slope, double intercept);
     double getPhysicalAverageValue();
     int getAdcValue() const;
     void setSampleSize(unsigned long timeToAverageMs);

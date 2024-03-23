@@ -1,9 +1,15 @@
 #include "analog_sensor.h"
 
-AnalogSensor::AnalogSensor(int pin, double slope, double intercept, unsigned int sampleSize, unsigned long minSampleInterval)
-        : _pin(pin), _slope(slope), _intercept(intercept), _sampleSize(sampleSize), _minSampleIntervalMs(minSampleInterval) {
+const unsigned long  DEFAULT_SENSORS_MIN_SAMPLING_INTERVAL_MS = 10;
+const unsigned int DEFAULT_SENSORS_AVERAGING_INTERVAL_MS = 1000;
+const unsigned int DEFAULT_SENSORS_SAMPLE_SIZE = DEFAULT_SENSORS_AVERAGING_INTERVAL_MS / DEFAULT_SENSORS_MIN_SAMPLING_INTERVAL_MS;
+
+AnalogSensor::AnalogSensor(int pin, double slope, double intercept)
+        : _pin(pin), _slope(slope), _intercept(intercept){
+    _sampleSize = DEFAULT_SENSORS_SAMPLE_SIZE;
+    _minSampleIntervalMs = DEFAULT_SENSORS_MIN_SAMPLING_INTERVAL_MS;
     _lastSampleTimeMs = 0;
-    _samples.reserve(sampleSize);
+    _samples.reserve(_sampleSize);
 }
 
 double AnalogSensor::getPhysicalValue() const {

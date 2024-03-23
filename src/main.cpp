@@ -8,10 +8,6 @@
 #include "current_sensor.h"
 #include "LiquidCrystal.h"
 
-const unsigned long  SENSORS_MIN_SAMPLING_INTERVAL_MS = 10;
-const unsigned int SENSORS_SAMPLING_PERIOD_MS = 1000;
-const unsigned int SENSORS_SAMPLE_SIZE = SENSORS_SAMPLING_PERIOD_MS/SENSORS_MIN_SAMPLING_INTERVAL_MS;
-
 const double POSITION_PID_KP = 0.03;
 const double POSITION_PID_KI = 0.05;
 const double POSITION_PID_KD = 0;
