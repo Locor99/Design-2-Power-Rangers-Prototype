@@ -32,7 +32,8 @@ void setup() {
                                   SENSORS_SAMPLE_SIZE, SENSORS_MIN_SAMPLING_INTERVAL_MS);
     CurrentSensor currentSensor(ArduinoConfig::CURRENT_SENSOR_PIN,
                                 CurrentSensorConfig::CURRENT_VS_VOLTAGE_SLOPE,
-                                CurrentSensorConfig::CURRENT_VS_VOLTAGE_INTERCEPT);
+                                CurrentSensorConfig::CURRENT_VS_VOLTAGE_INTERCEPT,
+                                SENSORS_SAMPLE_SIZE, SENSORS_MIN_SAMPLING_INTERVAL_MS);
     DacMCP4725 dac;
     Actuator actuator(dac);
 
