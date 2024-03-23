@@ -1,7 +1,11 @@
 #include "DistanceSensor.h"
 
-DistanceSensor::DistanceSensor(int pin, double distanceMmToVoltageSlope, double distanceMmToVoltageIntercept)
-        : AnalogSensor(pin, distanceMmToVoltageSlope, distanceMmToVoltageIntercept) {}
+DistanceSensor::DistanceSensor(int pin,
+                               double distanceMmToVoltageSlope,
+                               double distanceMmToVoltageIntercept,
+                               unsigned int sampleSize,
+                               unsigned long minSampleIntervalMs)
+        : AnalogSensor(pin, distanceMmToVoltageSlope, distanceMmToVoltageIntercept, sampleSize, minSampleIntervalMs) {}
 
 double DistanceSensor::getDistanceMm() {
     return getPhysicalValue();
