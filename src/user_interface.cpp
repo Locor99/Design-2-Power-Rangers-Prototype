@@ -63,6 +63,7 @@ void UserInterface::displayMenuInstructions(String message){
         clearMenuInstructionsZone();
         _lcd.setCursor(_nbrColumns - message.length(), _nbrRows - 1);
         _lcd.print(message);
+        _messageInMenuInstruction = message;
     }
 }
 
