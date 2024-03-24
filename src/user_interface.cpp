@@ -101,3 +101,8 @@ Buttons UserInterface::readButtons() {
     if (adc_key_in < 850) return Buttons::select;
     return Buttons::none;
 }
+
+void UserInterface::displayAveragingTime(unsigned long averagingTime) {
+    displayMenuInstructions(
+            "Moy: "+ String(averagingTime) +" ms");
+}
