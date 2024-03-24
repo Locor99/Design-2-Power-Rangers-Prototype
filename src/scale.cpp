@@ -102,13 +102,12 @@ void Scale::_regulateScale() {
 
 void Scale::_executeCalibrationMode() {
     _userInterface.clearMassZone();
-    _userInterface.displayMass(0, _unit);//todo remove?
     const double calibrationMass1 = 0;
     const double calibrationMass2 = 50;
     bool calibrationDone = false;
 
     while (not calibrationDone) {
-        while (_userInterface.readButtons() == Buttons::left) {
+        while (_userInterface.readButtons() == Buttons::down) {
             _regulateScale();
             _userInterface.displayStability(_isPositionStable());
         }
@@ -129,6 +128,7 @@ void Scale::_executeCalibrationMode() {
     }
     _executeTareMode();
     _mode = ScaleModes::NORMAL;
+    _lastSampleSizeChangeTime = millis();
     Serial.println("Calibration slope:");
     Serial.println(_scaleCalibrationSlope);
     Serial.println("Calibration intercept:");
