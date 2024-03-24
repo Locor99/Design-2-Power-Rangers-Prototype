@@ -84,7 +84,9 @@ void Scale::_executeNormalMode() {
         and millis() > _lastSampleSizeChangeTime + MIN_TIME_BETWEEN_AVERAGING_SWAP_MS) {
         _useNextAveragingPreset();
         _lastSampleSizeChangeTime = millis();
+        _userInterface.clearMenuInstructionsZone();
     }
+    _userInterface.displayAveragingTime(_averageTimePresetsMs[_currentAverageTimePresetIndex]);
 }
 
 void Scale::_regulateScale() {
