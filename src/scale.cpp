@@ -1,7 +1,7 @@
 #include "scale.h"
 
-const unsigned int TIME_REQUIRED_FOR_STABILITY_MS = 1500;
-const unsigned int TOLERANCE_PERCENTAGE_FOR_STABILITY = 5;
+const unsigned int TIME_REQUIRED_FOR_STABILITY_MS = 500;
+const unsigned int TOLERANCE_PERCENTAGE_FOR_STABILITY = 2;
 const unsigned int REGULATION_REFRESH_INTERVAL_MS = 10;
 const unsigned long MIN_TIME_BETWEEN_UNIT_SWAP_MS = 1000;
 const unsigned long MIN_TIME_BETWEEN_AVERAGING_SWAP_MS = MIN_TIME_BETWEEN_UNIT_SWAP_MS;
