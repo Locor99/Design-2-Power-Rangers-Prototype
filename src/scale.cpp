@@ -102,7 +102,6 @@ void Scale::_regulateScale() {
 
 void Scale::_executeCalibrationMode() {
     _userInterface.clearMassZone();
-    //_userInterface.displayMass(0, _unit);//todo remove?
     const double calibrationMass1 = 0;
     const double calibrationMass2 = 50;
     bool calibrationDone = false;
@@ -129,6 +128,7 @@ void Scale::_executeCalibrationMode() {
     }
     _executeTareMode();
     _mode = ScaleModes::NORMAL;
+    _lastSampleSizeChangeTime = millis();
     Serial.println("Calibration slope:");
     Serial.println(_scaleCalibrationSlope);
     Serial.println("Calibration intercept:");
