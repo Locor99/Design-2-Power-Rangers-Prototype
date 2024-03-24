@@ -109,7 +109,7 @@ void Scale::_executeCalibrationMode() {
     bool calibrationDone = false;
 
     while (not calibrationDone) {
-        while (_userInterface.readButtons() == Buttons::left) {
+        while (_userInterface.readButtons() == Buttons::down) {
             _regulateScale();
             _userInterface.displayStability(_isPositionStable());
         }
