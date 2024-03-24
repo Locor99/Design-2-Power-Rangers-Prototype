@@ -4,6 +4,7 @@ const unsigned int TIME_REQUIRED_FOR_STABILITY_MS = 1500;
 const unsigned int TOLERANCE_PERCENTAGE_FOR_STABILITY = 5;
 const unsigned int REGULATION_REFRESH_INTERVAL_MS = 10;
 const unsigned long MIN_TIME_BETWEEN_UNIT_SWAP_MS = 1000;
+const unsigned long MIN_TIME_BETWEEN_AVERAGING_SWAP_MS = MIN_TIME_BETWEEN_UNIT_SWAP_MS;
 
 String scaleModeToString(ScaleModes mode) {
     switch(mode) {
@@ -36,6 +37,10 @@ Scale::Scale(UserInterface &display,
         _currentRegulator(currentRegulator),
         _scaleCalibrationSlope(scaleCalibSlope),
         _scaleCalibrationIntercept(scaleCalibIntercept){
+
+    _averageTimePresetsMs = {10, 50, 100, 250, 500, 750, 1000, 1500, 2000};
+    currentSensor.setSampleSize(_averageTimePresetsMs.front());
+    distanceSensor.setSampleSize(_averageTimePresetsMs.front());
 
     _mode = ScaleModes::NORMAL;
     _unit = Units::GRAMS;
@@ -74,6 +79,12 @@ void Scale::_executeNormalMode() {
     _regulateScale();
     _userInterface.displayStability(_isPositionStable());
     _userInterface.displayMass(getMassInGrams(), _unit);
+
+    if (_userInterface.readButtons() == Buttons::select
+        and millis() > _lastSampleSizeChangeTime + MIN_TIME_BETWEEN_AVERAGING_SWAP_MS) {
+        _useNextAveragingPreset();
+        _lastSampleSizeChangeTime = millis();
+    }
 }
 
 void Scale::_regulateScale() {
@@ -249,4 +260,11 @@ void Scale:: _setUnitsFromButtonState(){
         }
         _lastTimeUnitWasChanged = millis();
     }
+}
+
+void Scale::_useNextAveragingPreset() {
+    _currentAverageTimePresetIndex = (_currentAverageTimePresetIndex + 1) % _averageTimePresetsMs.size();
+    unsigned long newTimePresetMs = _averageTimePresetsMs[_currentAverageTimePresetIndex];
+    _distanceSensor.setSampleSize(newTimePresetMs);
+    _actuatorCurrentSensor.setSampleSize(newTimePresetMs);
 }

@@ -40,6 +40,7 @@ private:
     void _waitForButtonPressAndStabilization(Buttons button);
     bool _isRefreshDue(unsigned long &lastRefreshTime);
     void _setUnitsFromButtonState();
+    void _useNextAveragingPreset();
 
     UserInterface& _userInterface;
     DistanceSensor& _distanceSensor;
@@ -57,6 +58,9 @@ private:
     unsigned long _lastRegulatedTime = 0;
     unsigned long _lastTimeUnitWasChanged = 0;
     Units _unit;
+    std::vector<unsigned long> _averageTimePresetsMs;
+    size_t _currentAverageTimePresetIndex = 0;
+    unsigned long _lastSampleSizeChangeTime = 0;
 
 
 };
