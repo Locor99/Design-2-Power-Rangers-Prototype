@@ -101,9 +101,8 @@ void Scale::_regulateScale() {
 }
 
 void Scale::_executeCalibrationMode() {
-    _userInterface.clearMenuInstructionsZone();
     _userInterface.clearMassZone();
-    _userInterface.displayMass(0, _unit);//todo remove?
+    //_userInterface.displayMass(0, _unit);//todo remove?
     const double calibrationMass1 = 0;
     const double calibrationMass2 = 50;
     bool calibrationDone = false;
