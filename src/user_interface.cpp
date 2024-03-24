@@ -59,7 +59,7 @@ void UserInterface::displayStability(bool isStable) {
 }
 
 void UserInterface::displayMenuInstructions(String message){
-    if (isRefreshDue(_menuInstructionLastRefreshTime, COMMON_REFRESH_INTERVAL_MS)) {
+    if (_messageInMenuInstruction != message) {
         clearMenuInstructionsZone();
         _lcd.setCursor(_nbrColumns - message.length(), _nbrRows - 1);
         _lcd.print(message);
