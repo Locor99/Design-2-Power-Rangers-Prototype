@@ -38,7 +38,7 @@ Scale::Scale(UserInterface &display,
         _scaleCalibrationSlope(scaleCalibSlope),
         _scaleCalibrationIntercept(scaleCalibIntercept){
 
-    _averageTimePresetsMs = {10, 50, 100, 250, 500, 750, 1000, 1500, 2000};
+    _averageTimePresetsMs = {10, 100, 250, 500, 1000, 1500, 2000};
     currentSensor.setSampleSize(_averageTimePresetsMs.front());
     distanceSensor.setSampleSize(_averageTimePresetsMs.front());
 
