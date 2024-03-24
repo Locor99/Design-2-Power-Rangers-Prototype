@@ -37,8 +37,6 @@ void setup() {
 
     PidController currentRegulator(CURRENT_PID_KP, CURRENT_PID_KI, CURRENT_PID_KD, DIRECT);
     currentRegulator.setOutputLimits(ActuatorConfig::MIN_VOLTAGE_INPUT_ON_AMPLI, ActuatorConfig::MAX_VOLTAGE_INPUT_ON_AMPLI);
-    distanceSensor.setFilterConstant(DistanceSensorConfig::FILTER_CONSTANT);
-    currentSensor.setFilterConstant(CurrentSensorConfig::FILTER_CONSTANT);
 
     Scale scale(display,
                 distanceSensor,

@@ -6,8 +6,9 @@
 class CurrentSensor : public AnalogSensor {
 public:
     CurrentSensor(int pin, double currentAmpsToVoltageSlope, double currentAmpsToVoltageIntercept);
+
     double getCurrent();
-    double getFilteredCurrent();
+    double getAverageCurrent();
 };
 
 #endif //DESIGN2_PROTOTYPE_CURRENT_SENSOR_H

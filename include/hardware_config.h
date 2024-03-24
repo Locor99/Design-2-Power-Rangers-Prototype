@@ -15,13 +15,11 @@ struct ArduinoConfig {
 struct DistanceSensorConfig {
     constexpr static const double DISTANCE_MM_VS_VOLTAGE_SLOPE = -4.05;
     constexpr static const double DISTANCE_MM_VS_VOLTAGE_INTERCEPT = 19.84;
-    constexpr static const double FILTER_CONSTANT = 1;
 };
 
 struct CurrentSensorConfig {
     constexpr static const double CURRENT_VS_VOLTAGE_SLOPE = 0.7120;
     constexpr static const double CURRENT_VS_VOLTAGE_INTERCEPT = -0.0317;
-    constexpr static const double FILTER_CONSTANT = 1;
 };
 
 struct ActuatorConfig {

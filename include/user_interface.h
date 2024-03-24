@@ -25,6 +25,7 @@ public:
     void displayMenuInstructions(String message);
     void clearMenuInstructionsZone();
     void clearMassZone();
+    void displayAveragingTime(unsigned long averagingTime);
 
 private:
     LiquidCrystal _lcd;
