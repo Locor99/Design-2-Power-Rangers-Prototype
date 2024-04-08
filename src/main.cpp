@@ -16,7 +16,11 @@ const double CURRENT_PID_KP = 0.2;
 const double CURRENT_PID_KI = 2.5;
 const double CURRENT_PID_KD= 0.008;
 
-void enregistrerDonneesCSV(double setpoint, double sortieRegulateur, double courantLu) {
+const unsigned long TEMPS_DEBUT = millis();
+
+void enregistrerDonneesCSV(unsigned long temps,double setpoint, double sortieRegulateur, double courantLu) {
+    Serial.print(temps);
+    Serial.print(",");
     Serial.print(setpoint);
     Serial.print(",");
     Serial.print(sortieRegulateur);
@@ -32,7 +36,7 @@ void regulate(CurrentSensor& currentSensor,
 
     double voltageToDac = currentRegulator.computeOutput();
     dac.setOutputVoltage(voltageToDac);
-    enregistrerDonneesCSV(currentRegulator.setpoint, voltageToDac, current);
+    enregistrerDonneesCSV(millis()-TEMPS_DEBUT,currentRegulator.setpoint, voltageToDac, current);
 }
 
 
@@ -50,7 +54,7 @@ void setup() {
     unsigned long lastTime;
 
     currentRegulator.setpoint = 1;
-    Serial.println("setpoint, sortie PID courant, courantLu");
+    Serial.println("temps (ms), setpoint, sortie PID courant, courantLu");
 
     while(true){
 
