@@ -13,22 +13,29 @@ const double POSITION_PID_KI = 0;
 const double POSITION_PID_KD = 0;
 
 const double CURRENT_PID_KP = 0.2;
-const double CURRENT_PID_KI = 3;
+const double CURRENT_PID_KI = 2.5;
 const double CURRENT_PID_KD= 0.008;
+
+void enregistrerDonneesCSV(double setpoint, double sortieRegulateur, double courantLu) {
+    Serial.print(setpoint);
+    Serial.print(",");
+    Serial.print(sortieRegulateur);
+    Serial.print(",");
+    Serial.println(courantLu);
+}
 
 void regulate(CurrentSensor& currentSensor,
               PidController& currentRegulator,
               DacMCP4725 &dac){
     double current = currentSensor.getCurrent();
     currentRegulator.input = current;
-    //Serial.println("courant:");
-    //Serial.println(current);
 
     double voltageToDac = currentRegulator.computeOutput();
     dac.setOutputVoltage(voltageToDac);
-    //Serial.println("Tension dac:");
-    //Serial.println(voltageToDac);
+    enregistrerDonneesCSV(currentRegulator.setpoint, voltageToDac, current);
 }
+
+
 
 void setup() {
     Serial.begin(115200);
@@ -43,6 +50,7 @@ void setup() {
     unsigned long lastTime;
 
     currentRegulator.setpoint = 1;
+    Serial.print("setpoint, sortie PID courant, courantLu");
 
     while(true){
 
