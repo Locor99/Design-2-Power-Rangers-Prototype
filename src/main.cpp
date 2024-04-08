@@ -50,7 +50,7 @@ void setup() {
     unsigned long lastTime;
 
     currentRegulator.setpoint = 1;
-    Serial.print("setpoint, sortie PID courant, courantLu");
+    Serial.println("setpoint, sortie PID courant, courantLu");
 
     while(true){
 
