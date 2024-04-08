@@ -35,10 +35,10 @@ void loop(){
     display.displayMass(0);
 
     Serial.print("Courant bobine (adc):");
-    Serial.println(currentSensor.getAdcValue());
+    Serial.println(analogRead(A15));
 
     Serial.print("Distance capteur (adc):");
-    Serial.println(analogRead(A0));
+    Serial.println(analogRead(A13));
 
     delay(1000);
 
@@ -46,10 +46,10 @@ void loop(){
 
     display.displayMass(50);
     Serial.print("Courant bobine (adc):");
-    Serial.println(currentSensor.getAdcValue());
+    Serial.println(analogRead(A15));
 
     Serial.print("Distance capteur:");
-    Serial.println(distanceSensor.getAdcValue());
+    Serial.println(analogRead(A13));
 
 
     delay(1000);
