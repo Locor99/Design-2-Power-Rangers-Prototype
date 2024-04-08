@@ -3,7 +3,7 @@
 #include "Arduino.h"
 
 struct ArduinoConfig {
-    static const int DISTANCE_SENSOR_PIN = A14;  // todo add real value
+    static const int DISTANCE_SENSOR_PIN = A13;  // todo add real value
     static const int CURRENT_SENSOR_PIN = A15;  // todo add real value
     static const int MODE_BUTTON_PIN = 22;  // todo add real value
     static const int ANALOG_INPUT_MIN_ADC_VALUE = 0;
