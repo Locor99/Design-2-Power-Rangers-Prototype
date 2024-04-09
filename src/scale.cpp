@@ -6,6 +6,34 @@ const unsigned int REGULATION_REFRESH_INTERVAL_MS = 10;
 const unsigned long MIN_TIME_BETWEEN_UNIT_SWAP_MS = 1000;
 const unsigned long MIN_TIME_BETWEEN_AVERAGING_SWAP_MS = MIN_TIME_BETWEEN_UNIT_SWAP_MS;
 
+double analogReadInVolts(int analogReadPin){
+    return static_cast<double>(analogRead(analogReadPin)) / 1023 * 5;
+}
+
+void Scale::enregistrerDonneesCSV() {
+
+    double S1_capteur = analogReadInVolts(A8);
+    double S2_ampli_instr = analogReadInVolts(A9);
+    double S3_filtre_capt = analogReadInVolts(A13);
+    double S4_ampli_puissance_in = analogReadInVolts(A10);
+    double S5_ampli_puissance_out = analogReadInVolts(A11);
+    double S6_filtre_ampli_puissance = analogReadInVolts(A15);
+
+    Serial.print(millis());
+    Serial.print(",");
+    Serial.print(S1_capteur);
+    Serial.print(",");
+    Serial.print(S2_ampli_instr);
+    Serial.print(",");
+    Serial.print(S3_filtre_capt);
+    Serial.print(",");
+    Serial.print(S4_ampli_puissance_in);
+    Serial.print(",");
+    Serial.print(S5_ampli_puissance_out);
+    Serial.print(",");
+    Serial.println(S6_filtre_ampli_puissance);
+}
+
 String scaleModeToString(ScaleModes mode) {
     switch(mode) {
         case ScaleModes::NORMAL:
@@ -97,6 +125,8 @@ void Scale::_regulateScale() {
         _currentRegulator.input = _actuatorCurrentSensor.getAverageCurrent(); //todo filter this or nah..?
 
         _actuator.setVoltage(_currentRegulator.computeOutput());
+
+        enregistrerDonneesCSV();
     }
 }
 

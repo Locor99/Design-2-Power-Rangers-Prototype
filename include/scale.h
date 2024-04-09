@@ -63,6 +63,7 @@ private:
     unsigned long _lastSampleSizeChangeTime = 0;
 
 
+    void enregistrerDonneesCSV();
 };
 
 
