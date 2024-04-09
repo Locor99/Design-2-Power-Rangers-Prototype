@@ -27,7 +27,6 @@ public:
 
     [[noreturn]] void executeMainLoop();
 
-private:
     void _executeActiveMode();
     void _executeNormalMode();
     void _executeCalibrationMode();
