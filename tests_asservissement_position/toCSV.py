@@ -1,18 +1,25 @@
 import serial
 import time
+import os  # Importer le module os
 
-# Configuration du port série : remplacez 'COM3' par le bon port de votre Arduino
-port = 'COM4'
+# Configuration du port série : remplacez 'COM4' par le bon port de votre Arduino
+port = 'COM3'
 baud_rate = 115200
 
 # Création de la connexion série
 ser = serial.Serial(port, baud_rate, timeout=1)
 time.sleep(2)  # Attendre que la connexion soit établie
 
+# Déterminer le chemin du dossier d'exécution
+chemin_dossier_execution = os.getcwd()  # Obtenir le chemin du dossier d'exécution
+
+# Construire le chemin complet du fichier CSV
+chemin_fichier_csv = os.path.join(chemin_dossier_execution, 'donnees_arduino.csv')
+
 # Ouvrir le fichier CSV pour l'écriture
-with open('../../../OneDrive - Université Laval/Sessions/H-24/Design 2/pythonProject/donnees_arduino.csv', 'w') as fichier_csv:
+with open(chemin_fichier_csv, 'w') as fichier_csv:
     # Écrire l'en-tête du fichier CSV
-    fichier_csv.write("temps (ms), setpoint,sortieRegulateur,courantLu\n")
+    fichier_csv.write("temps (ms), setpoint, sortieRegulateur, courantLu\n")
 
     try:
         while True:
