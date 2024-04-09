@@ -58,7 +58,7 @@ void setup() {
             scale._regulateScale();
         }
 
-        currentRegulator.setpoint = 45;
+        scale._positionRegulator.setpoint = 45;
         lastTime = millis();
         while(millis() < lastTime + periodTime){
             scale._regulateScale();
