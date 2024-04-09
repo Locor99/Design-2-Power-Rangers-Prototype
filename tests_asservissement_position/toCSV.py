@@ -3,7 +3,7 @@ import time
 import os  # Importer le module os
 
 # Configuration du port série : remplacez 'COM4' par le bon port de votre Arduino
-port = 'COM3'
+port = '/dev/cu.usbmodem14201'
 baud_rate = 115200
 
 # Création de la connexion série

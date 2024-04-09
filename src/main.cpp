@@ -47,7 +47,7 @@ void setup() {
                 ScaleConfig::FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_SLOPE,
                 ScaleConfig::FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_INTERCEPT);
 
-    const unsigned long periodTime = 5000;
+    const unsigned long periodTime = 7000;
     unsigned long lastTime;
 
     while(true){
