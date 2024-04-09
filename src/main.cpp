@@ -47,5 +47,21 @@ void setup() {
                 ScaleConfig::FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_SLOPE,
                 ScaleConfig::FORCE_APPLIED_BY_ACTUATOR_N_VS_CURRENT_A_INTERCEPT);
 
-    scale.executeMainLoop();
+    const unsigned long periodTime = 5000;
+    unsigned long lastTime;
+
+    while(true){
+
+        scale._positionRegulator.setpoint = 15;
+        lastTime = millis();
+        while(millis() < lastTime + periodTime){
+            scale._regulateScale();
+        }
+
+        currentRegulator.setpoint = 45;
+        lastTime = millis();
+        while(millis() < lastTime + periodTime){
+            scale._regulateScale();
+        }
+    }
 }
