@@ -52,13 +52,13 @@ void setup() {
 
     while(true){
 
-        scale._positionRegulator.setpoint = 15;
+        scale._positionRegulator.setpoint = 10;
         lastTime = millis();
         while(millis() < lastTime + periodTime){
             scale._regulateScale();
         }
 
-        scale._positionRegulator.setpoint = 45;
+        scale._positionRegulator.setpoint = 20;
         lastTime = millis();
         while(millis() < lastTime + periodTime){
             scale._regulateScale();
