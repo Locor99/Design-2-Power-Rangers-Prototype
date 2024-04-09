@@ -19,7 +19,8 @@ chemin_fichier_csv = os.path.join(chemin_dossier_execution, 'donnees_arduino.csv
 # Ouvrir le fichier CSV pour l'écriture
 with open(chemin_fichier_csv, 'w') as fichier_csv:
     # Écrire l'en-tête du fichier CSV
-    fichier_csv.write("temps (ms), setpoint, sortieRegulateur, courantLu\n")
+    fichier_csv.write("temps (ms), S1_capteur, S2_ampli_instr, S3_filtre_capt,"
+                      "S4_ampli_puissance_in, S5_ampli_puissance_out, S6_filtre_ampli_puissance\n")
 
     try:
         while True:
